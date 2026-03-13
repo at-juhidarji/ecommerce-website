@@ -18,7 +18,8 @@ export const Home = () => {
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
 
-          <Button className="bg-black text-white px-12 py-6 rounded-full text-lg hover:bg-zinc-800 transition-all">
+          <Button variant="default"
+          className="bg-black text-white px-12 py-6 rounded-full text-lg hover:bg-zinc-800 transition-all">
             Shop Now
           </Button>
 
@@ -63,7 +64,7 @@ export const Home = () => {
       </div>
 
       {/* Brand Bar */}
-      <div className="w-full bg-black py-8">
+      <div className="w-full bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-8 md:gap-4 opacity-80">
           <span className="text-white text-2xl md:text-4xl font-1000 font-serif font-bold tracking-tighter">VERSACE</span>
           <span className="text-white text-2xl md:text-4xl font-1000  font-bold tracking-widest">ZARA</span>
@@ -72,6 +73,8 @@ export const Home = () => {
           <span className="text-white text-2xl md:text-4xl font-1000  font-bold uppercase tracking-tighter">Calvin Klein</span>
         </div>
       </div>
+      
     </div>
+     
   )
 }
