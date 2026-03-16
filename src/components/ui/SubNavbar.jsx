@@ -17,12 +17,12 @@ const categories = [
   { name: "Men", icon: Mars, path: "/menCollection" },
   { name: "Women", icon: Venus, path: "/womenCollection" },
   { name: "Oversized", icon: Shirt, path: "/OverSizeCollection" },
-  { name: "Bags", icon: ShoppingBag, path: "/bags" },
-  { name: "Sneakers", icon: Footprints, path: "/sneakers" },
-  { name: "Accessories", icon: Watch, path: "/accessories" },
-  { name: "Sale", icon: Flame, path: "/sale" },
-  { name: "Babys", icon: PersonStanding, path: "/baby" },
-  { name: "More", icon: Sparkles, path: "/more" }
+  { name: "Bags", icon: ShoppingBag, path: "/BagCollection" },
+  { name: "Sneakers", icon: Footprints, path: "/SneakersCollection" },
+  { name: "Accessories", icon: Watch, path: "/AccessoriesCollection" },
+  { name: "Sale", icon: Flame, path: "/SaleCollection" },
+  { name: "Babys", icon: PersonStanding, path: "/BabyCollection" },
+  { name: "More", icon: Sparkles, path: "/MoreCollection" }
 ]
 
 const SubNavbar = () => {
@@ -39,7 +39,7 @@ const SubNavbar = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#18181b]  border-zinc-700 sticky top-0 z-40 transition-all duration-300">
+    <div className="w-full bg-[#18181b]/80 backdrop-blur-md border-b border-zinc-700/50 sticky top-0 z-40 transition-all duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center md:justify-center gap-3 overflow-x-auto px-4 py-3 scrollbar-hide">
           {categories.map((category, index) => {

@@ -6,6 +6,12 @@ import { MenCollection } from "./Collections/MenCollection";
 import { WomenCollection } from "./Collections/WomenCollection";
 import { ProductCollection } from "./Page/ProductCollection";
 import { OverSizeCollection } from "./Collections/OverSizeCollection";
+import { BagCollection } from "./Collections/BagCollection";
+import { SneakersCollection } from "./Collections/SneakersCollection";
+import { AccessoriesCollection } from "./Collections/AccessoriesCollection";
+import { SalesCollection } from "./Collections/SalesCollection";
+import { BabyCollection } from "./Collections/BabyCollection";
+import { MoreCollection } from "./Collections/MoreCollection";
 
 export default function App() {
   return (
@@ -23,6 +29,18 @@ export default function App() {
         <Route path="/womenCollection" element={<WomenCollection />} />
         
         <Route path="/OversizeCollection" element={<OverSizeCollection />} />
+
+        <Route path="/BagCollection" element={<BagCollection />} />
+
+        <Route path="/SneakersCollection" element={<SneakersCollection />} />
+
+         <Route path="/AccessoriesCollection" element={<AccessoriesCollection />} />
+
+        <Route path="/SaleCollection" element={<SalesCollection/>} />
+      
+       <Route path="/BabyCollection" element={<BabyCollection/>} />
+
+        <Route path="/MoreCollection" element={<MoreCollection/>} />
 
       </Routes>
 
