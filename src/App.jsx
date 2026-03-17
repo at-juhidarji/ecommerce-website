@@ -12,6 +12,9 @@ import { AccessoriesCollection } from "./Collections/AccessoriesCollection";
 import { SalesCollection } from "./Collections/SalesCollection";
 import { BabyCollection } from "./Collections/BabyCollection";
 import { MoreCollection } from "./Collections/MoreCollection";
+import CartDrawer from "./Page/CartDrawer";
+import { products } from "./components/ui/Product";
+import ProductDetail from "./Page/ProductDetail";
 
 export default function App() {
   return (
@@ -42,6 +45,11 @@ export default function App() {
 
         <Route path="/MoreCollection" element={<MoreCollection/>} />
 
+          <Route path="/New" element={<ProductCollection/>} />
+
+          <Route path="/CartDrawer" element={<CartDrawer/>} />
+
+           <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
 
     </BrowserRouter>

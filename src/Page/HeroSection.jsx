@@ -3,13 +3,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, ArrowRight, Phone } from "lucide-react";
 import { ProductCollection } from "./ProductCollection";
+import CartDrawer from "./CartDrawer";
 
 const HeroSection = () => {
   return (
     <div className="bg-black text-white">
-
       <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-
         {/* HERO IMAGE */}
         <motion.div
           initial={{ opacity: 0, scale: 1.05 }}
@@ -42,30 +41,35 @@ const HeroSection = () => {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex items-center"
+          // Mobile/Tablet: items-center | Desktop (lg): items-start
+          className="flex flex-col items-center justify-center lg:items-start"
         >
-          <div>
+          <div className="max-w-3xl py-10 ">
+            {/* Main Headline */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
-              FIND CLOTHES <br />
-              THAT MATCHES <br />
+              FIND CLOTHES 
+              THAT MATCHES 
               YOUR STYLE
             </h1>
 
             <p className="text-gray-400 mb-6 text-sm md:text-base">
-              Browse through our diverse range of garments designed to bring
-              out your individuality.
+              Browse through our diverse range of garments designed to bring out
+              your individuality.
             </p>
-
-            <div className="flex gap-3 flex-wrap">
-              <Button className="flex items-center gap-2 bg-white text-black">
-                <ShoppingCart className="w-4 h-4" />
-                Shop Now
-              </Button>
-
-              <Button className="flex items-center gap-2 bg-white text-black">
-                Explore
-                <ArrowRight className="w-4 h-4" />
-              </Button>
+            {/* Social Proof / Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-gray-100 pt-10">
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold">200+</h3>
+                <p className="text-gray-500 text-sm">International Brands</p>
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold">2,000+</h3>
+                <p className="text-gray-500 text-sm">High-Quality Products</p>
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold">30,000+</h3>
+                <p className="text-gray-500 text-sm">Happy Customers</p>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -73,7 +77,6 @@ const HeroSection = () => {
 
       {/* PRODUCT CARDS */}
       <div className="max-w-7xl mx-auto px-4 pb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
         {/* CARD 1 */}
         <motion.div
           initial={{ opacity: 0, y: 80 }}
@@ -141,12 +144,12 @@ const HeroSection = () => {
             #STREETWEAR
           </div>
         </motion.div>
-
       </div>
 
       <ProductCollection />
-
+   
     </div>
+   
   );
 };
 
