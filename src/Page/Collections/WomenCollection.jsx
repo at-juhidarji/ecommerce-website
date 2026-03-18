@@ -1,15 +1,14 @@
-import { products } from "../components/ui/Product";
+import { products } from "../../components/ui/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
-import  HeroSlider from "../components/ui/HeroSlider";
+import HeroSlider from "../../components/ui/HeroSlider";
 
-const womenImages = [
-  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600",
-  "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1600",
-  "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1600",
-  "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600",
-  "https://images.unsplash.com/photo-1520975922284-5c9c8c8b1b63?w=1600"
-]
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
+
+const womenImages = [img1, img2, img3, img4];
+
 export const WomenCollection = () => {
   const womenProducts = products.filter(
     (product) => product.category === "women",

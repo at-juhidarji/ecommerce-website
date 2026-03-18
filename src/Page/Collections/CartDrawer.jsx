@@ -3,6 +3,7 @@ import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const CartDrawer = () => {
   const navigate = useNavigate();
+  const collectionItems = []
   return (
     <div className="min-h-screen bg-black text-white pb-20 selection:bg-orange-500/30">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-16">
@@ -36,7 +37,7 @@ const CartDrawer = () => {
             </div>
 
             {/* Individual Item Row */}
-            {[1,2].map((item) => (
+            {[1].map((item) => (
               <div
                 key={item}
                 className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center py-10 border-b border-zinc-900 group"

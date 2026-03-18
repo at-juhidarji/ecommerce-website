@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, ArrowRight, Phone } from "lucide-react";
 import { ProductCollection } from "./ProductCollection";
-import CartDrawer from "./CartDrawer";
+import CartDrawer from "./Collections/CartDrawer";
 
 const HeroSection = () => {
   return (
@@ -47,9 +47,7 @@ const HeroSection = () => {
           <div className="max-w-3xl py-10 ">
             {/* Main Headline */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
-              FIND CLOTHES 
-              THAT MATCHES 
-              YOUR STYLE
+              FIND CLOTHES THAT MATCHES YOUR STYLE
             </h1>
 
             <p className="text-gray-400 mb-6 text-sm md:text-base">
@@ -147,9 +145,7 @@ const HeroSection = () => {
       </div>
 
       <ProductCollection />
-   
     </div>
-   
   );
 };
 

@@ -1,13 +1,14 @@
-import { products } from "../components/ui/Product";
+import { products } from "../../components/ui/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
-import HeroSlider from "../components/ui/HeroSlider";
+import HeroSlider from "../../components/ui/HeroSlider";
 
-const BabyImages = [
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1544126592-807ade215a0b?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1604917877934-07d8d248d396?auto=format&fit=crop&w=1600&q=80",
-];
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
+
+const BabyImages = [img1, img2, img3, img4];
+
 
 export const BabyCollection = () => {
   const BabyProducts = products.filter(

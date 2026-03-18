@@ -1,13 +1,14 @@
-import { products } from "../components/ui/Product";
+import { products } from "../../components/ui/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
-import HeroSlider from "../components/ui/HeroSlider";
+import HeroSlider from "../../components/ui/HeroSlider";
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
 
-const AccessoriesImages = [
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600",
-  "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=1600",
-  "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=1600",
-  "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1600",
-];
+const AccessoriesImages = [img1, img2, img3, img4];
+
+
 
 export const AccessoriesCollection = () => {
   const AccessoriesProducts = products.filter(

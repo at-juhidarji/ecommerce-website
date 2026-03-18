@@ -1,13 +1,13 @@
-import { products } from "../components/ui/Product";
+import { products } from "../../components/ui/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
-import HeroSlider from "../components/ui/HeroSlider";
+import HeroSlider from "../../components/ui/HeroSlider";
 
-const OverSizeImages = [
-  "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=1600",
-  "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1600",
-  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=1600",
-  "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=1600",
-];
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
+
+const OverSizeImages = [img1, img2, img3, img4];
 
 export const OverSizeCollection = () => {
   const OversizeProducts = products.filter(

@@ -12,6 +12,7 @@ export const ProductCard = ({ product }) => {
       onClick={() => navigate(`/product/${product.id}`)} // 👈 ADD THIS
     >
       <Card className="relative border-none shadow-none bg-zinc-900 overflow-hidden rounded-[20px] aspect-[1/1.2]">
+      
         <CardContent className="p-0 h-full">
           <img
             src={product.image}

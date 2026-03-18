@@ -1,13 +1,15 @@
-import { products } from "../components/ui/Product";
+import { products } from "../../components/ui/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
-import HeroSlider from "../components/ui/HeroSlider";
+import HeroSlider from "../../components/ui/HeroSlider";
 
-const BagsImages = [
-  "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1600",
-  "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=1600",
-  "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=1600",
-  "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=1600",
-];
+
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
+
+const BagsImages = [img1, img2, img3, img4];
+
 
 export const BagCollection = () => {
   const BagProducts = products.filter((product) => product.category === "bags");
