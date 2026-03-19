@@ -1,155 +1,180 @@
-import React from "react";
-import { Search, ShoppingCart, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import { Input } from "./input";
+import React, { useEffect, useState } from "react";
+import {
+  Search,
+  ShoppingCart,
+  ChevronDown,
+  Menu,
+  Shirt,
+  ShoppingBag,
+  Footprints,
+  Watch,
+  Flame,
+  Baby,
+  MoreHorizontal,
+  Sparkles,
+  MapPin,
+  User,
+} from "lucide-react";
 
-// ✅ Categories
+import { Button } from "@/components/ui/button";
+import { Input } from "./input";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
+// ✅ Categories with Icons
 const categories = [
-  { name: "Men", path: "/menCollection" },
-  { name: "Women", path: "/womenCollection" },
-  { name: "Oversized", path: "/OversizeCollection" },
-  { name: "Bags", path: "/BagCollection" },
-  { name: "Sneakers", path: "/SneakersCollection" },
-  { name: "Accessories", path: "/AccessoriesCollection" },
-  { name: "Sale", path: "/SaleCollection" },
-  { name: "Baby", path: "/BabyCollection" },
-  { name: "More", path: "/MoreCollection" },
+  { name: "Men", path: "/menCollection", icon: Shirt },
+  { name: "Women", path: "/womenCollection", icon: Sparkles },
+  { name: "Oversized", path: "/OversizeCollection", icon: Shirt },
+  { name: "Bags", path: "/BagCollection", icon: ShoppingBag },
+  { name: "Sneakers", path: "/SneakersCollection", icon: Footprints },
+  { name: "Accessories", path: "/AccessoriesCollection", icon: Watch },
+  { name: "Sale", path: "/SaleCollection", icon: Flame },
+  { name: "Baby", path: "/BabyCollection", icon: Baby },
+  { name: "More", path: "/MoreCollection", icon: MoreHorizontal },
 ];
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ FIX
+  const location = useLocation();
+
+  // 📍 LOCATION STATE
+  const [locationName, setLocationName] = useState("Detecting...");
+
+  // 📍 GET USER LOCATION
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocationName("Not supported");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          const res = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+          );
+
+          const data = await res.json();
+          setLocationName(data.city || data.locality || "Unknown");
+        } catch {
+          setLocationName("Error");
+        }
+      },
+      () => {
+        setLocationName("Denied");
+      }
+    );
+  }, []);
 
   return (
     <header className="w-full relative">
       <nav className="w-full bg-[#09090b] sticky top-0 z-50 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 h-16 sm:h-20 flex items-center justify-between gap-4">
 
-          {/* Logo */}
-          <button
-            onClick={() => navigate("/")}
-            className="text-2xl md:text-3xl font-[1000] tracking-tighter text-white cursor-pointer"
-          >
-            VASTRA<span className="text-orange-400">.CO</span>
-          </button>
+          {/* LEFT SIDE */}
+          <div className="flex items-center gap-3">
 
-          <div className="relative group hidden md:block">
-            {/* Button */}
-            <button className="relative flex items-center gap-2 px-3 py-2 text-white  rounded-lg transition">
-              Categories
-              {/* Icon rotate */}
-              <ChevronDown className="size-4 transition-transform duration-300 group-hover:rotate-180" />
-              {/* Underline */}
-              <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-orange-400 translate-y-full scale-x-0 group-hover:scale-x-100 transition-all duration-300 origin-center" />
+            {/* Mobile Hamburger */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-white">
+                  <Menu className="size-6" />
+                </Button>
+              </SheetTrigger>
+
+              <SheetContent side="left" className="bg-black text-white w-72">
+                <h2 className="text-xl font-bold mb-6">Menu</h2>
+
+                <div className="flex flex-col gap-2">
+                  {categories.map((cat, i) => {
+                    const Icon = cat.icon;
+                    const isActive = location.pathname === cat.path;
+
+                    return (
+                      <SheetClose asChild key={i}>
+                        <Link
+                          to={cat.path}
+                          className={`flex items-center gap-3 px-3 py-3 rounded-lg transition ${
+                            isActive
+                              ? "bg-white text-black"
+                              : "hover:bg-zinc-800"
+                          }`}
+                        >
+                          <Icon className="size-5" />
+                          {cat.name}
+                        </Link>
+                      </SheetClose>
+                    );
+                  })}
+
+                  {/* 👤 Account in Mobile */}
+                  <SheetClose asChild>
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-zinc-800 mt-4 border-t border-white/10"
+                    >
+                      <User className="size-5" />
+                      Account
+                    </Link>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            {/* Logo */}
+            <button
+              onClick={() => navigate("/")}
+              className="text-2xl md:text-3xl font-[1000] tracking-tighter text-white"
+            >
+              VASTRA<span className="text-orange-400">.CO</span>
             </button>
-
-            {/* Dropdown */}
-            <div className="absolute top-20  left-0 w-64 bg-black border border-zinc-800 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-              {categories.map((cat, i) => {
-                const isActive = location.pathname === cat.path;
-
-                return (
-                  <Link
-                    key={i}
-                    to={cat.path}
-                    className={`block px-4 py-3 text-sm ${
-                      isActive
-                        ? "bg-white text-black"
-                        : "text-gray-300 hover:bg-zinc-800 hover:text-white"
-                    }`}
-                  >
-                    {cat.name}
-                  </Link>
-                );
-              })}
-            </div>
           </div>
-          {/* Nav Links */}
-          <div className="hidden lg:flex items-center gap-6 text-base font-normal text-white h-full">
-            <button
-              onClick={() => navigate("/SaleCollection")} // Use the string path defined in your Routes
-              className="relative flex items-center gap-1 hover:text-slate-400 transition-colors cursor-pointer h-full px-2 group/btn"
-            >
-              On Sale
-              {/* The Smooth Underline */}
-              <span className="absolute bottom-4 left-2 right-2 h-[2px] bg-orange-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-center" />
-            </button>
-            <button
-              onClick={() => navigate("/New")}
-              className="relative flex items-center gap-1 hover:text-slate-400 transition-colors cursor-pointer h-full px-2 group/btn"
-            >
-              New Arrivals
-              <span className="absolute bottom-4 left-2 right-2 h-[2px] bg-orange-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-center" />
-            </button>
-            {/* Customer Care with Mega Menu */}
-            <div className="group h-full flex items-center justify-center">
-              <button className="relative flex items-center gap-1 hover:text-slate-400 transition-colors cursor-pointer h-full px-2 group/btn">
-                Customer Care
-                <ChevronDown className="size-4 group-hover/btn:rotate-180 transition-transform duration-300" />
-                {/* The Smooth Underline */}
-                <span className="absolute bottom-4 left-2 right-2 h-[2px] bg-orange-400 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-center" />
+
+          {/* DESKTOP NAV */}
+          <div className="hidden md:flex items-center gap-6 text-white">
+
+            {/* Categories Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-2">
+                Categories
+                <ChevronDown className="size-4 group-hover:rotate-180 transition" />
               </button>
 
-              {/* The White Container - Now Absolute to the Nav */}
-              <div className="absolute top-full left-0 w-full bg-white  text-black shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border-t border-slate-100">
-                <div className="max-w-7xl mx-auto px-4 py-10">
-                  <div className="grid grid-cols-3 gap-8">
-                    {/* Column 1 */}
-                    <div>
-                      <h3 className="font-bold text-orange-500 mb-4 uppercase text-xs tracking-widest">
-                        Support
-                      </h3>
-                      <ul className="space-y-3 text-sm text-slate-600">
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Help Center
-                        </li>
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Order Tracking
-                        </li>
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Returns & Exchanges
-                        </li>
-                      </ul>
-                    </div>
+              <div className="absolute top-10 left-0 w-64 bg-black border border-zinc-800 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                {categories.map((cat, i) => {
+                  const Icon = cat.icon;
+                  const isActive = location.pathname === cat.path;
 
-                    {/* Column 2 */}
-                    <div>
-                      <h3 className="font-bold text-orange-500 mb-4 uppercase text-xs tracking-widest">
-                        Contact
-                      </h3>
-                      <ul className="space-y-3 text-sm text-slate-600">
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Live Chat
-                        </li>
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Email Us
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-orange-500 mb-4 uppercase text-xs tracking-widest">
-                        Support
-                      </h3>
-                      <ul className="space-y-3 text-sm text-slate-600">
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Help Center
-                        </li>
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Order Tracking
-                        </li>
-                        <li className="hover:text-orange-500 cursor-pointer transition">
-                          Returns & Exchanges
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                  return (
+                    <Link
+                      key={i}
+                      to={cat.path}
+                      className={`flex items-center gap-3 px-4 py-3 text-sm ${
+                        isActive
+                          ? "bg-white text-black"
+                          : "text-gray-300 hover:bg-zinc-800 hover:text-white"
+                      }`}
+                    >
+                      <Icon className="size-4" />
+                      {cat.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
+
           </div>
 
-          {/* Search */}
+          {/* SEARCH */}
           <div className="hidden md:block max-w-sm w-full">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 size-4" />
@@ -160,18 +185,37 @@ export const Navbar = () => {
             </div>
           </div>
 
-          {/* Cart */}
-           {/* Right Icons */}
-          <div className="flex items-center gap-2">
+          {/* RIGHT SIDE */}
+          <div className="flex items-center gap-3">
+
+            {/* 📍 LOCATION */}
+            <div className="hidden md:flex items-center gap-1 text-sm text-gray-300">
+              <MapPin className="size-4" />
+              {locationName}
+            </div>
+
+            {/* 👤 ACCOUNT */}
             <Button
-              variant="default"
+              variant="ghost"
               size="icon"
-               onClick={() => navigate("/CartDrawer")}
-              className="text-white hover:bg-white/10 rounded-full"
+              onClick={() => navigate("/profile")}
+              className="text-white"
+            >
+              <User className="size-5" />
+            </Button>
+
+            {/* 🛒 CART */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/CartDrawer")}
+              className="text-white"
             >
               <ShoppingCart className="size-5" />
             </Button>
+
           </div>
+
         </div>
       </nav>
     </header>

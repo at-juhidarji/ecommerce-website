@@ -1,149 +1,139 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { ProductCollection } from "./ProductCollection";
-import CartDrawer from "./Collections/CartDrawer";
-
+import LogoSlider from "./Cursor";
+import { WhyChooseUs } from "./WhyToChoose";
+import AutoReviewSlider from "./Review";
 const HeroSection = () => {
   return (
-    <div className="bg-black text-white">
-      <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* HERO IMAGE */}
+    <div className="bg-black text-white overflow-hidden">
+      
+      {/* HERO */}
+      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* IMAGE */}
         <motion.div
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
-          className="lg:col-span-2 relative rounded-xl overflow-hidden h-[350px] md:h-[450px] lg:h-[520px]"
+          className="lg:col-span-2 relative rounded-2xl overflow-hidden h-[350px] md:h-[450px] lg:h-[520px] group"
         >
           <img
             src="https://images.unsplash.com/photo-1745503319272-41c3bc777762?q=80&w=687&auto=format&fit=crop"
-            alt="fashion"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
 
-          {/* BUTTONS */}
-          <div className="absolute bottom-4 left-4 flex gap-3 flex-wrap">
-            <Button className="flex items-center gap-2 bg-white text-black rounded-full px-4">
-              Learn More
-              <ArrowRight className="w-4 h-4" />
+          {/* 🔥 Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+          {/* CTA */}
+          <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
+            <Button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 rounded-full px-5">
+              Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
-            <Button className="flex items-center gap-2 bg-white text-black rounded-full px-4">
-              Contact Us
-              <Phone className="w-4 h-4" />
+            <Button className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
+              Contact <Phone className="w-4 h-4" />
             </Button>
           </div>
         </motion.div>
 
-        {/* TEXT SECTION */}
+        {/* TEXT */}
         <motion.div
-          initial={{ opacity: 0, x: 60 }}
+          initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          // Mobile/Tablet: items-center | Desktop (lg): items-start
-          className="flex flex-col items-center justify-center lg:items-start"
+          className="flex flex-col justify-center"
         >
-          <div className="max-w-3xl py-10 ">
-            {/* Main Headline */}
+          <div className="py-6">
+
+            {/* Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
             </h1>
 
-            <p className="text-gray-400 mb-6 text-sm md:text-base">
-              Browse through our diverse range of garments designed to bring out
-              your individuality.
+            {/* Subtext */}
+            <p className="text-gray-400 mb-6">
+              Discover premium fashion curated for your individuality.
             </p>
-            {/* Social Proof / Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-gray-100 pt-10">
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold">200+</h3>
-                <p className="text-gray-500 text-sm">International Brands</p>
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold">2,000+</h3>
-                <p className="text-gray-500 text-sm">High-Quality Products</p>
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold">30,000+</h3>
-                <p className="text-gray-500 text-sm">Happy Customers</p>
-              </div>
+
+            {/* CTA */}
+            <Button className="bg-orange-500 hover:bg-orange-600 rounded-full px-6 mb-8">
+              Explore Collection
+            </Button>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-white/10 pt-6">
+              {[
+                { value: "200+", label: "Brands" },
+                { value: "2K+", label: "Products" },
+                { value: "30K+", label: "Customers" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.2 }}
+                >
+                  <h3 className="text-xl font-bold">{item.value}</h3>
+                  <p className="text-gray-500 text-sm">{item.label}</p>
+                </motion.div>
+              ))}
             </div>
+
           </div>
         </motion.div>
       </div>
 
-      {/* PRODUCT CARDS */}
-      <div className="max-w-7xl mx-auto px-4 pb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* CARD 1 */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="rounded-xl overflow-hidden relative h-[260px]"
-        >
-          <img
-            src="https://plus.unsplash.com/premium_photo-1732563562540-6522555874e6?q=80&w=687&auto=format&fit=crop"
-            className="w-full h-full object-cover"
-          />
+      {/* 🔥 CATEGORY CARDS */}
+      <div className="max-w-7xl mx-auto px-4 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          {
+            img: "https://plus.unsplash.com/premium_photo-1732563562540-6522555874e6?q=80&w=687",
+            tag: "#TRENDING",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1734805077914-bbc92d9b56a8?q=80&w=736",
+            tag: "#CLASSIC",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600",
+            tag: "#WOMEN",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=600",
+            tag: "#STREET",
+          },
+        ].map((card, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.2 }}
+            className="relative h-[260px] rounded-2xl overflow-hidden group cursor-pointer"
+          >
+            <img
+              src={card.img}
+              className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+            />
 
-          <div className="absolute bottom-3 left-3 text-white font-bold text-xl">
-            #TRENDING2026
-          </div>
-        </motion.div>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition"></div>
 
-        {/* CARD 2 */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="rounded-xl overflow-hidden relative h-[260px]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1734805077914-bbc92d9b56a8?q=80&w=736&auto=format&fit=crop"
-            className="w-full h-full object-cover"
-          />
-
-          <div className="absolute bottom-3 left-3 text-white font-bold text-xl">
-            #OLDISGOLD
-          </div>
-        </motion.div>
-
-        {/* CARD 3 */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="rounded-xl overflow-hidden relative h-[260px]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600"
-            className="w-full h-full object-cover"
-          />
-
-          <div className="absolute bottom-3 left-3 text-white font-bold text-xl">
-            #WOMENSTYLE
-          </div>
-        </motion.div>
-
-        {/* CARD 4 */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="rounded-xl overflow-hidden relative h-[260px]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=600"
-            className="w-full h-full object-cover"
-          />
-
-          <div className="absolute bottom-3 left-3 text-white font-bold text-xl">
-            #STREETWEAR
-          </div>
-        </motion.div>
+            {/* Text */}
+            <div className="absolute bottom-4 left-4 text-white text-xl font-bold">
+              {card.tag}
+            </div>
+          </motion.div>
+        ))}
       </div>
 
+      {/* SECTIONS */}
+      <WhyChooseUs />
+      <AutoReviewSlider />
+      <LogoSlider />
       <ProductCollection />
     </div>
   );

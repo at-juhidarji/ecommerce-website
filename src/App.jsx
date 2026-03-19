@@ -14,16 +14,14 @@ import { MoreCollection } from "./Page/Collections/MoreCollection";
 import CartDrawer from "./Page/Collections/CartDrawer";
 import ProductDetail from "./Page/ProductDetail";
 import { OverSizeCollection } from "./Page/Collections/OverSizeCollection";
-import Sidebar from "./components/ui/Sidebar";
-import MobileSidebar from "./components/ui/MoblieSidebar";
-
+import SmoothScroll from "./components/ui/SmoothScroll";
+import { Footer } from "./components/Footer";
 export default function App() {
   return (
     
     <BrowserRouter>
+       <SmoothScroll />   
       <Navbar />
-      
-  
       <Routes>
         <Route path="/" element={<HeroSection />} />
 
@@ -54,6 +52,7 @@ export default function App() {
 
         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
