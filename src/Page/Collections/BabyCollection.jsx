@@ -1,4 +1,4 @@
-import { products } from "../../components/ui/Product";
+import { products } from "../../Data/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
 import HeroSlider from "../../components/ui/HeroSlider";
 
@@ -8,7 +8,6 @@ import img3 from "@/assets/Image-3.jpg";
 import img4 from "@/assets/Image-4.jpg";
 
 const BabyImages = [img1, img2, img3, img4];
-
 
 export const BabyCollection = () => {
   const BabyProducts = products.filter(

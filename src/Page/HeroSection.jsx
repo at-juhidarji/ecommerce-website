@@ -6,13 +6,14 @@ import { ProductCollection } from "./ProductCollection";
 import LogoSlider from "./Cursor";
 import { WhyChooseUs } from "./WhyToChoose";
 import AutoReviewSlider from "./Review";
+import { useNavigate } from "react-router-dom";
+
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-black text-white overflow-hidden">
-      
       {/* HERO */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-
         {/* IMAGE */}
         <motion.div
           initial={{ opacity: 0, scale: 1.1 }}
@@ -48,7 +49,6 @@ const HeroSection = () => {
           className="flex flex-col justify-center"
         >
           <div className="py-6">
-
             {/* Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
@@ -60,7 +60,14 @@ const HeroSection = () => {
             </p>
 
             {/* CTA */}
-            <Button className="bg-orange-500 hover:bg-orange-600 rounded-full px-6 mb-8">
+            <Button
+              onClick={() => {
+                document.getElementById("collection")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+              className="bg-orange-500 hover:bg-orange-600 rounded-full px-6 mb-8"
+            >
               Explore Collection
             </Button>
 
@@ -82,7 +89,6 @@ const HeroSection = () => {
                 </motion.div>
               ))}
             </div>
-
           </div>
         </motion.div>
       </div>

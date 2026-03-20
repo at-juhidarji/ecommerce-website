@@ -30,7 +30,7 @@ const reviews = [
 
 const PremiumReviewSlider = () => {
   return (
-    <section className="bg-black text-white py-20 overflow-hidden relative">
+    <section className="bg-black  max-w-7xl mx-auto text-white py-20 overflow-hidden relative">
 
       {/* 🔥 Animation */}
       <style>

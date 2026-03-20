@@ -1,4 +1,4 @@
-import { products } from "../../components/ui/Product";
+import { products } from "../../Data/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
 import HeroSlider from "../../components/ui/HeroSlider";
 

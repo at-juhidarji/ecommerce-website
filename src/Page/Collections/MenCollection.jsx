@@ -1,4 +1,4 @@
-import { products } from "../../components/ui/Product";
+import { products } from "../../Data/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
 import HeroSlider from "../../components/ui/HeroSlider";
 
@@ -15,24 +15,22 @@ const menImages = [img1, img2, img3, img4];
 export const MenCollection = () => {
   const navigate = useNavigate(); // ✅ FIX
 
-  const menProducts = products.filter(
-    (product) => product.category === "men"
-  );
+  const menProducts = products.filter((product) => product.category === "men");
 
   return (
     <section className="bg-black py-14 px-4">
-        <div className="max-w-7xl mx-auto">
-      {/* 🔙 Back Button */}
-      <button
-        onClick={() => navigate("/")}
-        className="flex items-center gap-2 text-zinc-500 hover:text-orange-400 transition-all mb-4 group"
-      >
-        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-        <span className="text-sm font-bold uppercase tracking-widest">
-          Back to Shop
-        </span>
-      </button>
-</div>
+      <div className="max-w-7xl mx-auto">
+        {/* 🔙 Back Button */}
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-zinc-500 hover:text-orange-400 transition-all mb-4 group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-sm font-bold uppercase tracking-widest">
+            Back to Shop
+          </span>
+        </button>
+      </div>
       {/* 🔥 Heading */}
       <div className="text-center mb-12">
         <h2 className="text-5xl md:text-6xl font-black tracking-tight text-white">
@@ -67,7 +65,6 @@ export const MenCollection = () => {
           </div>
         ))}
       </div>
-
     </section>
   );
 };

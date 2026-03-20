@@ -16,6 +16,8 @@ import ProductDetail from "./Page/ProductDetail";
 import { OverSizeCollection } from "./Page/Collections/OverSizeCollection";
 import SmoothScroll from "./components/ui/SmoothScroll";
 import { Footer } from "./components/Footer";
+import Login from "./Page/login";
+import Register from "./Page/Register";
 export default function App() {
   return (
     
@@ -51,6 +53,10 @@ export default function App() {
         <Route path="/CartDrawer" element={<CartDrawer />} />
 
         <Route path="/product/:id" element={<ProductDetail />} />
+           <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              <Route path="/productCollection" element={<ProductCollection />} />
       </Routes>
       <Footer />
     </BrowserRouter>

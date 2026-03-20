@@ -1,4 +1,4 @@
-import { products } from "../../components/ui/Product";
+import { products } from "../../Data/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
 import HeroSlider from "../../components/ui/HeroSlider";
 import img1 from "@/assets/Image-1.jpg";
@@ -7,8 +7,6 @@ import img3 from "@/assets/Image-3.jpg";
 import img4 from "@/assets/Image-4.jpg";
 
 const AccessoriesImages = [img1, img2, img3, img4];
-
-
 
 export const AccessoriesCollection = () => {
   const AccessoriesProducts = products.filter(
