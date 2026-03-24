@@ -61,7 +61,7 @@ const ProductDetail = () => {
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen px-6 md:px-16 py-10">
+    <div className="bg-black max-w-7xl mx-auto  text-white min-h-screen px-6 md:px-16 py-10">
       {/* 3-COLUMN GRID */}
       <div className="grid lg:grid-cols-3 gap-10">
         {/* COLUMN 1 - IMAGES */}

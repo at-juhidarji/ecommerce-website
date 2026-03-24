@@ -14,49 +14,30 @@ import { MoreCollection } from "./Page/Collections/MoreCollection";
 import CartDrawer from "./Page/Collections/CartDrawer";
 import ProductDetail from "./Page/ProductDetail";
 import { OverSizeCollection } from "./Page/Collections/OverSizeCollection";
-import SmoothScroll from "./components/ui/SmoothScroll";
 import { Footer } from "./components/Footer";
 import Login from "./Page/login";
 import Register from "./Page/Register";
 export default function App() {
   return (
-    
-    <BrowserRouter>
-       <SmoothScroll />   
+    <BrowserRouter>   
       <Navbar />
       <Routes>
         <Route path="/" element={<HeroSection />} />
-
         <Route path="/menCollection" element={<MenCollection />} />
-
         <Route path="/womenCollection" element={<WomenCollection />} />
-
         <Route path="/OversizeCollection" element={<OverSizeCollection />} />
-
         <Route path="/BagCollection" element={<BagCollection />} />
-
         <Route path="/SneakersCollection" element={<SneakersCollection />} />
-
-        <Route
-          path="/AccessoriesCollection"
-          element={<AccessoriesCollection />}
-        />
-
+        <Route path="/AccessoriesCollection"element={<AccessoriesCollection />}/>
         <Route path="/SaleCollection" element={<SalesCollection />} />
-
         <Route path="/BabyCollection" element={<BabyCollection />} />
-
         <Route path="/MoreCollection" element={<MoreCollection />} />
-
         <Route path="/New" element={<ProductCollection />} />
-
         <Route path="/CartDrawer" element={<CartDrawer />} />
-
         <Route path="/product/:id" element={<ProductDetail />} />
-           <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              
-              <Route path="/productCollection" element={<ProductCollection />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/productCollection" element={<ProductCollection />} />
       </Routes>
       <Footer />
     </BrowserRouter>

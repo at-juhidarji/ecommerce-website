@@ -15,6 +15,7 @@ export default function HeroSlider({ images, title, subtitle }) {
 
       {/*  Custom Arrows */}
       <button
+       aria-label="arrow left"
         ref={prevRef}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-orange-400 hover:text-black transition"
       >
@@ -22,6 +23,7 @@ export default function HeroSlider({ images, title, subtitle }) {
       </button>
 
       <button
+      aria-label="arrow right"
         ref={nextRef}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-orange-400 hover:text-black transition"
       >

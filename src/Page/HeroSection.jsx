@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
 import { ProductCollection } from "./ProductCollection";
@@ -10,47 +9,45 @@ import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+
   return (
-    <div className="bg-black text-white overflow-hidden">
+    <div className="bg-[var(--background)] text-white overflow-hidden">
       {/* HERO */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
         {/* IMAGE */}
-        <motion.div
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="lg:col-span-2 relative rounded-2xl overflow-hidden h-[350px] md:h-[450px] lg:h-[520px] group"
-        >
+        <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-87.5 md:h-[450px] lg:h-[520px] group">
           <img
+          alt="Hero Image"
             src="https://images.unsplash.com/photo-1745503319272-41c3bc777762?q=80&w=687&auto=format&fit=crop"
             className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
 
-          {/* 🔥 Gradient Overlay */}
+          {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
           {/* CTA */}
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
-            <Button className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 rounded-full px-5">
+            <Button 
+             aria-label="Shop"
+            className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5">
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
-            <Button className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
+            <Button 
+             aria-label="contact"
+            className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
               Contact <Phone className="w-4 h-4" />
             </Button>
           </div>
-        </motion.div>
+        </div>
 
         {/* TEXT */}
-        <motion.div
-          initial={{ opacity: 0, x: 80 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col justify-center"
-        >
+        <div className="flex flex-col justify-center text-black">
           <div className="py-6">
+            
             {/* Heading */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
             </h1>
 
@@ -61,12 +58,13 @@ const HeroSection = () => {
 
             {/* CTA */}
             <Button
+            aria-label="collection"
               onClick={() => {
                 document.getElementById("collection")?.scrollIntoView({
                   behavior: "smooth",
                 });
               }}
-              className="bg-orange-500 hover:bg-orange-600 rounded-full px-6 mb-8"
+              className="bg-primary hover:bg-orange-600 rounded-full px-6 mb-8"
             >
               Explore Collection
             </Button>
@@ -78,27 +76,23 @@ const HeroSection = () => {
                 { value: "2K+", label: "Products" },
                 { value: "30K+", label: "Customers" },
               ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.2 }}
-                >
+                <div key={i}>
                   <h3 className="text-xl font-bold">{item.value}</h3>
                   <p className="text-gray-500 text-sm">{item.label}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* 🔥 CATEGORY CARDS */}
+      {/* CATEGORY CARDS */}
       <div className="max-w-7xl mx-auto px-4 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           {
             img: "https://plus.unsplash.com/premium_photo-1732563562540-6522555874e6?q=80&w=687",
             tag: "#TRENDING",
+            alt:"trending",
           },
           {
             img: "https://images.unsplash.com/photo-1734805077914-bbc92d9b56a8?q=80&w=736",
@@ -113,11 +107,8 @@ const HeroSection = () => {
             tag: "#STREET",
           },
         ].map((card, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
             className="relative h-[260px] rounded-2xl overflow-hidden group cursor-pointer"
           >
             <img
@@ -132,15 +123,15 @@ const HeroSection = () => {
             <div className="absolute bottom-4 left-4 text-white text-xl font-bold">
               {card.tag}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* SECTIONS */}
-      <WhyChooseUs />
-      <AutoReviewSlider />
       <LogoSlider />
       <ProductCollection />
+      <WhyChooseUs />
+      <AutoReviewSlider />
     </div>
   );
 };

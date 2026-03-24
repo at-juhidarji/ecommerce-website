@@ -30,7 +30,7 @@ const reviews = [
 
 const PremiumReviewSlider = () => {
   return (
-    <section className="bg-black  max-w-7xl mx-auto text-white py-20 overflow-hidden relative">
+    <section className="bg-white max-w-7xl mx-auto text-black py-20 overflow-hidden relative">
 
       {/* 🔥 Animation */}
       <style>
@@ -52,22 +52,22 @@ const PremiumReviewSlider = () => {
         `}
       </style>
 
-      {/* Glow BG */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-500/20 blur-[120px] rounded-full"></div>
+      {/* Soft Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-200/40 blur-[120px] rounded-full"></div>
 
       {/* Heading */}
       <div className="text-center mb-14 relative z-10">
         <h2 className="text-4xl md:text-5xl font-black">
-          Loved by Thousands 💬
+          Loved by Thousands 
         </h2>
-        <p className="text-gray-400 mt-2 text-sm">
+        <p className="text-gray-500 mt-2 text-sm">
           Real reviews from real customers
         </p>
       </div>
 
       {/* Fade edges */}
-      <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-10"></div>
-      <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-10"></div>
+      <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+      <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
 
       {/* Scroll */}
       <div className="overflow-hidden relative z-10">
@@ -76,26 +76,26 @@ const PremiumReviewSlider = () => {
           {[...reviews, ...reviews].map((r, i) => (
             <div
               key={i}
-              className="relative min-w-[320px] p-[1px] rounded-2xl bg-gradient-to-br from-orange-500/40 via-white/10 to-transparent"
+              className="relative min-w-[320px] p-[1px] rounded-2xl bg-gradient-to-br from-orange-200 via-white to-transparent"
             >
-              <div className="bg-zinc-900/80 backdrop-blur-xl rounded-2xl p-6 flex flex-col gap-4 hover:scale-105 transition duration-500">
+              <div className="bg-white rounded-2xl p-6 flex flex-col gap-4 shadow-md hover:shadow-lg transition duration-500">
 
                 {/* 👤 Avatar + Name */}
                 <div className="flex items-center gap-3">
                   
-                  {/* Avatar with glow */}
+                  {/* Avatar */}
                   <div className="relative">
-                    <div className="absolute inset-0 rounded-full bg-orange-500 blur-md opacity-60"></div>
+                    <div className="absolute inset-0 rounded-full bg-orange-300 blur-md opacity-40"></div>
                     <img
                       src={r.img}
                       alt={r.name}
-                      className="relative w-12 h-12 rounded-full object-cover border border-white/20"
+                      className="relative w-12 h-12 rounded-full object-cover border border-gray-200"
                       loading="lazy"
                     />
                   </div>
 
                   <div>
-                    <p className="text-white font-semibold text-sm">
+                    <p className="text-black font-semibold text-sm">
                       {r.name}
                     </p>
 
@@ -104,7 +104,7 @@ const PremiumReviewSlider = () => {
                       {[...Array(r.rating)].map((_, i) => (
                         <Star
                           key={i}
-                          className="w-3 h-3 text-orange-400 fill-orange-400"
+                          className="w-3 h-3 text-orange-500 fill-orange-500"
                         />
                       ))}
                     </div>
@@ -112,7 +112,7 @@ const PremiumReviewSlider = () => {
                 </div>
 
                 {/* Review Text */}
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-600 text-sm leading-relaxed">
                   “{r.text}”
                 </p>
 

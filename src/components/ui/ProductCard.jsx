@@ -1,17 +1,17 @@
 import { Star, StarHalf } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-
+import { useCart } from "@/Page/CartContext";
 export const ProductCard = ({ product }) => {
   const navigate = useNavigate(); // 👈 ADD THIS
 
+  const { addToCart } = useCart();
   return (
     <div
       className="group cursor-pointer"
       onClick={() => navigate(`/product/${product.id}`)} // 👈 ADD THIS
     >
-      <Card className="relative border-none shadow-none bg-zinc-900 overflow-hidden rounded-[20px] aspect-[1/1.2]">
+      <Card className="relative border-none shadow-none bg-backgroundoverflow-hidden rounded-[20px] aspect-[1/1.2]">
       
         <CardContent className="p-0 h-full">
           <img
@@ -20,10 +20,9 @@ export const ProductCard = ({ product }) => {
             className="w-full h-full object-cover transition-transform duration-500 scale-110 group-hover:scale-100"
           />
 
-          {/* Hover buttons */}
+          {/* Hover buttons
           <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition">
-            <Button
-              onClick={(e) => e.stopPropagation()} // 👈 PREVENT NAVIGATION
+           <Button onClick={() => addToCart(product)}
               className="bg-white font-[1000] tracking-tighter uppercase text-black rounded-full px-4 py-2 font-bold"
             >
               Add to Cart
@@ -35,13 +34,13 @@ export const ProductCard = ({ product }) => {
             >
               Buy Now
             </Button>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
 
       {/* Product info */}
       <div className="mt-4 space-y-2">
-        <h3 className="font-bold text-lg text-white truncate">
+        <h3 className="font-bold text-lg text-black truncate">
           {product.name}
         </h3>
 
@@ -58,7 +57,7 @@ export const ProductCard = ({ product }) => {
 
         {/* Price */}
         <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-white">
+          <span className="text-xl font-bold text-black">
             ${product.price}
           </span>
 
