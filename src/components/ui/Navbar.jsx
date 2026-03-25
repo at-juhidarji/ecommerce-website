@@ -177,7 +177,7 @@ export const Navbar = () => {
                 <ChevronDown className="size-4 group-hover:rotate-180 transition" />
               </Button>
 
-              <div className="absolute top-7 left-0 w-64 bg-black border border-zinc-800 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
+              <div className="absolute top-7 left-0 w-64 z-50 bg-black border border-zinc-800 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
                 {categories.map((cat, i) => {
                   const Icon = cat.icon;
                   return (

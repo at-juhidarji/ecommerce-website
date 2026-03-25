@@ -6,7 +6,16 @@ import LogoSlider from "./Cursor";
 import { WhyChooseUs } from "./WhyToChoose";
 import AutoReviewSlider from "./Review";
 import { useNavigate } from "react-router-dom";
+import img1 from "@/assets/Image-1.jpg";
+import img2 from "@/assets/Image-2.jpg";
+import img3 from "@/assets/Image-3.jpg";
+import img4 from "@/assets/Image-4.jpg";
+import img5 from "@/assets/Image-5.jpg";
+import img6 from "@/assets/Image-6.jpg";
+import img7 from "@/assets/Image-7.jpg";
+import img8 from "@/assets/Image-8.jpg";
 
+const HeroImages = [img1, img2, img3, img4, img5, img6, img7, img8];
 const HeroSection = () => {
   const navigate = useNavigate();
 
@@ -14,12 +23,11 @@ const HeroSection = () => {
     <div className="bg-[var(--background)] text-white overflow-hidden">
       {/* HERO */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
         {/* IMAGE */}
         <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-87.5 md:h-[450px] lg:h-[520px] group">
           <img
-          alt="Hero Image"
-            src="https://images.unsplash.com/photo-1745503319272-41c3bc777762?q=80&w=687&auto=format&fit=crop"
+            alt="Hero Image"
+            src={HeroImages[7]}
             className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
 
@@ -28,15 +36,17 @@ const HeroSection = () => {
 
           {/* CTA */}
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
-            <Button 
-             aria-label="Shop"
-            className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5">
+            <Button
+              aria-label="Shop"
+              className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5"
+            >
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
-            <Button 
-             aria-label="contact"
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
+            <Button
+              aria-label="contact"
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20"
+            >
               Contact <Phone className="w-4 h-4" />
             </Button>
           </div>
@@ -45,7 +55,6 @@ const HeroSection = () => {
         {/* TEXT */}
         <div className="flex flex-col justify-center text-black">
           <div className="py-6">
-            
             {/* Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
@@ -58,7 +67,7 @@ const HeroSection = () => {
 
             {/* CTA */}
             <Button
-            aria-label="collection"
+              aria-label="collection"
               onClick={() => {
                 document.getElementById("collection")?.scrollIntoView({
                   behavior: "smooth",
@@ -90,20 +99,20 @@ const HeroSection = () => {
       <div className="max-w-7xl mx-auto px-4 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
           {
-            img: "https://plus.unsplash.com/premium_photo-1732563562540-6522555874e6?q=80&w=687",
+            img: HeroImages[0],
             tag: "#TRENDING",
-            alt:"trending",
+            alt: "trending",
           },
           {
-            img: "https://images.unsplash.com/photo-1734805077914-bbc92d9b56a8?q=80&w=736",
+            img: HeroImages[1],
             tag: "#CLASSIC",
           },
           {
-            img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600",
+            img: HeroImages[2],
             tag: "#WOMEN",
           },
           {
-            img: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=600",
+            img: HeroImages[3],
             tag: "#STREET",
           },
         ].map((card, i) => (

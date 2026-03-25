@@ -22,6 +22,7 @@ export default function App() {
     <BrowserRouter>   
       <Navbar />
       <Routes>
+    
         <Route path="/" element={<HeroSection />} />
         <Route path="/menCollection" element={<MenCollection />} />
         <Route path="/womenCollection" element={<WomenCollection />} />
