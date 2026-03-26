@@ -4,8 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { products } from "@/Data/Product";
 import { ProductCard } from "@/components/ui/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
-import { Truck, RefreshCcw, ShieldCheck, Star, ArrowLeft } from "lucide-react";
-// images
+
+import {
+  Truck,
+  RefreshCcw,
+  ShieldCheck,
+  Star,
+  ArrowLeft,
+} from "lucide-react";
+
 import img1 from "@/assets/Image-1.jpg";
 import img2 from "@/assets/Image-2.jpg";
 import img3 from "@/assets/Image-3.jpg";
@@ -20,202 +27,211 @@ export const ProductCollection = () => {
   const [selectedCategory, setSelectedCategory] = useState("bags");
   const [page, setPage] = useState(1);
 
+  // 🔥 FILTER STATES
+  const [sort, setSort] = useState("");
+  const [minRating, setMinRating] = useState(0);
+  const [inStockOnly, setInStockOnly] = useState(false);
+
   const itemsPerPage = 4;
 
   const menProducts = products.filter((p) => p.category === "men");
   const womenProducts = products.filter((p) => p.category === "women");
 
   const otherProducts = products.filter(
-    (p) => p.category !== "men" && p.category !== "women",
+    (p) => p.category !== "men" && p.category !== "women"
   );
 
-  const categoryProducts = otherProducts.filter(
-    (p) => p.category === selectedCategory,
+  // 🔥 APPLY FILTERS
+  let categoryProducts = otherProducts.filter(
+    (p) => p.category === selectedCategory
   );
+
+  if (minRating > 0) {
+    categoryProducts = categoryProducts.filter(
+      (p) => p.rating >= minRating
+    );
+  }
+
+  if (inStockOnly) {
+    categoryProducts = categoryProducts.filter((p) => p.stock > 0);
+  }
+
+  // 🔥 SORTING
+  if (sort === "low") {
+    categoryProducts.sort((a, b) => a.price - b.price);
+  } else if (sort === "high") {
+    categoryProducts.sort((a, b) => b.price - a.price);
+  }
 
   const totalPages = Math.ceil(categoryProducts.length / itemsPerPage);
 
   const paginatedProducts = categoryProducts.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage,
+    page * itemsPerPage
   );
 
   return (
-   <section
-  id="collection"
-  role="region"
-  aria-labelledby="collection-heading"
-  className="bg-white py-14 px-4 text-gray-900"
->
-  <div className="max-w-7xl mx-auto">
+    <section className="bg-white py-16 px-4 text-gray-900">
+      <div className="max-w-7xl mx-auto">
 
-    {/* 🔙 BACK */}
-    <button
-      aria-label="Back to shop"
-      onClick={() => navigate("/")}
-      className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded"
-    >
-      <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-      Back to Shop
-    </button>
+        {/* BACK */}
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Shop
+        </button>
 
-    {/*  MAIN TITLE */}
-    <div className="text-center mb-16">
-      <h1
-        id="collection-heading"
-        className="text-5xl font-extrabold tracking-tight"
-      >
-        OUR COLLECTION
-      </h1>
-      <p className="text-gray-600 mt-2">Premium Fashion</p>
-    </div>
-
-    {/* ================= MEN ================= */}
-    <h2 className="text-3xl font-bold mb-6">MEN COLLECTION</h2>
-
-    <HeroSlider images={menImages} />
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-      {menProducts.map((product) => (
-        <div key={product.id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-2">
-          <ProductCard product={product} />
+        {/* TITLE */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold">OUR COLLECTION</h1>
         </div>
-      ))}
-    </div>
 
-    {/* ================= WOMEN ================= */}
-    <h2 className="text-3xl font-bold mt-16 mb-6">WOMEN COLLECTION</h2>
-
-    <HeroSlider images={womenImages} />
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-      {womenProducts.map((product) => (
-        <div key={product.id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition p-2">
-          <ProductCard product={product} />
+        {/* MEN */}
+        <h2 className="text-2xl font-bold mb-6">MEN COLLECTION</h2>
+        <HeroSlider images={menImages} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+          {menProducts.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
         </div>
-      ))}
-    </div>
 
-    {/* ================= CATEGORY CARDS ================= */}
-    <div className="mt-20">
-      <h2 className="text-2xl font-bold mb-6 text-center">
-        Explore More Categories
-      </h2>
+        {/* WOMEN */}
+        <h2 className="text-2xl font-bold mt-16 mb-6">WOMEN COLLECTION</h2>
+        <HeroSlider images={womenImages} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+          {womenProducts.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {["bags","sneakers","baby","accessories","sale","more","oversized"].map((cat) => (
-          <button
-            key={cat}
-            onClick={() => {
-              setSelectedCategory(cat);
-              setPage(1);
-            }}
-            aria-pressed={selectedCategory === cat}
-            className={`p-6 rounded-xl text-center transition border focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-              selectedCategory === cat
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-gray-100 hover:bg-orange-100 border-gray-200"
-            }`}
-          >
-            <span className="font-semibold capitalize">{cat}</span>
-          </button>
-        ))}
-      </div>
-    </div>
+        {/* CATEGORY */}
+        <div className="mt-20">
+          <h2 className="text-2xl font-bold mb-6 text-center">
+            Explore Categories
+          </h2>
 
-    {/* ================= SELECTED CATEGORY ================= */}
-    <div className="mt-16">
-      <h3 className="text-2xl font-bold mb-6 capitalize">
-        {selectedCategory} Collection
-      </h3>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {paginatedProducts.map((product) => (
-          <div key={product.id} className="relative bg-white rounded-xl shadow-sm hover:shadow-md transition p-2">
-            
-            {/* Badge */}
-            {product.tag && (
-              <span className="absolute top-2 left-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
-                {product.tag}
-              </span>
-            )}
-
-            <ProductCard product={product} />
-
-            {/* Stock */}
-            {product.stock < 10 && (
-              <p className="text-red-600 text-xs mt-1">
-                Only {product.stock} left!
-              </p>
-            )}
+          <div className="flex flex-wrap justify-center gap-3">
+            {["bags", "sneakers", "baby", "accessories"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setPage(1);
+                }}
+                className={`px-5 py-2 rounded-full ${
+                  selectedCategory === cat
+                    ? "bg-black text-white"
+                    : "bg-gray-100"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* 🔄 PAGINATION */}
-      <nav
-        className="flex justify-center gap-3 mt-10"
-        aria-label="Pagination"
-      >
-        <button
-          aria-label="Previous page"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-          className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:opacity-50 focus:ring-2 focus:ring-orange-500"
-        >
-          Prev
-        </button>
-
-        {[...Array(totalPages)].map((_, i) => (
-          <button
-            key={i}
-            aria-current={page === i + 1 ? "page" : undefined}
-            onClick={() => setPage(i + 1)}
-            className={`px-4 py-2 rounded-full focus:ring-2 focus:ring-orange-500 ${
-              page === i + 1
-                ? "bg-orange-500 text-white"
-                : "border border-gray-300 text-gray-700 hover:bg-gray-100"
-            }`}
+        {/* 🔥 FILTER BAR */}
+        <div className="mt-10 flex flex-wrap gap-4 justify-between items-center bg-gray-50 p-4 rounded-xl">
+          
+          {/* SORT */}
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="border px-3 py-2 rounded"
           >
-            {i + 1}
-          </button>
-        ))}
+            <option value="">Sort</option>
+            <option value="low">Price: Low → High</option>
+            <option value="high">Price: High → Low</option>
+          </select>
 
-        <button
-          aria-label="Next page"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-          className="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 disabled:opacity-50 focus:ring-2 focus:ring-orange-500"
-        >
-          Next
-        </button>
-      </nav>
-    </div>
+          {/* RATING */}
+          <select
+            value={minRating}
+            onChange={(e) => setMinRating(Number(e.target.value))}
+            className="border px-3 py-2 rounded"
+          >
+            <option value={0}>All Ratings</option>
+            <option value={3}>3★ & above</option>
+            <option value={4}>4★ & above</option>
+          </select>
 
-    {/* ================= TRUST SECTION ================= */}
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 text-center text-sm text-gray-700">
-      <div className="flex flex-col items-center gap-2">
-        <Truck className="w-6 h-6" aria-hidden="true" />
-        <span>Free Delivery</span>
+          {/* STOCK */}
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={inStockOnly}
+              onChange={(e) => setInStockOnly(e.target.checked)}
+            />
+            In Stock Only
+          </label>
+        </div>
+
+        {/* PRODUCTS */}
+        <div className="mt-10">
+          <h3 className="text-xl font-bold mb-6 capitalize">
+            {selectedCategory} Collection
+          </h3>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {paginatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {/* PAGINATION */}
+          <div className="flex justify-center gap-2 mt-10">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              className="px-4 py-2 border rounded"
+            >
+              Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i + 1)}
+                className={`px-4 py-2 rounded ${
+                  page === i + 1 ? "bg-black text-white" : "border"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+              className="px-4 py-2 border rounded"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        {/* TRUST */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 text-center text-sm">
+          <div className="flex flex-col items-center gap-2">
+            <Truck className="w-6 h-6" />
+            Free Delivery
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <RefreshCcw className="w-6 h-6" />
+            Easy Returns
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <ShieldCheck className="w-6 h-6" />
+            Secure Payment
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Star className="w-6 h-6" />
+            Premium Quality
+          </div>
+        </div>
       </div>
-
-      <div className="flex flex-col items-center gap-2">
-        <RefreshCcw className="w-6 h-6" aria-hidden="true" />
-        <span>Easy Returns</span>
-      </div>
-
-      <div className="flex flex-col items-center gap-2">
-        <ShieldCheck className="w-6 h-6" aria-hidden="true" />
-        <span>Secure Payment</span>
-      </div>
-
-      <div className="flex flex-col items-center gap-2">
-        <Star className="w-6 h-6" aria-hidden="true" />
-        <span>Premium Quality</span>
-      </div>
-    </div>
-
-  </div>
-</section>
+    </section>
   );
 };
