@@ -1,126 +1,212 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/Page/CartContext";
-
 import { Star, Heart, ShoppingBag } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, listMode = false }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
   const [wished, setWished] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
+  const fullStars = Math.round(product.rating || 0);
+
+  const discount = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : null;
+
+  // ✅ HANDLERS
   const handleAddToCart = (e) => {
     e.stopPropagation();
     setAdding(true);
 
     addToCart(product, 1, product.sizes?.[0] || "M");
 
-    setTimeout(() => setAdding(false), 800);
+    toast.success("Added to Cart", {
+      description: product.name,
+    });
+
+    setTimeout(() => setAdding(false), 700);
   };
 
   const handleWishlist = (e) => {
     e.stopPropagation();
     setWished((prev) => !prev);
+
+    toast(wished ? "Removed from Wishlist" : "Saved to Wishlist", {
+      description: product.name,
+    });
   };
 
-  return (
-    <div
-      className="group cursor-pointer"
-      onClick={() => navigate(`/product/${product.id}`)}
-    >
-      <Card className="relative overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+  // ✅ STAR COMPONENT (REUSABLE)
+  const StarRating = () => (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star
+          key={s}
+          size={12}
+          className={
+            s <= fullStars
+              ? "text-amber-400 fill-amber-400"
+              : "text-gray-200"
+          }
+        />
+      ))}
+      <span className="text-xs text-gray-400 ml-1">
+        ({product.rating || 0})
+      </span>
+    </div>
+  );
 
-        <CardContent className="p-0 relative">
+  // ── LIST MODE ─────────────────────────────
+  if (listMode) {
+    return (
+      <div
+        onClick={() => navigate(`/product/${product.id}`)}
+        className="group cursor-pointer flex gap-4 bg-white border rounded-2xl p-3 hover:shadow-md transition"
+      >
+        <div className="w-24 h-24 rounded-xl overflow-hidden bg-gray-100">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition"
+          />
+        </div>
 
-          {/* IMAGE */}
-          <div className="aspect-[3/4]  bg-gray-50 overflow-hidden">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-500 scale-110 group-hover:scale-105"
-            />
+        <div className="flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold line-clamp-1">
+              {product.name}
+            </h3>
+            <StarRating />
+          </div>
 
-            {/* DARK OVERLAY */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition" />
-
-            {/* QUICK ADD */}
-            <div className="absolute bottom-3 left-3 right-3 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-              <button
-                onClick={handleAddToCart}
-                disabled={adding}
-                className="w-full bg-black text-white text-xs py-2.5 rounded-xl flex items-center justify-center gap-2"
-              >
-                {adding ? (
-                  <>
-                    <span className="animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
-                    Adding...
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag size={14} />
-                    Quick Add
-                  </>
-                )}
-              </button>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <span className="font-bold">₹{product.price}</span>
+              {product.oldPrice && (
+                <span className="text-xs line-through text-gray-400">
+                  ₹{product.oldPrice}
+                </span>
+              )}
+              {discount && (
+                <span className="text-xs text-green-600 font-semibold">
+                  {discount}% off
+                </span>
+              )}
             </div>
 
-            {/* WISHLIST */}
             <button
-              onClick={handleWishlist}
-              className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition"
+              onClick={handleAddToCart}
+              className="text-xs bg-black text-white px-3 py-1.5 rounded-lg flex items-center gap-1"
             >
-              <Heart
-                size={16}
-                className={wished ? "text-red-500 fill-red-500" : "text-gray-600"}
-              />
+              <ShoppingBag size={12} />
+              {adding ? "Adding…" : "Add"}
             </button>
-
-            {/* DISCOUNT */}
-            {product.discount && (
-              <span className="absolute top-3 left-3 text-xs bg-white px-2 py-1 rounded-full shadow">
-                -{product.discount}
-              </span>
-            )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // ── GRID MODE ─────────────────────────────
+  return (
+    <div
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="group cursor-pointer"
+    >
+      {/* IMAGE */}
+      <div className="relative rounded-2xl overflow-hidden bg-gray-100 aspect-[3/4]">
+
+        {!imgLoaded && (
+          <div className="absolute inset-0 animate-pulse bg-gray-200" />
+        )}
+
+        <img
+          src={product.image}
+          alt={product.name}
+          onLoad={() => setImgLoaded(true)}
+          className={`w-full h-full object-cover transition duration-500 group-hover:scale-105 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        {/* BADGES */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
+          {discount && (
+            <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full">
+              -{discount}%
+            </span>
+          )}
+          {product.isNew && (
+            <span className="text-xs bg-white px-2 py-1 rounded-full">
+              New
+            </span>
+          )}
+        </div>
+
+        {/* WISHLIST */}
+        <button
+          onClick={handleWishlist}
+          className={`absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full transition ${
+            wished ? "bg-red-100" : "bg-white"
+          }`}
+        >
+          <Heart
+            size={14}
+            className={
+              wished ? "text-red-500 fill-red-500" : "text-gray-500"
+            }
+          />
+        </button>
+
+        {/* QUICK ADD */}
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition">
+          <button
+            onClick={handleAddToCart}
+            className="w-full bg-white text-black text-sm py-2 rounded-xl flex justify-center gap-2"
+          >
+            <ShoppingBag size={14} />
+            {adding ? "Adding…" : "Quick Add"}
+          </button>
+        </div>
+
+        {/* SIZES */}
+        {product.sizes?.length > 0 && (
+          <div className="absolute bottom-12 left-3 right-3 flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition">
+            {product.sizes.slice(0, 5).map((sz) => (
+              <span
+                key={sz}
+                className="text-[10px] bg-white px-2 py-0.5 rounded"
+              >
+                {sz}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* INFO */}
       <div className="mt-3 space-y-1">
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-1">
+        <h3 className="text-sm font-semibold line-clamp-1">
           {product.name}
         </h3>
 
-        {/* RATING */}
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <Star
-              key={star}
-              size={12}
-              className={
-                star <= Math.round(product.rating)
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-gray-300"
-              }
-            />
-          ))}
-          <span className="text-xs text-gray-400 ml-1">
-            ({product.rating})
-          </span>
-        </div>
+        <StarRating />
 
-        {/* PRICE */}
         <div className="flex items-center gap-2">
-          <span className="font-bold text-gray-900">
-            ₹{product.price}
-          </span>
-
+          <span className="font-bold">₹{product.price}</span>
           {product.oldPrice && (
-            <span className="text-xs text-gray-400 line-through">
+            <span className="text-xs line-through text-gray-400">
               ₹{product.oldPrice}
+            </span>
+          )}
+          {discount && (
+            <span className="text-xs text-green-600 ml-auto">
+              {discount}% off
             </span>
           )}
         </div>

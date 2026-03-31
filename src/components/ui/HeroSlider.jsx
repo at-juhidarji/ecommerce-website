@@ -8,22 +8,32 @@ import "swiper/css";
 export default function HeroSlider({ images, title, subtitle }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const swiperRef = useRef(null);
   const [active, setActive] = useState(0);
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto h-[420px] mb-10 rounded-3xl overflow-hidden">
+    <div
+      className="relative w-full max-w-7xl mx-auto h-[420px] mb-10 rounded-3xl overflow-hidden"
+      role="region"
+      aria-label="Hero image slider"
+    >
 
-      {/* Arrows */}
+      {/* LEFT ARROW */}
       <button
         ref={prevRef}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full"
+        type="button"
+        aria-label="Previous slide"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
       >
         <ChevronLeft />
       </button>
 
+      {/* RIGHT ARROW */}
       <button
         ref={nextRef}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full"
+        type="button"
+        aria-label="Next slide"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
       >
         <ChevronRight />
       </button>
@@ -38,6 +48,8 @@ export default function HeroSlider({ images, title, subtitle }) {
           swiper.params.navigation.nextEl = nextRef.current;
         }}
         onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+
           setTimeout(() => {
             swiper.navigation.init();
             swiper.navigation.update();
@@ -48,14 +60,18 @@ export default function HeroSlider({ images, title, subtitle }) {
         {images.map((img, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
+              
+              {/* IMAGE */}
               <img
                 src={img}
-                alt="slide"
+                alt={`${title} slide ${index + 1}`}
                 className="w-full h-full object-cover"
               />
 
+              {/* OVERLAY */}
               <div className="absolute inset-0 bg-black/40" />
 
+              {/* TEXT */}
               <div className="absolute bottom-10 left-10 text-white">
                 <h2 className="text-4xl font-bold text-orange-400">
                   {title}
@@ -67,18 +83,20 @@ export default function HeroSlider({ images, title, subtitle }) {
         ))}
       </Swiper>
 
-      {/* ✅ SIMPLE DOTS */}
+      {/* ✅ ACCESSIBLE DOTS */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {images.map((_, i) => (
-          <div
+          <button
             key={i}
-            className={`w-2.5 h-2.5 rounded-full ${
-              active === i ? "bg-orange-400" : "bg-white/40"
+            type="button"
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => swiperRef.current.slideToLoop(i)}
+            className={`w-2.5 h-2.5 rounded-full transition ${
+              active === i ? "bg-orange-400 scale-110" : "bg-white/40"
             }`}
           />
         ))}
       </div>
-
     </div>
   );
 }

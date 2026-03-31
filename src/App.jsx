@@ -17,9 +17,13 @@ import { OverSizeCollection } from "./Page/Collections/OverSizeCollection";
 import { Footer } from "./components/Footer";
 import Login from "./Page/login";
 import Register from "./Page/Register";
+import ContactPage from "./Page/ContactPage";
+import ScrollToTop from "./components/ui/ScrollToTop";
+import { Toaster } from "./components/ui/Sonner";
 export default function App() {
   return (
     <BrowserRouter>   
+  <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<HeroSection />} />
@@ -38,8 +42,11 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/productCollection" element={<ProductCollection />} />
+        <Route path="/contact" element={<ContactPage />} />
+
       </Routes>
       <Footer />
+      <Toaster />
     </BrowserRouter>
   );
 }

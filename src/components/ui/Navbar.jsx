@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/Page/CartContext";
 
-import {
-  Menu,
-  Search,
-  ShoppingCart,
-  ChevronDown,
-  X,
-} from "lucide-react";
+import { Menu, Search, ShoppingCart, ChevronDown, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,41 +32,74 @@ export const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
 
   const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(query.toLowerCase())
+    p.name.toLowerCase().includes(query.toLowerCase()),
   );
 
   return (
     <header className="w-full border-b bg-white sticky top-0 z-50">
-
       {/* NAVBAR */}
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-
         {/* LEFT */}
         <div className="flex items-center gap-3">
-
           {/* MOBILE MENU */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
+            <SheetContent side="left" className="w-64 px-4 py-6 bg-white">
+              <div className="flex flex-col gap-5">
+                {/* 🔥 TITLE */}
+                <h2 className="text-lg font-semibold border-b pb-3">Menu</h2>
 
-            <SheetContent side="left" className="w-64">
-              <div className="flex flex-col gap-4 mt-6">
+                {/* 🔥 MAIN LINKS */}
                 <SheetClose asChild>
-                  <Link to="/">Home</Link>
+                  <Link
+                    to="/"
+                    className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition"
+                  >
+                    Home
+                  </Link>
                 </SheetClose>
 
                 <SheetClose asChild>
-                  <Link to="/collection">Collection</Link>
+                  <Link
+                    to="/productCollection"
+                    className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition"
+                  >
+                    Collection
+                  </Link>
                 </SheetClose>
 
-                {categories.map((cat) => (
-                  <SheetClose asChild key={cat.name}>
-                    <Link to={cat.path}>{cat.name}</Link>
-                  </SheetClose>
-                ))}
+                {/* 🔥 DIVIDER */}
+                <div className="border-t"></div>
+
+                {/* 🔥 CATEGORY TITLE */}
+                <p className="text-xs text-gray-400 uppercase tracking-wide">
+                  Categories
+                </p>
+
+                {/* 🔥 CATEGORY LIST */}
+                <div className="flex flex-col gap-2">
+                  {categories.map((cat) => (
+                    <SheetClose asChild key={cat.name}>
+                      <Link
+                        to={cat.path}
+                        className="flex items-center justify-between px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition group"
+                      >
+                        {cat.name}
+
+                        <ChevronDown className="w-4 h-4 rotate-[-90deg] text-gray-400 group-hover:text-black transition" />
+                      </Link>
+                    </SheetClose>
+                  ))}
+                </div>
               </div>
             </SheetContent>
           </Sheet>
@@ -87,19 +114,22 @@ export const Navbar = () => {
 
           {/* DESKTOP LINKS */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6 ml-4">
-            <Link className="text-sm lg:text-base" to="/">Home</Link>
+            <Link className="text-sm lg:text-base" to="/">
+              Home
+            </Link>
             <Link className="text-sm lg:text-base" to="/productCollection">
               Collection
             </Link>
 
             {/* DROPDOWN */}
             <div className="relative group">
-              <div className="flex items-center gap-1 cursor-pointer text-sm lg:text-base">
+              <div className="flex items-center gap-1  cursor-pointer text-sm lg:text-base">
                 Categories
                 <ChevronDown className="w-4 h-4" />
               </div>
 
-              <div className="absolute top-10 left-0 w-52 bg-white shadow-xl border rounded-xl opacity-0 invisible group-hover:visible group-hover:opacity-100 transition z-50">
+              <div className="absolute top-full left-0 mt-1 w-52 bg-white shadow-xl border rounded-xl opacity-0 invisible group-hover:visible group-hover:opacity-100 transition z-50">
+                {" "}
                 {categories.map((cat) => (
                   <Link
                     key={cat.name}
@@ -116,10 +146,8 @@ export const Navbar = () => {
 
         {/* RIGHT */}
         <div className="flex items-center gap-2 sm:gap-3">
-
           {/* DESKTOP SEARCH */}
           <div className="hidden md:flex items-center gap-2 relative">
-
             {showSearch && (
               <div className="relative">
                 <Input
@@ -160,10 +188,12 @@ export const Navbar = () => {
               </div>
             )}
 
+            {/* SEARCH BUTTON */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setShowSearch(!showSearch)}
+              aria-label={showSearch ? "Close search" : "Open search"}
             >
               {showSearch ? <X /> : <Search />}
             </Button>
@@ -171,10 +201,12 @@ export const Navbar = () => {
 
           {/* CART */}
           <div className="relative">
+            {/* CART BUTTON */}
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate("/CartDrawer")}
+              aria-label="Open shopping cart"
             >
               <ShoppingCart />
             </Button>

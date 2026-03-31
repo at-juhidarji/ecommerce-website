@@ -22,9 +22,10 @@ export const CollectionLayout = ({
 
         {/* Back */}
         <button
+        variant="deafault"
           onClick={() => navigate("/")}
           aria-label="Go back to shop"
-          className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-4 focus:ring-2 focus:ring-orange-500 rounded"
+          className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-4 rounded"
         >
           <ArrowLeft className="w-4 h-4" aria-hidden="true" />
           Back to Shop

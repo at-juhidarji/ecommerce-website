@@ -2,10 +2,9 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
 import { ProductCollection } from "./ProductCollection";
-import LogoSlider from "./Cursor";
 import { WhyChooseUs } from "./WhyToChoose";
 import AutoReviewSlider from "./Review";
-
+import { useNavigate } from "react-router-dom";
 import img1 from "@/assets/Image-1.jpg";
 import img2 from "@/assets/Image-2.jpg";
 import img3 from "@/assets/Image-3.jpg";
@@ -26,6 +25,7 @@ const categories = [
 ];
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-[var(--background)] text-white overflow-hidden">
       
@@ -51,7 +51,9 @@ const HeroSection = () => {
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
-            <Button className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
+            <Button 
+            onClick={() => navigate("/contact")}
+            className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
               Contact <Phone className="w-4 h-4" />
             </Button>
 
@@ -128,7 +130,7 @@ const HeroSection = () => {
       </div>
 
       {/* EXTRA SECTIONS */}
-      <LogoSlider />
+
       <ProductCollection />
       <WhyChooseUs />
       <AutoReviewSlider />

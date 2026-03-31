@@ -22,6 +22,7 @@ export const Footer = () => {
           <h1 className="text-2xl font-black tracking-tight mb-4">
             VASTRA<span className="text-orange-400">.CO</span>
           </h1>
+
           <p className="text-gray-400 text-sm">
             Discover the latest fashion trends with VASTRA.CO.
             Style that defines you.
@@ -29,54 +30,165 @@ export const Footer = () => {
 
           {/* Social Icons */}
           <div className="flex gap-3 mt-4">
-            <Facebook className="cursor-pointer hover:text-orange-400" />
-            <Instagram className="cursor-pointer hover:text-orange-400" />
-            <Twitter className="cursor-pointer hover:text-orange-400" />
-            <Linkedin className="cursor-pointer hover:text-orange-400" />
+
+            <button
+              type="button"
+              aria-label="Visit Facebook page"
+              className="hover:text-orange-400"
+            >
+              <Facebook />
+            </button>
+
+            <button
+              type="button"
+              aria-label="Visit Instagram page"
+              className="hover:text-orange-400"
+            >
+              <Instagram />
+            </button>
+
+            <button
+              type="button"
+              aria-label="Visit Twitter page"
+              className="hover:text-orange-400"
+            >
+              <Twitter />
+            </button>
+
+            <button
+              type="button"
+              aria-label="Visit LinkedIn page"
+              className="hover:text-orange-400"
+            >
+              <Linkedin />
+            </button>
+
           </div>
         </div>
 
         {/* Categories */}
         <div>
           <h3 className="font-semibold mb-4">Shop</h3>
+
           <ul className="space-y-2 text-sm text-gray-400">
-            <li onClick={() => navigate("/menCollection")} className="hover:text-white cursor-pointer">Men</li>
-            <li onClick={() => navigate("/womenCollection")} className="hover:text-white cursor-pointer">Women</li>
-            <li onClick={() => navigate("/OversizeCollection")} className="hover:text-white cursor-pointer">Oversized</li>
-            <li onClick={() => navigate("/SneakersCollection")} className="hover:text-white cursor-pointer">Sneakers</li>
+
+            <li>
+              <button
+                type="button"
+                onClick={() => navigate("/menCollection")}
+                aria-label="Go to men collection"
+                className="hover:text-black cursor-pointer"
+              >
+                Men
+              </button>
+            </li>
+
+            <li>
+              <button
+                type="button"
+                onClick={() => navigate("/womenCollection")}
+                aria-label="Go to women collection"
+              className="hover:text-black cursor-pointer"
+              >
+                Women
+              </button>
+            </li>
+
+            <li>
+              <button
+                type="button"
+                onClick={() => navigate("/OversizeCollection")}
+                aria-label="Go to oversized collection"
+               className="hover:text-black cursor-pointer"
+              >
+                Oversized
+              </button>
+            </li>
+
+            <li>
+              <button
+                type="button"
+                onClick={() => navigate("/SneakersCollection")}
+                aria-label="Go to sneakers collection"
+                 className="hover:text-black cursor-pointer"
+              >
+                Sneakers
+              </button>
+            </li>
+
           </ul>
         </div>
 
         {/* Help */}
         <div>
           <h3 className="font-semibold mb-4">Support</h3>
+
           <ul className="space-y-2 text-sm text-gray-400">
-            <li className="hover:text-white cursor-pointer">Help Center</li>
-            <li className="hover:text-white cursor-pointer">Returns</li>
-            <li className="hover:text-white cursor-pointer">Shipping</li>
-            <li className="hover:text-white cursor-pointer">Contact Us</li>
+
+            <li>
+              <button type="button" aria-label="Open help center">
+                Help Center
+              </button>
+            </li>
+
+            <li>
+              <button type="button" aria-label="View returns policy">
+                Returns
+              </button>
+            </li>
+
+            <li>
+              <button type="button" aria-label="View shipping information">
+                Shipping
+              </button>
+            </li>
+
+            <li>
+              <button type="button" aria-label="Contact support">
+                Contact Us
+              </button>
+            </li>
+
           </ul>
         </div>
 
         {/* Newsletter */}
         <div>
           <h3 className="font-semibold mb-4">Stay Updated</h3>
+
           <p className="text-sm text-gray-400 mb-3">
             Subscribe to get latest offers
           </p>
 
-          <div className="flex gap-2">
-            <Input placeholder="Enter email" className="bg-zinc-900 border-none" />
-            <Button className="bg-orange-500 hover:bg-orange-600">
+          <form className="flex gap-2">
+
+            <label htmlFor="footer-email" className="sr-only">
+              Enter your email
+            </label>
+
+            <Input
+              id="footer-email"
+              type="email"
+              required
+              placeholder="Enter email"
+              className="bg-zinc-900 border-none text-white"
+            />
+
+            <Button
+              type="submit"
+              aria-label="Subscribe to newsletter"
+              className="bg-orange-500 hover:bg-orange-600"
+            >
               Subscribe
             </Button>
-          </div>
+
+          </form>
         </div>
 
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-white/10  text-center text-sm text-gray-500">
+      <div className="border-t border-white/10 text-center text-sm text-gray-500 py-4">
         © {new Date().getFullYear()} VASTRA.CO. All rights reserved.
       </div>
     </footer>
