@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { products } from "@/Data/Product";
 import { useCart } from "./CartContext";
-
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -165,6 +164,7 @@ const RelatedCard = ({ product, onNavigate }) => (
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { addToCart } = useCart();
 
@@ -502,25 +502,34 @@ const ProductDetail = () => {
         )}
       </div>
 
-      {/* ── RELATED PRODUCTS ── */}
-      {showRelated.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">You may also like</h2>
-            <button className="flex items-center gap-1 text-sm text-gray-500 hover:text-black transition">
-              View all <ChevronRight size={16} />
-            </button>
-          </div>
+ {/* 🔥 RELATED PRODUCTS */}
+{showRelated.length > 0 && (
+  <div>
+    <div className="flex justify-between mb-6">
+      <h2 className="text-xl font-bold">You may also like</h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {showRelated.map((p) => (
-              <RelatedCard key={p.id} product={p} />
-            ))}
-          </div>
-        </div>
-      )}
+      <button
+        onClick={() => navigate("/productCollection")}
+        className="text-sm flex items-center gap-1"
+      >
+        View all <ChevronRight size={16} />
+      </button>
     </div>
-  );
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {showRelated.map((p) => (
+        <RelatedCard
+          key={p.id}
+          product={p}
+          onNavigate={(id) => navigate(`/product/${id}`)}
+        />
+      ))}
+    </div>
+  </div>
+)}
+
+</div> 
+);
 };
 
 export default ProductDetail;

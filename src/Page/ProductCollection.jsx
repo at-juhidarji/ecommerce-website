@@ -83,7 +83,7 @@ export const ProductCollection = () => {
   };
 
   return (
-    <section className="bg-white py-16 px-4 text-gray-900">
+    <section id="collection" className="bg-white py-16 px-4 text-gray-900">
       <div className="max-w-7xl mx-auto">
 
         {/* BACK */}
