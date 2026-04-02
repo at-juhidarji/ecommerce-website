@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "@/Page/CartContext";
+import { useCart } from "@/context/CartContext";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
@@ -49,9 +49,7 @@ export const ProductCard = ({ product, listMode = false }) => {
           key={s}
           size={12}
           className={
-            s <= fullStars
-              ? "text-amber-400 fill-amber-400"
-              : "text-gray-200"
+            s <= fullStars ? "text-amber-400 fill-amber-400" : "text-gray-200"
           }
         />
       ))}
@@ -120,7 +118,6 @@ export const ProductCard = ({ product, listMode = false }) => {
     >
       {/* IMAGE */}
       <div className="relative rounded-2xl overflow-hidden bg-gray-100 aspect-[3/4]">
-
         {!imgLoaded && (
           <div className="absolute inset-0 animate-pulse bg-gray-200" />
         )}
@@ -142,9 +139,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             </span>
           )}
           {product.isNew && (
-            <span className="text-xs bg-white px-2 py-1 rounded-full">
-              New
-            </span>
+            <span className="text-xs bg-white px-2 py-1 rounded-full">New</span>
           )}
         </div>
 
@@ -157,9 +152,7 @@ export const ProductCard = ({ product, listMode = false }) => {
         >
           <Heart
             size={14}
-            className={
-              wished ? "text-red-500 fill-red-500" : "text-gray-500"
-            }
+            className={wished ? "text-red-500 fill-red-500" : "text-gray-500"}
           />
         </button>
 
@@ -191,9 +184,7 @@ export const ProductCard = ({ product, listMode = false }) => {
 
       {/* INFO */}
       <div className="mt-3 space-y-1">
-        <h3 className="text-sm font-semibold line-clamp-1">
-          {product.name}
-        </h3>
+        <h3 className="text-sm font-semibold line-clamp-1">{product.name}</h3>
 
         <StarRating />
 

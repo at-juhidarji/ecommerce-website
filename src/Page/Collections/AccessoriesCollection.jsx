@@ -1,5 +1,5 @@
 import { products } from "../../Data/Product";
-import { CollectionLayout } from "@/components/ui/CollectionLayout";
+import { CollectionLayout } from "@/components/product/CollectionLayout";
 import img1 from "@/assets/Image-1.jpg";
 import img2 from "@/assets/Image-2.jpg";
 import img3 from "@/assets/Image-3.jpg";
@@ -9,7 +9,7 @@ const AccessoriesImages = [img1, img2, img3, img4];
 
 export const AccessoriesCollection = () => {
   const AccessoriesProducts = products.filter(
-    (p) => p.category === "accessories"
+    (p) => p.category === "accessories",
   );
 
   return (

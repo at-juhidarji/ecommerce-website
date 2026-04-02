@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { ProductCard } from "@/components/product/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
 
 export const CollectionLayout = ({
@@ -19,10 +19,9 @@ export const CollectionLayout = ({
       aria-labelledby={`${title}-heading`}
     >
       <div className="max-w-7xl mx-auto">
-
         {/* Back */}
         <button
-        variant="deafault"
+          variant="deafault"
           onClick={() => navigate("/")}
           aria-label="Go back to shop"
           className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-4 rounded"
@@ -45,7 +44,9 @@ export const CollectionLayout = ({
 
       {/* Slider */}
       <div className="relative mb-14">
-        <div className={`absolute inset-0 blur-3xl opacity-20 ${glowColor} rounded-3xl`} />
+        <div
+          className={`absolute inset-0 blur-3xl opacity-20 ${glowColor} rounded-3xl`}
+        />
 
         <HeroSlider images={images} />
       </div>

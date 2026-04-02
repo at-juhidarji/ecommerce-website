@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useCart } from "@/Page/CartContext";
+import { useCart } from "@/context/CartContext";
 
 import { Menu, Search, ShoppingCart, ChevronDown, X } from "lucide-react";
 

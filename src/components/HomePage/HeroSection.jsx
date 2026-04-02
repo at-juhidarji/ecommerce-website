@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
-import { ProductCollection } from "./ProductCollection";
+import { ProductCollection } from "./Collection";
 import { WhyChooseUs } from "./WhyToChoose";
 import AutoReviewSlider from "./Review";
 import { useNavigate } from "react-router-dom";
@@ -28,13 +28,10 @@ const HeroSection = () => {
   const navigate = useNavigate();
   return (
     <div className="bg-[var(--background)] text-white overflow-hidden">
-      
       {/* HERO SECTION */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-
         {/* LEFT IMAGE */}
         <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-[400px] md:h-[450px] lg:h-[520px] group">
-          
           <img
             alt="Hero banner"
             src={HERO_MAIN_IMAGE}
@@ -46,26 +43,25 @@ const HeroSection = () => {
 
           {/* CTA BUTTONS */}
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
-            
-            <Button 
+            <Button
               onClick={() => navigate("/productcollection")}
-            className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5">
+              className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5"
+            >
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
-            <Button 
-            onClick={() => navigate("/contact")}
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20">
+            <Button
+              onClick={() => navigate("/contact")}
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20"
+            >
               Contact <Phone className="w-4 h-4" />
             </Button>
-
           </div>
         </div>
 
         {/* RIGHT TEXT */}
         <div className="flex flex-col justify-center text-black">
           <div className="py-6">
-
             <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
             </h1>
@@ -77,7 +73,7 @@ const HeroSection = () => {
             <Button
               onClick={() =>
                 document.getElementById("collection")?.scrollIntoView({
-                  behavior: "smooth", 
+                  behavior: "smooth",
                 })
               }
               className="bg-primary hover:bg-orange-600 rounded-full px-6 mb-8"
@@ -98,20 +94,17 @@ const HeroSection = () => {
                 </div>
               ))}
             </div>
-
           </div>
         </div>
       </div>
 
       {/* CATEGORY CARDS */}
       <div className="max-w-7xl mx-auto px-4 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
         {categories.map((card, i) => (
           <div
             key={i}
             className="relative h-[260px] rounded-2xl overflow-hidden group cursor-pointer"
           >
-            
             <img
               src={card.img}
               alt={card.tag}
@@ -125,10 +118,8 @@ const HeroSection = () => {
             <div className="absolute bottom-4 left-4 text-white text-xl font-bold">
               {card.tag}
             </div>
-
           </div>
         ))}
-
       </div>
 
       {/* EXTRA SECTIONS */}
@@ -136,7 +127,6 @@ const HeroSection = () => {
       <ProductCollection />
       <WhyChooseUs />
       <AutoReviewSlider />
-
     </div>
   );
 };

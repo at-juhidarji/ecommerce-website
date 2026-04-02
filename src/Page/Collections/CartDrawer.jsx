@@ -1,23 +1,17 @@
 import React from "react";
 import { Trash2, Plus, Minus, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../CartContext";
+import { useCart } from "../../context/CartContext";
 
 const CartDrawer = () => {
   const navigate = useNavigate();
 
-  const {
-    cart,
-    removeFromCart,
-    increaseQty,
-    decreaseQty,
-    totalPrice,
-  } = useCart();
+  const { cart, removeFromCart, increaseQty, decreaseQty, totalPrice } =
+    useCart();
 
   return (
     <div className="min-h-screen bg-white text-black pb-20">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-16">
-        
         {/* 🔙 BACK */}
         <button
           onClick={() => navigate("/")}
@@ -32,7 +26,6 @@ const CartDrawer = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          
           {/* 🛍️ LEFT */}
           <div className="lg:col-span-8 space-y-6">
             {cart.length === 0 ? (
@@ -43,7 +36,6 @@ const CartDrawer = () => {
                   key={item.id}
                   className="grid md:grid-cols-4 gap-6 items-center border-b border-gray-200 pb-6"
                 >
-                  
                   {/* Product */}
                   <div className="md:col-span-2 flex gap-4">
                     <img
@@ -53,9 +45,7 @@ const CartDrawer = () => {
                     />
                     <div>
                       <h3 className="font-bold text-lg">{item.name}</h3>
-                      <p className="text-gray-500 text-sm">
-                        ₹{item.price}
-                      </p>
+                      <p className="text-gray-500 text-sm">₹{item.price}</p>
 
                       <button
                         onClick={() => removeFromCart(item.id)}
@@ -99,7 +89,6 @@ const CartDrawer = () => {
           {/* 💰 RIGHT */}
           <div className="lg:col-span-4">
             <div className="bg-gray-50 p-6 rounded-xl shadow-sm border border-gray-200">
-              
               <h2 className="text-xl font-bold mb-6">Summary</h2>
 
               <div className="flex justify-between mb-4 text-gray-600">
@@ -120,7 +109,6 @@ const CartDrawer = () => {
               <button className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-bold transition">
                 Checkout
               </button>
-
             </div>
           </div>
         </div>

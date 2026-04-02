@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { products } from "@/Data/Product";
-import { useCart } from "./CartContext";
+import { useCart } from "@/context/CartContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

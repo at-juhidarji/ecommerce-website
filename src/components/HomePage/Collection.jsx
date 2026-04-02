@@ -2,16 +2,10 @@ import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { products } from "@/Data/Product";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { ProductCard } from "@/components/product/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
 
-import {
-  Truck,
-  RefreshCcw,
-  ShieldCheck,
-  Star,
-  ArrowLeft,
-} from "lucide-react";
+import { Truck, RefreshCcw, ShieldCheck, Star, ArrowLeft } from "lucide-react";
 
 import img1 from "@/assets/Image-1.jpg";
 import img2 from "@/assets/Image-2.jpg";
@@ -38,14 +32,12 @@ export const ProductCollection = () => {
   const womenProducts = products.filter((p) => p.category === "women");
 
   const otherProducts = products.filter(
-    (p) => p.category !== "men" && p.category !== "women"
+    (p) => p.category !== "men" && p.category !== "women",
   );
 
   // 🔥 MEMOIZED FILTER LOGIC (performance + clean)
   const categoryProducts = useMemo(() => {
-    let filtered = otherProducts.filter(
-      (p) => p.category === selectedCategory
-    );
+    let filtered = otherProducts.filter((p) => p.category === selectedCategory);
 
     if (minRating > 0) {
       filtered = filtered.filter((p) => p.rating >= minRating);
@@ -71,7 +63,7 @@ export const ProductCollection = () => {
 
   const paginatedProducts = categoryProducts.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage
+    page * itemsPerPage,
   );
 
   // RESET FILTERS
@@ -85,7 +77,6 @@ export const ProductCollection = () => {
   return (
     <section id="collection" className="bg-white py-16 px-4 text-gray-900">
       <div className="max-w-7xl mx-auto">
-
         {/* BACK */}
         <button
           type="button"
@@ -150,7 +141,6 @@ export const ProductCollection = () => {
 
         {/* FILTER BAR */}
         <div className="mt-10 flex flex-wrap gap-4 justify-between items-center bg-gray-50 p-4 rounded-xl">
-
           {/* SORT */}
           <div>
             <label className="text-sm font-medium mr-2">Sort</label>
