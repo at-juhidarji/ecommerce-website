@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
-import HeroSection from "./components/HomePage/HeroSection";
+import HeroSection from "./Page/HomePage/HeroSection";
 import { MenCollection } from "./Page/Collections/MenCollection";
 import { WomenCollection } from "./Page/Collections/WomenCollection";
-import { ProductCollection } from "./components/HomePage/Collection";
+import { ProductCollection } from "./Page/HomePage/Collection";
 import { BagCollection } from "./Page/Collections/BagCollection";
 import { SneakersCollection } from "./Page/Collections/SneakersCollection";
 import { AccessoriesCollection } from "./Page/Collections/AccessoriesCollection";

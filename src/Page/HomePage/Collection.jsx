@@ -5,6 +5,8 @@ import { products } from "@/Data/Product";
 import { ProductCard } from "@/components/product/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
 
+import { Button } from "@/components/ui/button";
+
 import { Truck, RefreshCcw, ShieldCheck, Star, ArrowLeft } from "lucide-react";
 
 import img1 from "@/assets/Image-1.jpg";
@@ -21,7 +23,6 @@ export const ProductCollection = () => {
   const [selectedCategory, setSelectedCategory] = useState("bags");
   const [page, setPage] = useState(1);
 
-  // FILTER STATES
   const [sort, setSort] = useState("");
   const [minRating, setMinRating] = useState(0);
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -32,12 +33,13 @@ export const ProductCollection = () => {
   const womenProducts = products.filter((p) => p.category === "women");
 
   const otherProducts = products.filter(
-    (p) => p.category !== "men" && p.category !== "women",
+    (p) => p.category !== "men" && p.category !== "women"
   );
 
-  // 🔥 MEMOIZED FILTER LOGIC (performance + clean)
   const categoryProducts = useMemo(() => {
-    let filtered = otherProducts.filter((p) => p.category === selectedCategory);
+    let filtered = otherProducts.filter(
+      (p) => p.category === selectedCategory
+    );
 
     if (minRating > 0) {
       filtered = filtered.filter((p) => p.rating >= minRating);
@@ -47,7 +49,6 @@ export const ProductCollection = () => {
       filtered = filtered.filter((p) => p.stock > 0);
     }
 
-    // IMPORTANT: clone before sort
     let sorted = [...filtered];
 
     if (sort === "low") {
@@ -63,10 +64,9 @@ export const ProductCollection = () => {
 
   const paginatedProducts = categoryProducts.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage,
+    page * itemsPerPage
   );
 
-  // RESET FILTERS
   const clearFilters = () => {
     setSort("");
     setMinRating(0);
@@ -75,19 +75,8 @@ export const ProductCollection = () => {
   };
 
   return (
-    <section id="collection" className="bg-white py-16 px-4 text-gray-900">
+    <section className="bg-white py-8 px-4 text-gray-900">
       <div className="max-w-7xl mx-auto">
-        {/* BACK */}
-        <button
-          type="button"
-          aria-label="Go back to homepage"
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Shop
-        </button>
-
         {/* TITLE */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold">OUR COLLECTION</h1>
@@ -119,33 +108,28 @@ export const ProductCollection = () => {
 
           <div className="flex flex-wrap justify-center gap-3">
             {["bags", "sneakers", "baby", "accessories"].map((cat) => (
-              <button
+              <Button
                 key={cat}
-                type="button"
-                aria-label={`Show ${cat} category`}
+                variant={selectedCategory === cat ? "default" : "outline"}
                 onClick={() => {
                   setSelectedCategory(cat);
                   setPage(1);
                 }}
-                className={`px-5 py-2 rounded-full capitalize ${
-                  selectedCategory === cat
-                    ? "bg-black text-white"
-                    : "bg-gray-100"
-                }`}
+                className="capitalize"
               >
                 {cat}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {/* FILTER BAR */}
         <div className="mt-10 flex flex-wrap gap-4 justify-between items-center bg-gray-50 p-4 rounded-xl">
+
           {/* SORT */}
           <div>
             <label className="text-sm font-medium mr-2">Sort</label>
             <select
-              aria-label="Sort products by price"
               value={sort}
               onChange={(e) => {
                 setSort(e.target.value);
@@ -163,7 +147,6 @@ export const ProductCollection = () => {
           <div>
             <label className="text-sm font-medium mr-2">Rating</label>
             <select
-              aria-label="Filter products by rating"
               value={minRating}
               onChange={(e) => {
                 setMinRating(Number(e.target.value));
@@ -191,13 +174,9 @@ export const ProductCollection = () => {
           </label>
 
           {/* CLEAR */}
-          <button
-            type="button"
-            onClick={clearFilters}
-            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-          >
+          <Button variant="secondary" onClick={clearFilters}>
             Clear Filters
-          </button>
+          </Button>
         </div>
 
         {/* PRODUCTS */}
@@ -214,39 +193,33 @@ export const ProductCollection = () => {
 
           {/* PAGINATION */}
           <div className="flex justify-center gap-2 mt-10">
-            <button
-              type="button"
-              aria-label="Previous page"
+
+            <Button
+              variant="outline"
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
-              className="px-4 py-2 border rounded disabled:opacity-50"
             >
               Prev
-            </button>
+            </Button>
 
             {[...Array(totalPages)].map((_, i) => (
-              <button
+              <Button
                 key={i}
-                type="button"
-                aria-label={`Go to page ${i + 1}`}
+                variant={page === i + 1 ? "default" : "outline"}
                 onClick={() => setPage(i + 1)}
-                className={`px-4 py-2 rounded ${
-                  page === i + 1 ? "bg-black text-white" : "border"
-                }`}
               >
                 {i + 1}
-              </button>
+              </Button>
             ))}
 
-            <button
-              type="button"
-              aria-label="Next page"
+            <Button
+              variant="outline"
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
-              className="px-4 py-2 border rounded disabled:opacity-50"
             >
               Next
-            </button>
+            </Button>
+
           </div>
         </div>
 
@@ -269,6 +242,7 @@ export const ProductCollection = () => {
             Premium Quality
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -5,8 +5,12 @@ import {
   Twitter,
   Linkedin,
 } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+
 import { useNavigate } from "react-router-dom";
 
 export const Footer = () => {
@@ -18,46 +22,48 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-orange-50 border-t border-orange-200">
+    <footer className="bg-background border-t">
+      
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
 
-        {/* ─── LOGO + ABOUT ─── */}
+        {/* LOGO + ABOUT */}
+        <Card className="border-none shadow-none bg-transparent">
+          <CardContent className="p-0">
+            <h1 className="text-2xl font-black tracking-tight mb-4">
+              VASTRA<span className="text-primary">.CO</span>
+            </h1>
+
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Discover the latest fashion trends with VASTRA.CO.
+              Style that defines you.
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex gap-3 mt-5">
+              {[ 
+                { Icon: Facebook, label: "Facebook" },
+                { Icon: Instagram, label: "Instagram" },
+                { Icon: Twitter, label: "Twitter" },
+                { Icon: Linkedin, label: "LinkedIn" },
+              ].map(({ Icon, label }, i) => (
+                <Button
+                  key={i}
+                  variant="outline"
+                  size="icon"
+                  aria-label={label}
+                  className="rounded-full"
+                >
+                  <Icon size={16} />
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* SHOP */}
         <div>
-          <h1 className="text-2xl font-black tracking-tight mb-4 text-gray-900">
-            VASTRA<span className="text-orange-500">.CO</span>
-          </h1>
-
-          <p className="text-gray-600 text-sm leading-relaxed">
-            Discover the latest fashion trends with VASTRA.CO.
-            Style that defines you.
-          </p>
-
-          {/* Social Icons */}
-          <div className="flex gap-3 mt-5">
-            {[ 
-              { Icon: Facebook, label: "Facebook" },
-              { Icon: Instagram, label: "Instagram" },
-              { Icon: Twitter, label: "Twitter" },
-              { Icon: Linkedin, label: "LinkedIn" },
-            ].map(({ Icon, label }, i) => (
-              <button
-                key={i}
-                aria-label={`Visit ${label}`}
-                className="p-2 rounded-full border border-orange-200 text-gray-600 
-                           hover:bg-orange-500 hover:text-white 
-                           focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 
-                           transition"
-              >
-                <Icon size={18} />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ─── SHOP LINKS ─── */}
-        <nav aria-label="Shop categories">
-          <h3 className="font-semibold mb-4 text-gray-900">Shop</h3>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <h3 className="font-semibold mb-4">Shop</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
             {[
               { label: "Men", path: "/menCollection" },
               { label: "Women", path: "/womenCollection" },
@@ -65,72 +71,73 @@ export const Footer = () => {
               { label: "Sneakers", path: "/SneakersCollection" },
             ].map((item, i) => (
               <li key={i}>
-                <button
+                <Button
+                  variant="link"
+                  className="p-0 h-auto text-muted-foreground hover:text-primary"
                   onClick={() => navigate(item.path)}
-                  className="hover:text-orange-500 focus:outline-none 
-                             focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
                 >
                   {item.label}
-                </button>
+                </Button>
               </li>
             ))}
           </ul>
-        </nav>
+        </div>
 
-        {/* ─── SUPPORT ─── */}
-        <nav aria-label="Support links">
-          <h3 className="font-semibold mb-4 text-gray-900">Support</h3>
-          <ul className="space-y-2 text-sm text-gray-600">
-            {["Help Center", "Returns", "Shipping", "Contact Us"].map((item, i) => (
-              <li key={i}>
-                <button
-                  className="hover:text-orange-500 focus:outline-none 
-                             focus-visible:ring-2 focus-visible:ring-orange-400 rounded"
-                >
-                  {item}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        {/* ─── NEWSLETTER ─── */}
+        {/* SUPPORT */}
         <div>
-          <h3 className="font-semibold mb-4 text-gray-900">Stay Updated</h3>
+          <h3 className="font-semibold mb-4">Support</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            {["Help Center", "Returns", "Shipping", "Contact Us"].map(
+              (item, i) => (
+                <li key={i}>
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto text-muted-foreground hover:text-primary"
+                  >
+                    {item}
+                  </Button>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
 
-          <p className="text-sm text-gray-600 mb-4">
+        {/* NEWSLETTER */}
+        <div>
+          <h3 className="font-semibold mb-4">Stay Updated</h3>
+
+          <p className="text-sm text-muted-foreground mb-4">
             Subscribe to get latest offers
           </p>
 
           <form
             onSubmit={handleSubscribe}
             className="flex gap-2"
-            aria-label="Newsletter subscription form"
           >
             <Input
               type="email"
               required
               placeholder="Enter email"
-              aria-label="Email address"
-              className="bg-white border border-orange-200 focus-visible:ring-orange-500"
             />
 
-            <Button
-              type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white 
-                         focus-visible:ring-2 focus-visible:ring-orange-500"
-            >
+            <Button type="submit">
               Subscribe
             </Button>
           </form>
         </div>
       </div>
 
-      {/* ─── BOTTOM ─── */}
-      <div className="border-t border-orange-200 text-center text-sm text-gray-500 py-5">
-        © {new Date().getFullYear()} 
-        <span className="font-semibold text-gray-700"> VASTRA.CO</span>. 
-        All rights reserved.
+      {/* BOTTOM */}
+      <div className="max-w-7xl mx-auto px-6 pb-6">
+        <Separator className="mb-4" />
+
+        <p className="text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()}{" "}
+          <span className="font-semibold text-foreground">
+            VASTRA.CO
+          </span>{" "}
+          All rights reserved.
+        </p>
       </div>
     </footer>
   );
