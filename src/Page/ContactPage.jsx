@@ -1,114 +1,125 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { toast } from "sonner"; // Import toast
+
+const contactSchema = z.object({
+  fullName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+});
 
 export default function ContactPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(contactSchema),
+  });
+
+  const onSubmit = (data) => {
+    // 1. Success Toast
+    toast.success("Message Sent", {
+      description: `Thank you ${data.fullName}, we'll get back to you shortly.`,
+    });
+    
+    console.log("Form Data:", data);
+    reset(); 
+  };
+
   return (
     <section className="bg-white min-h-screen py-16 px-6 md:px-12 lg:px-20">
-      
-      {/* Header */}
       <div className="text-center mb-14">
-        <h1 className="text-4xl font-bold text-gray-900">Contact Us</h1>
-        <p className="text-gray-500 mt-3">
-          We'd love to hear from you — get in touch with Vastra.co
+        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Contact Us</h1>
+        <p className="text-gray-500 mt-3 uppercase text-xs tracking-[2px]">
+          Get in touch with Vastra.co 2026-2027
         </p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-12">
-        
         {/* Left - Contact Info */}
         <div className="space-y-8">
-          
-          <div className="bg-gray-50 p-6 rounded-2xl shadow-sm flex items-start gap-4">
-            <MapPin className="text-orange-500" />
+          <div className="bg-gray-50 p-6 rounded-2xl flex items-start gap-4">
+            <MapPin className="text-orange-500 shrink-0" />
             <div>
               <h3 className="font-semibold text-lg">Address</h3>
-              <p className="text-gray-600">
-                Ahmedabad, Gujarat, India
-              </p>
+              <p className="text-gray-600">Ahmedabad, Gujarat, India</p>
             </div>
           </div>
-
-          <div className="bg-gray-50 p-6 rounded-2xl shadow-sm flex items-start gap-4">
-            <Phone className="text-orange-500" />
+          <div className="bg-gray-50 p-6 rounded-2xl flex items-start gap-4">
+            <Phone className="text-orange-500 shrink-0" />
             <div>
               <h3 className="font-semibold text-lg">Phone</h3>
               <p className="text-gray-600">+91 98765 43210</p>
             </div>
           </div>
-
-          <div className="bg-gray-50 p-6 rounded-2xl shadow-sm flex items-start gap-4">
-            <Mail className="text-orange-500" />
+          <div className="bg-gray-50 p-6 rounded-2xl flex items-start gap-4">
+            <Mail className="text-orange-500 shrink-0" />
             <div>
               <h3 className="font-semibold text-lg">Email</h3>
               <p className="text-gray-600">support@vastra.co</p>
             </div>
           </div>
-
-          {/* Social */}
-          <div>
-            <h3 className="font-semibold mb-3">Follow Us</h3>
-            <div className="flex gap-4">
-              <button className="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
-                Instagram
-              </button>
-              <button className="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
-                Facebook
-              </button>
-              <button className="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200">
-                Twitter
-              </button>
-            </div>
-          </div>
-
         </div>
 
         {/* Right - Form */}
-        <div className="bg-gray-50 p-8 rounded-2xl shadow-sm">
-          <form className="space-y-6">
-            
+        <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs uppercase tracking-widest font-semibold text-gray-700 mb-2">
                 Full Name
               </label>
               <input
-                type="text"
-                placeholder="Enter your name"
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 outline-none"
+                {...register("fullName")}
+                placeholder="Piyush..."
+                className={`w-full border rounded-lg px-4 py-2 outline-none transition ${
+                  errors.fullName ? "border-red-500" : "border-gray-200 focus:ring-2 focus:ring-orange-400"
+                }`}
               />
+              {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs uppercase tracking-widest font-semibold text-gray-700 mb-2">
                 Email Address
               </label>
               <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 outline-none"
+                {...register("email")}
+                placeholder="email@example.com"
+                className={`w-full border rounded-lg px-4 py-2 outline-none transition ${
+                  errors.email ? "border-red-500" : "border-gray-200 focus:ring-2 focus:ring-orange-400"
+                }`}
               />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs uppercase tracking-widest font-semibold text-gray-700 mb-2">
                 Message
               </label>
               <textarea
+                {...register("message")}
                 rows="5"
-                placeholder="Write your message..."
-                className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 outline-none"
+                placeholder="How can we help you?"
+                className={`w-full border rounded-lg px-4 py-2 outline-none transition ${
+                  errors.message ? "border-red-500" : "border-gray-200 focus:ring-2 focus:ring-orange-400"
+                }`}
               />
+              {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
             </div>
 
             <button
               type="submit"
-              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition"
+              className="w-full bg-black text-white py-4 rounded-lg font-bold uppercase tracking-[3px] hover:bg-zinc-800 transition active:scale-[0.98]"
             >
               Send Message
             </button>
-
           </form>
         </div>
-
       </div>
     </section>
   );

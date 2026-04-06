@@ -1,9 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
-import { ProductCollection } from "./Collection";
-import { WhyChooseUs } from "./WhyToChoose";
-import AutoReviewSlider from "./Review";
 import { useNavigate } from "react-router-dom";
 import img1 from "@/assets/Image-1.jpg";
 import img2 from "@/assets/Image-2.jpg";
@@ -103,7 +100,7 @@ const HeroSection = () => {
         {categories.map((card, i) => (
           <div
             key={i}
-            className="relative h-[260px] rounded-2xl overflow-hidden group cursor-pointer"
+            className="relative h-65 rounded-2xl overflow-hidden group cursor-pointer"
           >
             <img
               src={card.img}
@@ -121,12 +118,6 @@ const HeroSection = () => {
           </div>
         ))}
       </div>
-
-      {/* EXTRA SECTIONS */}
-
-      <ProductCollection />
-      <WhyChooseUs />
-      <AutoReviewSlider />
     </div>
   );
 };

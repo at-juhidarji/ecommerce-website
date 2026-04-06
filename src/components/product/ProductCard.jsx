@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 
 export const ProductCard = ({ product, listMode = false }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
-  const [wished, setWished] = useState(false);
   const [adding, setAdding] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
@@ -18,7 +19,7 @@ export const ProductCard = ({ product, listMode = false }) => {
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : null;
 
-  // ✅ HANDLERS
+  // ✅ ADD TO CART
   const handleAddToCart = (e) => {
     e.stopPropagation();
     setAdding(true);
@@ -32,16 +33,22 @@ export const ProductCard = ({ product, listMode = false }) => {
     setTimeout(() => setAdding(false), 700);
   };
 
+  // ✅ WISHLIST FIXED
   const handleWishlist = (e) => {
     e.stopPropagation();
-    setWished((prev) => !prev);
 
-    toast(wished ? "Removed from Wishlist" : "Saved to Wishlist", {
-      description: product.name,
-    });
+    const alreadyInWishlist = isInWishlist(product.id);
+    toggleWishlist(product);
+
+    toast(
+      alreadyInWishlist ? "Removed from Wishlist" : "Saved to Wishlist",
+      {
+        description: product.name,
+      }
+    );
   };
 
-  // ✅ STAR COMPONENT (REUSABLE)
+  // ⭐ STAR RATING
   const StarRating = () => (
     <div className="flex items-center gap-1">
       {[1, 2, 3, 4, 5].map((s) => (
@@ -49,7 +56,9 @@ export const ProductCard = ({ product, listMode = false }) => {
           key={s}
           size={12}
           className={
-            s <= fullStars ? "text-amber-400 fill-amber-400" : "text-gray-200"
+            s <= fullStars
+              ? "text-amber-400 fill-amber-400"
+              : "text-gray-200"
           }
         />
       ))}
@@ -59,7 +68,7 @@ export const ProductCard = ({ product, listMode = false }) => {
     </div>
   );
 
-  // ── LIST MODE ─────────────────────────────
+  // ================= LIST MODE =================
   if (listMode) {
     return (
       <div
@@ -85,11 +94,13 @@ export const ProductCard = ({ product, listMode = false }) => {
           <div className="flex items-center justify-between">
             <div className="flex gap-2 items-center">
               <span className="font-bold">₹{product.price}</span>
+
               {product.oldPrice && (
                 <span className="text-xs line-through text-gray-400">
                   ₹{product.oldPrice}
                 </span>
               )}
+
               {discount && (
                 <span className="text-xs text-green-600 font-semibold">
                   {discount}% off
@@ -110,7 +121,7 @@ export const ProductCard = ({ product, listMode = false }) => {
     );
   }
 
-  // ── GRID MODE ─────────────────────────────
+  // ================= GRID MODE =================
   return (
     <div
       onClick={() => navigate(`/product/${product.id}`)}
@@ -139,20 +150,23 @@ export const ProductCard = ({ product, listMode = false }) => {
             </span>
           )}
           {product.isNew && (
-            <span className="text-xs bg-white px-2 py-1 rounded-full">New</span>
+            <span className="text-xs bg-white px-2 py-1 rounded-full">
+              New
+            </span>
           )}
         </div>
 
-        {/* WISHLIST */}
+        {/* ❤️ WISHLIST */}
         <button
           onClick={handleWishlist}
-          className={`absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full transition ${
-            wished ? "bg-red-100" : "bg-white"
-          }`}
+          className="absolute top-2 right-2"
         >
           <Heart
-            size={14}
-            className={wished ? "text-red-500 fill-red-500" : "text-gray-500"}
+            className={`w-5 h-5 transition ${
+              isInWishlist(product.id)
+                ? "fill-red-500 text-red-500 scale-110"
+                : "text-white"
+            }`}
           />
         </button>
 
@@ -184,17 +198,21 @@ export const ProductCard = ({ product, listMode = false }) => {
 
       {/* INFO */}
       <div className="mt-3 space-y-1">
-        <h3 className="text-sm font-semibold line-clamp-1">{product.name}</h3>
+        <h3 className="text-sm font-semibold line-clamp-1">
+          {product.name}
+        </h3>
 
         <StarRating />
 
         <div className="flex items-center gap-2">
           <span className="font-bold">₹{product.price}</span>
+
           {product.oldPrice && (
             <span className="text-xs line-through text-gray-400">
               ₹{product.oldPrice}
             </span>
           )}
+
           {discount && (
             <span className="text-xs text-green-600 ml-auto">
               {discount}% off

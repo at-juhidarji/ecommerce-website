@@ -14,14 +14,14 @@ export const CollectionLayout = ({
 
   return (
     <section
-      className="bg-white py-14 px-4 text-gray-900"
+      className="bg-white py-4 px-4 text-gray-900"
       role="region"
       aria-labelledby={`${title}-heading`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Back */}
         <button
-          variant="deafault"
+          variant="default"
           onClick={() => navigate("/")}
           aria-label="Go back to shop"
           className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-4 rounded"

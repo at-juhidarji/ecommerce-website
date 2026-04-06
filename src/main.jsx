@@ -2,11 +2,17 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
+
+// Use ONLY one import (choose correct path)
 import { CartProvider } from "./context/CartContext";
-// Clerk imports and key constants have been removed
+import { WishlistProvider } from "./context/WishlistContext";
 
 createRoot(document.getElementById("root")).render(
-  <CartProvider>
-    <App />
-  </CartProvider>,
+  <StrictMode>
+    <CartProvider>
+      <WishlistProvider>
+        <App />
+      </WishlistProvider>
+    </CartProvider>
+  </StrictMode>
 );

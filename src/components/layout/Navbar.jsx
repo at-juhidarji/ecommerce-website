@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
-import { Menu, Search, ShoppingCart, ChevronDown, X } from "lucide-react";
+import {
+  Menu,
+  Search,
+  ShoppingCart,
+  ChevronDown,
+  X,
+  Heart,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,91 +23,100 @@ import {
 
 import { products } from "@/Data/Product";
 
+// ✅ Categories
 const categories = [
-  { name: "Men", path: "/menCollection" },
-  { name: "Women", path: "/womenCollection" },
-  { name: "Oversized", path: "/OversizeCollection" },
-  { name: "Bags", path: "/BagCollection" },
-  { name: "Sneakers", path: "/SneakersCollection" },
-  { name: "Accessories", path: "/AccessoriesCollection" },
+  { name: "Men", key: "men" },
+  { name: "Women", key: "women" },
+  { name: "Oversized", key: "oversized" },
+  { name: "Bags", key: "bags" },
+  { name: "Sneakers", key: "sneakers" },
+  { name: "Accessories", key: "accessories" },
 ];
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
 
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
+  const searchRef = useRef(null);
+
+  // ✅ Debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [query]);
+
   const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(query.toLowerCase()),
+    p.name.toLowerCase().includes(debouncedQuery.toLowerCase())
   );
 
+  // ✅ Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSearch(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <header className="w-full border-b bg-white sticky top-0 z-50">
+    <header className="relative w-full border-b bg-white sticky top-0 z-50">
+
       {/* NAVBAR */}
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+
         {/* LEFT */}
         <div className="flex items-center gap-3">
+
           {/* MOBILE MENU */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                aria-label="Open menu"
-              >
+              <Button variant="ghost" size="icon" className="md:hidden">
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
+
             <SheetContent side="left" className="w-64 px-4 py-6 bg-white">
               <div className="flex flex-col gap-5">
-                {/* 🔥 TITLE */}
-                <h2 className="text-lg font-semibold border-b pb-3">Menu</h2>
+                <h2 className="text-2xl font-semibold border-b pb-3">
+                  Explore <span className="text-orange-500">Vastra</span>
+                </h2>
 
-                {/* 🔥 MAIN LINKS */}
                 <SheetClose asChild>
-                  <Link
-                    to="/"
-                    className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition"
-                  >
+                  <Link to="/" className="px-3 py-2 hover:bg-gray-100 rounded-lg">
                     Home
                   </Link>
                 </SheetClose>
 
                 <SheetClose asChild>
-                  <Link
-                    to="/productCollection"
-                    className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition"
-                  >
+                  <Link to="/collections" className="px-3 py-2 hover:bg-gray-100 rounded-lg">
                     Collection
                   </Link>
                 </SheetClose>
 
-                {/* 🔥 DIVIDER */}
                 <div className="border-t"></div>
 
-                {/* 🔥 CATEGORY TITLE */}
-                <p className="text-xs text-gray-400 uppercase tracking-wide">
-                  Categories
-                </p>
+                <p className="text-xs text-gray-400 uppercase">Categories</p>
 
-                {/* 🔥 CATEGORY LIST */}
-                <div className="flex flex-col gap-2">
-                  {categories.map((cat) => (
-                    <SheetClose asChild key={cat.name}>
-                      <Link
-                        to={cat.path}
-                        className="flex items-center justify-between px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition group"
-                      >
-                        {cat.name}
-
-                        <ChevronDown className="w-4 h-4 rotate-[-90deg] text-gray-400 group-hover:text-black transition" />
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </div>
+                {categories.map((cat) => (
+                  <SheetClose asChild key={cat.name}>
+                    <Link
+                      to={`/collections?category=${cat.key}`}
+                      className="flex justify-between px-3 py-2 rounded-lg hover:bg-gray-100"
+                    >
+                      {cat.name}
+                      <ChevronDown className="w-4 h-4 rotate-[-90deg]" />
+                    </Link>
+                  </SheetClose>
+                ))}
               </div>
             </SheetContent>
           </Sheet>
@@ -107,34 +124,28 @@ export const Navbar = () => {
           {/* LOGO */}
           <h1
             onClick={() => navigate("/")}
-            className="text-lg sm:text-xl font-bold cursor-pointer whitespace-nowrap"
+            className="text-lg font-bold cursor-pointer"
           >
             VASTRA<span className="text-orange-500">.CO</span>
           </h1>
 
-          {/* DESKTOP LINKS */}
-          <div className="hidden md:flex items-center gap-4 lg:gap-6 ml-4">
-            <Link className="text-sm lg:text-base" to="/">
-              Home
-            </Link>
-            <Link className="text-sm lg:text-base" to="/productCollection">
-              Collection
-            </Link>
+          {/* DESKTOP NAV */}
+          <div className="hidden md:flex items-center gap-6 ml-4">
+            <Link to="/">Home</Link>
+            <Link to="/collections">Collection</Link>
 
-            {/* DROPDOWN */}
             <div className="relative group">
-              <div className="flex items-center gap-1  cursor-pointer text-sm lg:text-base">
+              <div className="flex items-center gap-1 cursor-pointer">
                 Categories
                 <ChevronDown className="w-4 h-4" />
               </div>
 
               <div className="absolute top-full left-0 mt-1 w-52 bg-white shadow-xl border rounded-xl opacity-0 invisible group-hover:visible group-hover:opacity-100 transition z-50">
-                {" "}
                 {categories.map((cat) => (
                   <Link
                     key={cat.name}
-                    to={cat.path}
-                    className="block px-4 py-2 hover:bg-gray-100 text-sm"
+                    to={`/collections?category=${cat.key}`}
+                    className="block px-4 py-2 hover:bg-gray-100"
                   >
                     {cat.name}
                   </Link>
@@ -145,68 +156,94 @@ export const Navbar = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* DESKTOP SEARCH */}
-          <div className="hidden md:flex items-center gap-2 relative">
-            {showSearch && (
-              <div className="relative">
-                <Input
-                  autoFocus
-                  placeholder="Search products..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  className="w-40 lg:w-64 transition-all"
-                />
+        <div className="flex items-center gap-2" ref={searchRef}>
 
-                {query && (
-                  <div className="absolute w-full bg-white shadow-lg border mt-1 rounded-lg max-h-60 overflow-y-auto z-50">
-                    {filteredProducts.length > 0 ? (
-                      filteredProducts.map((p) => (
-                        <div
-                          key={p.id}
-                          onClick={() => {
-                            navigate(`/product/${p.id}`);
-                            setQuery("");
-                            setShowSearch(false);
-                          }}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex gap-2 items-center"
-                        >
-                          <img
-                            src={p.image}
-                            className="w-8 h-8 object-cover rounded"
-                          />
-                          {p.name}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="px-4 py-2 text-sm text-gray-500">
-                        No products found
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+          {/* SEARCH */}
+          <div className="flex items-center gap-2">
 
-            {/* SEARCH BUTTON */}
+            {/* DESKTOP */}
+            <div className="hidden md:flex items-center gap-2 relative">
+              {showSearch && (
+                <div className="relative">
+                  <Input
+                    autoFocus
+                    placeholder="Search products..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+
+                  {debouncedQuery && (
+                    <div className="absolute w-full bg-white shadow-lg border mt-1 rounded-lg max-h-60 overflow-y-auto z-50">
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((p) => (
+                          <div
+                            key={p.id}
+                            onClick={() => {
+                              navigate(`/product/${p.id}`);
+                              setQuery("");
+                              setShowSearch(false);
+                            }}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex gap-2"
+                          >
+                            <img src={p.image} className="w-8 h-8 rounded" />
+                            {p.name}
+                          </div>
+                        ))
+                      ) : (
+                        <p className="p-3 text-sm text-gray-400">
+                          No results found
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <Button onClick={() => setShowSearch(!showSearch)} variant="ghost">
+                {showSearch ? <X /> : <Search />}
+              </Button>
+            </div>
+
+            {/* MOBILE ICON */}
             <Button
+              className="md:hidden"
               variant="ghost"
               size="icon"
               onClick={() => setShowSearch(!showSearch)}
-              aria-label={showSearch ? "Close search" : "Open search"}
             >
               {showSearch ? <X /> : <Search />}
             </Button>
           </div>
 
-          {/* CART */}
+          {/* WISHLIST */}
           <div className="relative">
-            {/* CART BUTTON */}
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate("/CartDrawer")}
-              aria-label="Open shopping cart"
+              onClick={() => navigate("/wishlist")}
+            >
+              <Heart
+                className={`w-5 h-5 ${
+                  wishlist.length > 0
+                    ? "text-red-500 fill-red-500"
+                    : "text-gray-600"
+                }`}
+              />
+            </Button>
+
+            {wishlist.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {wishlist.length}
+              </span>
+            )}
+          </div>
+
+          {/* CART */}
+          <div className="relative">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/cart")}
             >
               <ShoppingCart />
             </Button>
@@ -220,43 +257,44 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE SEARCH */}
-      <div className="md:hidden px-4 pb-3">
-        <div className="relative">
-          <Input
-            placeholder="Search products..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+      {/* 📱 MOBILE SEARCH (NO GAP FIX) */}
+      {showSearch && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b shadow-md z-40">
+          <div className="px-4 py-3">
+            <Input
+              autoFocus
+              placeholder="Search products..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
 
-          {query && (
-            <div className="absolute w-full bg-white shadow-lg border mt-1 rounded-lg max-h-60 overflow-y-auto z-50">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((p) => (
-                  <div
-                    key={p.id}
-                    onClick={() => {
-                      navigate(`/product/${p.id}`);
-                      setQuery("");
-                    }}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex gap-2 items-center"
-                  >
-                    <img
-                      src={p.image}
-                      className="w-8 h-8 object-cover rounded"
-                    />
-                    {p.name}
-                  </div>
-                ))
-              ) : (
-                <div className="px-4 py-2 text-sm text-gray-500">
-                  No products found
-                </div>
-              )}
-            </div>
-          )}
+            {debouncedQuery && (
+              <div className="bg-white border mt-2 rounded-lg max-h-60 overflow-y-auto">
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((p) => (
+                    <div
+                      key={p.id}
+                      onClick={() => {
+                        navigate(`/product/${p.id}`);
+                        setQuery("");
+                        setShowSearch(false);
+                      }}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex gap-2"
+                    >
+                      <img src={p.image} className="w-8 h-8 rounded" />
+                      {p.name}
+                    </div>
+                  ))
+                ) : (
+                  <p className="p-3 text-sm text-gray-400">
+                    No results found
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
