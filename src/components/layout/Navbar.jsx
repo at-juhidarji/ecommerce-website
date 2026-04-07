@@ -243,7 +243,7 @@ export const Navbar = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate("/cart")}
+              onClick={() => navigate("/CartDrawer")}
             >
               <ShoppingCart />
             </Button>

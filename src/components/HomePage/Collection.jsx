@@ -1,37 +1,68 @@
 import React, { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { products } from "@/Data/Product";
 import { ProductCard } from "@/components/product/ProductCard";
-import HeroSlider from "@/components/ui/HeroSlider";
 
-import { Button } from "@/components/ui/button";
+import {
+  ShoppingBag,
+  Footprints,
+  Baby,
+  Glasses,
+  User,
+  UserRound,
+  Sparkles,
+} from "lucide-react";
 
-import { Truck, RefreshCcw, ShieldCheck, Star, ArrowLeft } from "lucide-react";
+const CATEGORY_ICON = {
+  bags: <ShoppingBag size={16} />,
+  sneakers: <Footprints size={16} />,
+  baby: <Baby size={16} />,
+  accessories: <Glasses size={16} />,
+  men: <User size={16} />,
+  women: <UserRound size={16} />,
+};
 
-import img1 from "@/assets/Image-1.jpg";
-import img2 from "@/assets/Image-2.jpg";
-import img3 from "@/assets/Image-3.jpg";
-import img4 from "@/assets/Image-4.jpg";
+const SLIDE_COLORS = ["#f5f3ff", "#eef2ff", "#ecfeff", "#fef3c7"];
 
-const menImages = [img1, img2, img3, img4];
-const womenImages = [img4, img3, img2, img1];
+const SlideRail = ({ products }) => (
+  <div className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide">
+    {products.map((p, i) => (
+      <div
+        key={p.id}
+        style={{ background: SLIDE_COLORS[i % SLIDE_COLORS.length] }}
+        className="min-w-[220px] h-52 rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition"
+      >
+        <span className="text-xs text-gray-400">0{i + 1}</span>
+        <span className="text-sm font-medium text-gray-800">
+          {p.name}
+        </span>
+      </div>
+    ))}
+  </div>
+);
+
+const CatBtn = ({ cat, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm border transition ${
+      active
+        ? "bg-black text-white border-black"
+        : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+    }`}
+  >
+    {CATEGORY_ICON[cat]}
+    {cat}
+  </button>
+);
 
 export const ProductCollection = () => {
-  const navigate = useNavigate();
-
   const [selectedCategory, setSelectedCategory] = useState("bags");
-  const [page, setPage] = useState(1);
-
   const [sort, setSort] = useState("");
   const [minRating, setMinRating] = useState(0);
-  const [inStockOnly, setInStockOnly] = useState(false);
 
-  const itemsPerPage = 4;
+  const ITEMS_PER_PAGE = 4;
 
   const menProducts = products.filter((p) => p.category === "men");
   const womenProducts = products.filter((p) => p.category === "women");
-
   const otherProducts = products.filter(
     (p) => p.category !== "men" && p.category !== "women"
   );
@@ -45,202 +76,90 @@ export const ProductCollection = () => {
       filtered = filtered.filter((p) => p.rating >= minRating);
     }
 
-    if (inStockOnly) {
-      filtered = filtered.filter((p) => p.stock > 0);
-    }
+    const sorted = [...filtered];
 
-    let sorted = [...filtered];
-
-    if (sort === "low") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sort === "high") {
-      sorted.sort((a, b) => b.price - a.price);
-    }
+    if (sort === "low") sorted.sort((a, b) => a.price - b.price);
+    if (sort === "high") sorted.sort((a, b) => b.price - a.price);
 
     return sorted;
-  }, [selectedCategory, sort, minRating, inStockOnly]);
-
-  const totalPages = Math.ceil(categoryProducts.length / itemsPerPage);
-
-  const paginatedProducts = categoryProducts.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
-
-  const clearFilters = () => {
-    setSort("");
-    setMinRating(0);
-    setInStockOnly(false);
-    setPage(1);
-  };
+  }, [selectedCategory, sort, minRating, otherProducts]);
 
   return (
-    <section className="bg-white py-8 px-4 text-gray-900">
+    <section className="bg-gradient-to-b from-white to-gray-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* TITLE */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold">OUR COLLECTION</h1>
+
+        {/* Title */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-semibold flex items-center justify-center gap-2">
+            <Sparkles className="w-6 h-6" />
+            Our Collection
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            Premium fashion curated for modern lifestyle
+          </p>
         </div>
 
         {/* MEN */}
-        <h2 className="text-2xl font-bold mb-6">MEN COLLECTION</h2>
-        <HeroSlider images={menImages} />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+        <h2 className="text-2xl font-semibold mb-6">Men</h2>
+        <SlideRail products={menProducts} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
           {menProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
 
         {/* WOMEN */}
-        <h2 className="text-2xl font-bold mt-16 mb-6">WOMEN COLLECTION</h2>
-        <HeroSlider images={womenImages} />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+        <h2 className="text-2xl font-semibold mt-16 mb-6">Women</h2>
+        <SlideRail products={womenProducts} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
           {womenProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
 
         {/* CATEGORY */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            Explore Categories
-          </h2>
-
-          <div className="flex flex-wrap justify-center gap-3">
-            {["bags", "sneakers", "baby", "accessories"].map((cat) => (
-              <Button
-                key={cat}
-                variant={selectedCategory === cat ? "default" : "outline"}
-                onClick={() => {
-                  setSelectedCategory(cat);
-                  setPage(1);
-                }}
-                className="capitalize"
-              >
-                {cat}
-              </Button>
-            ))}
-          </div>
+        <h2 className="text-2xl font-semibold mt-16 mb-6">
+          Explore
+        </h2>
+        <div className="flex flex-wrap gap-3 mb-10">
+          {["bags", "sneakers", "baby", "accessories"].map((cat) => (
+            <CatBtn
+              key={cat}
+              cat={cat}
+              active={selectedCategory === cat}
+              onClick={() => setSelectedCategory(cat)}
+            />
+          ))}
         </div>
 
-        {/* FILTER BAR */}
-        <div className="mt-10 flex flex-wrap gap-4 justify-between items-center bg-gray-50 p-4 rounded-xl">
+        {/* FILTER */}
+        <div className="flex gap-4 mb-10">
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="border px-3 py-2 rounded-lg text-sm"
+          >
+            <option value="">Sort</option>
+            <option value="low">Low → High</option>
+            <option value="high">High → Low</option>
+          </select>
 
-          {/* SORT */}
-          <div>
-            <label className="text-sm font-medium mr-2">Sort</label>
-            <select
-              value={sort}
-              onChange={(e) => {
-                setSort(e.target.value);
-                setPage(1);
-              }}
-              className="border px-3 py-2 rounded"
-            >
-              <option value="">Default</option>
-              <option value="low">Price: Low → High</option>
-              <option value="high">Price: High → Low</option>
-            </select>
-          </div>
-
-          {/* RATING */}
-          <div>
-            <label className="text-sm font-medium mr-2">Rating</label>
-            <select
-              value={minRating}
-              onChange={(e) => {
-                setMinRating(Number(e.target.value));
-                setPage(1);
-              }}
-              className="border px-3 py-2 rounded"
-            >
-              <option value={0}>All Ratings</option>
-              <option value={3}>3★ & above</option>
-              <option value={4}>4★ & above</option>
-            </select>
-          </div>
-
-          {/* STOCK */}
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={inStockOnly}
-              onChange={(e) => {
-                setInStockOnly(e.target.checked);
-                setPage(1);
-              }}
-            />
-            In Stock Only
-          </label>
-
-          {/* CLEAR */}
-          <Button variant="secondary" onClick={clearFilters}>
-            Clear Filters
-          </Button>
+          <select
+            value={minRating}
+            onChange={(e) => setMinRating(Number(e.target.value))}
+            className="border px-3 py-2 rounded-lg text-sm"
+          >
+            <option value={0}>All ratings</option>
+            <option value={3}>3★+</option>
+            <option value={4}>4★+</option>
+          </select>
         </div>
 
         {/* PRODUCTS */}
-        <div className="mt-10">
-          <h3 className="text-xl font-bold mb-6 capitalize">
-            {selectedCategory} Collection
-          </h3>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {paginatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-
-          {/* PAGINATION */}
-          <div className="flex justify-center gap-2 mt-10">
-
-            <Button
-              variant="outline"
-              disabled={page === 1}
-              onClick={() => setPage(page - 1)}
-            >
-              Prev
-            </Button>
-
-            {[...Array(totalPages)].map((_, i) => (
-              <Button
-                key={i}
-                variant={page === i + 1 ? "default" : "outline"}
-                onClick={() => setPage(i + 1)}
-              >
-                {i + 1}
-              </Button>
-            ))}
-
-            <Button
-              variant="outline"
-              disabled={page === totalPages}
-              onClick={() => setPage(page + 1)}
-            >
-              Next
-            </Button>
-
-          </div>
-        </div>
-
-        {/* TRUST */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 text-center text-sm">
-          <div className="flex flex-col items-center gap-2">
-            <Truck className="w-6 h-6" />
-            Free Delivery
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <RefreshCcw className="w-6 h-6" />
-            Easy Returns
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <ShieldCheck className="w-6 h-6" />
-            Secure Payment
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <Star className="w-6 h-6" />
-            Premium Quality
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {categoryProducts.slice(0, ITEMS_PER_PAGE).map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
         </div>
 
       </div>
