@@ -79,7 +79,7 @@ export const Navbar = () => {
           {/* MOBILE MENU */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button  variant="ghost" size="icon" className="md:hidden cursor-pointer">
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
@@ -199,14 +199,16 @@ export const Navbar = () => {
                 </div>
               )}
 
-              <Button onClick={() => setShowSearch(!showSearch)} variant="ghost">
+              <Button 
+              className="cursor-pointer"
+              onClick={() => setShowSearch(!showSearch)} variant="ghost">
                 {showSearch ? <X /> : <Search />}
               </Button>
             </div>
 
             {/* MOBILE ICON */}
             <Button
-              className="md:hidden"
+              className="md:hidden cursor-pointer"
               variant="ghost"
               size="icon"
               onClick={() => setShowSearch(!showSearch)}
@@ -218,6 +220,7 @@ export const Navbar = () => {
           {/* WISHLIST */}
           <div className="relative">
             <Button
+            className="cursor-pointer"
               variant="ghost"
               size="icon"
               onClick={() => navigate("/wishlist")}
@@ -226,7 +229,7 @@ export const Navbar = () => {
                 className={`w-5 h-5 ${
                   wishlist.length > 0
                     ? "text-red-500 fill-red-500"
-                    : "text-gray-600"
+                    : "text-black"
                 }`}
               />
             </Button>
@@ -241,6 +244,7 @@ export const Navbar = () => {
           {/* CART */}
           <div className="relative">
             <Button
+            className="cursor-pointer"
               variant="ghost"
               size="icon"
               onClick={() => navigate("/CartDrawer")}

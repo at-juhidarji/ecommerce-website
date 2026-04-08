@@ -42,14 +42,14 @@ const HeroSection = () => {
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
             <Button
               onClick={() => navigate("/productcollection")}
-              className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5"
+              className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5 cursor-pointer" 
             >
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
             <Button
               onClick={() => navigate("/contact")}
-              className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20"
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20 cursor-pointer "
             >
               Contact <Phone className="w-4 h-4" />
             </Button>
@@ -73,7 +73,7 @@ const HeroSection = () => {
                   behavior: "smooth",
                 })
               }
-              className="bg-primary hover:bg-orange-600 rounded-full px-6 mb-8"
+              className="bg-primary hover:bg-orange-600 rounded-full px-6 mb-8 cursor-pointer"
             >
               Explore Collection
             </Button>

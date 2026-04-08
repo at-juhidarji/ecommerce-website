@@ -60,10 +60,10 @@ export const Footer = () => {
           <h3 className="text-xs uppercase tracking-[3px] font-bold text-zinc-950 mb-6">Shop</h3>
           <ul className="space-y-4">
             {[
-              { label: "Men", path: "/menCollection" },
-              { label: "Women", path: "/womenCollection" },
-              { label: "Sneakers", path: "/sneakersCollection" },
-              { label: "Accessories", path: "/accessoriesCollection" },
+              { label: "Men", path: "/collections?category=men" },
+              { label: "Women", path: "/collections?category=women" },
+              { label: "Sneakers", path: "/collections?category=sneakers" },
+              { label: "Accessories", path: "/collections?category=accessories" },
             ].map((item, i) => (
               <li key={i}>
                 <button

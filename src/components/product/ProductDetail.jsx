@@ -146,36 +146,32 @@ const ReviewCard = ({ review }) => {
   );
 };
 
-// ─── Related Product Card ─────────────────────────────────────────────────────
-const RelatedCard = ({ product, onNavigate }) => (
-  <div
-    onClick={() => onNavigate && onNavigate(product.id)}
-    className="group cursor-pointer rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
-  >
-    <div className="overflow-hidden aspect-square">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-      />
+{showRelated.length > 0 && (
+  <div>
+    <div className="flex justify-between mb-6">
+      <h2 className="text-xl font-bold">You may also like</h2>
+
+      <Button
+        variant="ghost"
+        onClick={() => navigate("/productCollection")}
+        className="text-sm font-semibold flex items-center gap-1 px-2 hover:bg-transparent hover:text-black/70 transition-all group"
+      >
+        View all
+        <ChevronRight
+          size={16}
+          className="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </Button>
     </div>
-    <div className="p-3 space-y-1">
-      <p className="text-sm font-semibold line-clamp-1">{product.name}</p>
-      <div className="flex items-center gap-1">
-        <StarRow rating={Math.round(product.rating)} size={11} />
-        <span className="text-xs text-gray-400">({product.rating})</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="font-bold text-sm">₹{product.price}</span>
-        {product.oldPrice && (
-          <span className="text-xs text-gray-400 line-through">
-            ₹{product.oldPrice}
-          </span>
-        )}
-      </div>
+
+    {/* ✅ USING YOUR PRODUCT CARD */}
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      {showRelated.map((p) => (
+        <ProductCard key={p.id} product={p} />
+      ))}
     </div>
   </div>
-);
+)}
 
 // ─── Image Gallery (Fixed + Attractive) ───────────────────────────────────────
 const ImageGallery = ({ images, productName }) => {
