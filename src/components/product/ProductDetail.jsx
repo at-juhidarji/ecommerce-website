@@ -8,10 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { cn } from "@/lib/utils";
-import { Navigation, Thumbs, FreeMode } from "swiper/modules";
+import { FreeMode } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
 import "swiper/css/free-mode";
 import {
   ShieldCheck,
@@ -146,34 +144,41 @@ const ReviewCard = ({ review }) => {
   );
 };
 
-{showRelated.length > 0 && (
-  <div>
-    <div className="flex justify-between mb-6">
-      <h2 className="text-xl font-bold">You may also like</h2>
-
-      <Button
-        variant="ghost"
-        onClick={() => navigate("/productCollection")}
-        className="text-sm font-semibold flex items-center gap-1 px-2 hover:bg-transparent hover:text-black/70 transition-all group"
-      >
-        View all
-        <ChevronRight
-          size={16}
-          className="transition-transform duration-300 group-hover:translate-x-1"
+// ─── Related Card (FIX: was missing, now defined) ─────────────────────────────
+const RelatedCard = ({ product, onNavigate }) => {
+  return (
+    <div
+      className="cursor-pointer group rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition"
+      onClick={() => onNavigate(product.id)}
+    >
+      <div className="relative overflow-hidden aspect-[4/5] bg-gray-50">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-      </Button>
+        {product.discount && (
+          <Badge variant="destructive" className="absolute top-2 left-2 text-xs">
+            {product.discount}
+          </Badge>
+        )}
+      </div>
+      <div className="p-3 space-y-1">
+        <p className="text-sm font-semibold line-clamp-1">{product.name}</p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold">₹{product.price}</span>
+          {product.oldPrice && (
+            <span className="text-xs line-through text-gray-400">
+              ₹{product.oldPrice}
+            </span>
+          )}
+        </div>
+      </div>
     </div>
+  );
+};
 
-    {/* ✅ USING YOUR PRODUCT CARD */}
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-      {showRelated.map((p) => (
-        <ProductCard key={p.id} product={p} />
-      ))}
-    </div>
-  </div>
-)}
-
-// ─── Image Gallery (Fixed + Attractive) ───────────────────────────────────────
+// ─── Image Gallery ────────────────────────────────────────────────────────────
 const ImageGallery = ({ images, productName }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -200,7 +205,7 @@ const ImageGallery = ({ images, productName }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* ── Main Image ── */}
+      {/* Main Image */}
       <div
         ref={imgRef}
         className="relative overflow-hidden rounded-3xl bg-gray-50 shadow-lg cursor-zoom-in select-none"
@@ -212,7 +217,7 @@ const ImageGallery = ({ images, productName }) => {
         <img
           src={images[activeIndex]}
           alt={`${productName} – view ${activeIndex + 1}`}
-          className="w-full h-full object-cover transition-all duration-[350ms] ease-out"
+          className="w-full h-full object-cover"
           style={{
             opacity: isTransitioning ? 0 : 1,
             transform: isZoomed
@@ -226,7 +231,6 @@ const ImageGallery = ({ images, productName }) => {
           draggable={false}
         />
 
-        {/* Zoom hint */}
         {!isZoomed && (
           <div className="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm text-gray-600 text-xs px-2.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm pointer-events-none">
             <ZoomIn size={12} />
@@ -234,13 +238,12 @@ const ImageGallery = ({ images, productName }) => {
           </div>
         )}
 
-        {/* Image counter pill */}
         <div className="absolute top-3 left-3 bg-black/50 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full pointer-events-none">
           {activeIndex + 1} / {images.length}
         </div>
       </div>
 
-      {/* ── Thumbnail Strip ── */}
+      {/* Thumbnail Strip */}
       <div className="relative mt-2">
         <Swiper
           modules={[FreeMode]}
@@ -253,14 +256,13 @@ const ImageGallery = ({ images, productName }) => {
           {images.map((img, i) => (
             <SwiperSlide key={i} style={{ width: "auto" }}>
               <Button
-                key={i}
                 onClick={() => handleThumbnailClick(i)}
                 variant="ghost"
                 className={cn(
                   "relative block rounded-xl overflow-hidden transition-all duration-300 ease-in-out p-0",
                   activeIndex === i
                     ? "opacity-100 scale-105 shadow-sm"
-                    : "opacity-40 hover:opacity-70 scale-100",
+                    : "opacity-40 hover:opacity-70 scale-100"
                 )}
                 style={{ width: 72, height: 90 }}
                 aria-label={`View image ${i + 1}`}
@@ -272,10 +274,8 @@ const ImageGallery = ({ images, productName }) => {
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-
-                {/* Bottom indicator */}
                 {activeIndex === i && (
-                  <span className="absolute bottom-0 left-0 w-full h-1 bg-black/80 animate-in fade-in slide-in-from-bottom-1" />
+                  <span className="absolute bottom-0 left-0 w-full h-1 bg-black/80" />
                 )}
               </Button>
             </SwiperSlide>
@@ -343,9 +343,11 @@ const ProductDetail = () => {
 
   return (
     <div className="bg-white max-w-7xl mx-auto text-black min-h-screen px-6 md:px-16 py-10 space-y-16">
-      {/* ── TOP: Images + Info + Price Card ── */}
+
+      {/* TOP: Images + Info + Price Card */}
       <div className="grid lg:grid-cols-3 gap-10">
-        {/* IMAGES — now using fixed gallery */}
+
+        {/* IMAGES */}
         <ImageGallery images={galleryImages} productName={product.name} />
 
         {/* INFO */}
@@ -371,22 +373,10 @@ const ProductDetail = () => {
             <h3 className="font-semibold mb-4 text-lg">Why you'll love it</h3>
             <div className="grid grid-cols-2 gap-3">
               {[
-                {
-                  icon: <ShieldCheck className="text-green-500" />,
-                  text: "Premium Quality",
-                },
-                {
-                  icon: <Sparkles className="text-yellow-500" />,
-                  text: "Modern Design",
-                },
-                {
-                  icon: <Truck className="text-blue-500" />,
-                  text: "Free Delivery",
-                },
-                {
-                  icon: <RefreshCcw className="text-purple-500" />,
-                  text: "7-Day Returns",
-                },
+                { icon: <ShieldCheck className="text-green-500" />, text: "Premium Quality" },
+                { icon: <Sparkles className="text-yellow-500" />, text: "Modern Design" },
+                { icon: <Truck className="text-blue-500" />, text: "Free Delivery" },
+                { icon: <RefreshCcw className="text-purple-500" />, text: "7-Day Returns" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -423,7 +413,7 @@ const ProductDetail = () => {
                     "min-w-12 h-10 px-3 rounded-lg text-sm font-medium transition-all duration-150",
                     selectedSize === size
                       ? "border-black bg-black text-white shadow hover:bg-black"
-                      : "border-gray-200 text-gray-700 hover:border-gray-400",
+                      : "border-gray-200 text-gray-700 hover:border-gray-400"
                   )}
                 >
                   {size}
@@ -436,18 +426,10 @@ const ProductDetail = () => {
                 <table className="w-full text-xs text-center">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-3 py-2 text-left font-semibold text-gray-700">
-                        Size
-                      </th>
-                      <th className="px-3 py-2 font-semibold text-gray-700">
-                        Chest (in)
-                      </th>
-                      <th className="px-3 py-2 font-semibold text-gray-700">
-                        Waist (in)
-                      </th>
-                      <th className="px-3 py-2 font-semibold text-gray-700">
-                        Hip (in)
-                      </th>
+                      <th className="px-3 py-2 text-left font-semibold text-gray-700">Size</th>
+                      <th className="px-3 py-2 font-semibold text-gray-700">Chest (in)</th>
+                      <th className="px-3 py-2 font-semibold text-gray-700">Waist (in)</th>
+                      <th className="px-3 py-2 font-semibold text-gray-700">Hip (in)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -458,15 +440,9 @@ const ProductDetail = () => {
                           selectedSize === sz ? "bg-amber-50 font-semibold" : ""
                         }`}
                       >
-                        <td className="px-3 py-2 text-left text-gray-700 font-medium">
-                          {sz}
-                        </td>
-                        <td className="px-3 py-2 text-gray-600">
-                          {dims.chest}
-                        </td>
-                        <td className="px-3 py-2 text-gray-600">
-                          {dims.waist}
-                        </td>
+                        <td className="px-3 py-2 text-left text-gray-700 font-medium">{sz}</td>
+                        <td className="px-3 py-2 text-gray-600">{dims.chest}</td>
+                        <td className="px-3 py-2 text-gray-600">{dims.waist}</td>
                         <td className="px-3 py-2 text-gray-600">{dims.hip}</td>
                       </tr>
                     ))}
@@ -562,6 +538,7 @@ const ProductDetail = () => {
                 <Button
                   variant="outline"
                   className="w-full text-base py-6 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition"
+                    onClick={() => navigate("/checkout")}
                 >
                   Buy Now
                 </Button>
@@ -571,7 +548,7 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* ── REVIEWS & DETAILS TABS ── */}
+      {/* REVIEWS & DETAILS TABS */}
       <div>
         <div className="flex gap-1 border-b border-gray-200 mb-8">
           {["reviews", "details"].map((tab) => (
@@ -580,18 +557,16 @@ const ProductDetail = () => {
               variant="ghost"
               onClick={() => setActiveTab(tab)}
               className={`
-    relative h-auto rounded-none px-6 py-3 text-sm font-semibold capitalize transition-all border-b-2 -mb-px
-    hover:bg-transparent
-    ${
-      activeTab === tab
-        ? "border-black text-black opacity-100"
-        : "border-transparent text-gray-400 hover:text-gray-600 opacity-70"
-    }
-  `}
+                relative h-auto rounded-none px-6 py-3 text-sm font-semibold capitalize transition-all border-b-2 -mb-px
+                hover:bg-transparent
+                ${
+                  activeTab === tab
+                    ? "border-black text-black opacity-100"
+                    : "border-transparent text-gray-400 hover:text-gray-600 opacity-70"
+                }
+              `}
             >
-              {tab === "reviews"
-                ? `Reviews (${totalReviews})`
-                : "Product Details"}
+              {tab === "reviews" ? `Reviews (${totalReviews})` : "Product Details"}
             </Button>
           ))}
         </div>
@@ -602,9 +577,7 @@ const ProductDetail = () => {
               <div className="text-center">
                 <p className="text-6xl font-black">{avgRating}</p>
                 <StarRow rating={Math.round(Number(avgRating))} size={20} />
-                <p className="text-sm text-gray-400 mt-1">
-                  {totalReviews} reviews
-                </p>
+                <p className="text-sm text-gray-400 mt-1">{totalReviews} reviews</p>
               </div>
               <div className="space-y-2">
                 {ratingCounts.map(({ star, count }) => (
@@ -638,10 +611,7 @@ const ProductDetail = () => {
               { label: "Fit", value: "Regular Fit" },
               { label: "Care", value: "Machine wash cold, tumble dry low" },
               { label: "Origin", value: "Made in India" },
-              {
-                label: "SKU",
-                value: `PRD-${product.id}-${selectedSize || "XXX"}`,
-              },
+              { label: "SKU", value: `PRD-${product.id}-${selectedSize || "XXX"}` },
               { label: "Available Sizes", value: availableSizes.join(", ") },
             ].map(({ label, value }) => (
               <div

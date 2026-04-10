@@ -56,7 +56,6 @@ export const CollectionLayout = ({
         {products.map((product) => (
           <div
             key={product.id}
-            className="transform transition duration-300 hover:-translate-y-2 hover:scale-[1.02]"
           >
             <ProductCard product={product} />
           </div>

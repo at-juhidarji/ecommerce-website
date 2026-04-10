@@ -18,6 +18,7 @@ import { Toaster } from "./components/ui/Sonner";
 import { HomePage } from "./Page/HomePage";
 import { CollectionsPage } from "./Page/CollectionPage";
 import { WishlistPage } from "./Page/WishList";
+import CheckoutPage from "./Page/CheckOutPAge";
 
 export default function App() {
   // n8n Chatbot Init
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/productCollection" element={<ProductCollection />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
 
       {/* Footer always visible */}
