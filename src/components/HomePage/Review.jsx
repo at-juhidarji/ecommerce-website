@@ -1,5 +1,6 @@
 import React from "react";
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
+import { motion } from "framer-motion";
 
 const reviews = [
   {
@@ -7,30 +8,34 @@ const reviews = [
     text: "Absolutely insane quality. Feels premium 🔥",
     rating: 5,
     img: "https://i.pravatar.cc/100?img=1",
+    tag: "Verified Buyer",
   },
   {
     name: "Priya Patel",
     text: "Design is next level 😍 totally love it!",
     rating: 5,
     img: "https://i.pravatar.cc/100?img=2",
+    tag: "Verified Buyer",
   },
   {
     name: "Amit Verma",
-    text: "Best purchase I’ve made this year.",
+    text: "Best purchase I've made this year.",
     rating: 5,
     img: "https://i.pravatar.cc/100?img=3",
+    tag: "Top Reviewer",
   },
   {
     name: "Sneha Mehta",
     text: "Fast delivery + amazing packaging 🚚",
     rating: 4,
     img: "https://i.pravatar.cc/100?img=4",
+    tag: "Verified Buyer",
   },
 ];
 
 const PremiumReviewSlider = () => {
   return (
-    <section className="bg-white max-w-7xl mx-auto text-black py-20 overflow-hidden relative">
+    <section className="bg-zinc-50/50 text-zinc-900 py-12 md:py-16 overflow-hidden relative">
 
       {/* 🔥 Animation */}
       <style>
@@ -43,7 +48,7 @@ const PremiumReviewSlider = () => {
           .scroll-track {
             display: flex;
             width: max-content;
-            animation: scroll 35s linear infinite;
+            animation: scroll 40s linear infinite;
           }
 
           .scroll-track:hover {
@@ -52,70 +57,77 @@ const PremiumReviewSlider = () => {
         `}
       </style>
 
-      {/* Soft Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-orange-200/40 blur-[120px] rounded-full"></div>
-
       {/* Heading */}
-      <div className="text-center mb-14 relative z-10">
-        <h2 className="text-4xl md:text-5xl font-black">
-          Loved by Thousands 
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-10 relative z-10 px-4"
+      >
+        <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-semibold mb-3">
+          Testimonials
+        </p>
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          Loved by Thousands
         </h2>
-        <p className="text-gray-500 mt-2 text-sm">
+        <p className="text-zinc-400 mt-2 text-sm">
           Real reviews from real customers
         </p>
-      </div>
+      </motion.div>
 
       {/* Fade edges */}
-      <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
-      <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+      <div className="absolute left-0 top-0 w-24 md:w-40 h-full bg-gradient-to-r from-zinc-50/50 to-transparent z-10"></div>
+      <div className="absolute right-0 top-0 w-24 md:w-40 h-full bg-gradient-to-l from-zinc-50/50 to-transparent z-10"></div>
 
       {/* Scroll */}
       <div className="overflow-hidden relative z-10">
-        <div className="scroll-track gap-8 px-6">
+        <div className="scroll-track gap-6 px-6">
 
           {[...reviews, ...reviews].map((r, i) => (
             <div
               key={i}
-              className="relative min-w-[320px] p-[1px] rounded-2xl bg-gradient-to-br from-orange-200 via-white to-transparent"
+              className="min-w-[340px] max-w-[340px] bg-white rounded-2xl p-7 flex flex-col gap-5 border border-zinc-100 shadow-sm hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500 select-none"
             >
-              <div className="bg-white rounded-2xl p-6 flex flex-col gap-4 shadow-md hover:shadow-lg transition duration-500">
+              {/* Quote icon */}
+              <Quote className="w-8 h-8 text-orange-200" />
 
-                {/* 👤 Avatar + Name */}
+              {/* Review Text */}
+              <p className="text-zinc-600 text-sm leading-relaxed flex-1">
+                "{r.text}"
+              </p>
+
+              {/* Divider */}
+              <div className="border-t border-zinc-100" />
+
+              {/* 👤 Avatar + Name */}
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  
-                  {/* Avatar */}
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-full bg-orange-300 blur-md opacity-40"></div>
-                    <img
-                      src={r.img}
-                      alt={r.name}
-                      className="relative w-12 h-12 rounded-full object-cover border border-gray-200"
-                      loading="lazy"
-                    />
-                  </div>
-
+                  <img
+                    src={r.img}
+                    alt={r.name}
+                    className="w-10 h-10 rounded-full object-cover border-2 border-zinc-100"
+                    loading="lazy"
+                  />
                   <div>
-                    <p className="text-black font-semibold text-sm">
+                    <p className="text-zinc-900 font-semibold text-sm tracking-tight">
                       {r.name}
                     </p>
-
-                    {/* Stars */}
-                    <div className="flex gap-1 mt-1">
-                      {[...Array(r.rating)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-3 h-3 text-orange-500 fill-orange-500"
-                        />
-                      ))}
-                    </div>
+                    <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
+                      {r.tag}
+                    </p>
                   </div>
                 </div>
 
-                {/* Review Text */}
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  “{r.text}”
-                </p>
-
+                {/* Stars */}
+                <div className="flex gap-0.5">
+                  {[...Array(r.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-3.5 h-3.5 text-amber-400 fill-amber-400"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           ))}

@@ -6,10 +6,12 @@ import {
   CreditCard,
   Truck,
   ShieldCheck,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
-// Assets - Ensure these paths and filenames match your project structure
+import { useNavigate } from "react-router-dom";
+// Assets
 import GooglePlayLogo from "@/assets/GooglePay.svg";
 import PhonePeLogo from "@/assets/Phonepe.svg";
 import PaytmLogo from "@/assets/Paytm.svg";
@@ -19,6 +21,8 @@ import MastercardLogo from "@/assets/MasterCard.svg";
 const VastraCheckout = () => {
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const { cart, totalPrice } = useCart();
+  const navigate = useNavigate();
+
   const paymentIcons = {
     upi: [
       { name: "GPay", icon: GooglePlayLogo },
@@ -33,93 +37,106 @@ const VastraCheckout = () => {
 
   const containerVars = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
   };
 
   const itemVars = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
   };
+
+  // Shared input classes for premium underline-style inputs
+  const inputClasses = "w-full border-b border-zinc-200 py-3 text-sm focus:border-zinc-900 outline-none transition-colors duration-300 placeholder:text-zinc-300 bg-transparent";
 
   return (
     <div className="min-h-screen bg-white text-black font-sans antialiased">
-      {/* Navigation */}
 
       <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-80px)]">
+
         {/* Left: Form Fields (7 Columns) */}
-        <section className="lg:col-span-7 p-6 md:p-16 border-r border-zinc-100">
+        <section className="lg:col-span-7 p-6 md:p-12 lg:p-16 lg:border-r border-zinc-100">
           <motion.div
             variants={containerVars}
             initial="hidden"
             animate="visible"
             className="max-w-xl ml-auto"
           >
+            {/* Back button */}
+            <button
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-zinc-400 hover:text-zinc-700 text-sm mb-10 transition-colors cursor-pointer"
+            >
+              <ChevronLeft size={16} />
+              Back 
+            </button>
+
             <div className="mb-12">
-              <h1 className="text-4xl font-light tracking-tight mb-2">
-                Finalize Order
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Checkout
               </h1>
               <p className="text-zinc-400 text-sm">
-                Please enter your shipping and payment details below.
+                Complete your order with secure payment.
               </p>
             </div>
 
-            <form className="space-y-10" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+
               {/* Contact */}
               <motion.div variants={itemVars}>
-                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-900 mb-4">
-                  Contact
-                </h2>
+               <h2 className=" text-[10px] uppercase tracking-[0.25em] font-bold inline-block bg-[#ffdbac] text-zinc-900 mb-5 px-2 py-1">
+  Contact
+</h2>
                 <input
                   type="email"
                   placeholder="Email for order tracking"
-                  className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                  className={inputClasses}
                 />
               </motion.div>
 
               {/* Shipping */}
               <motion.div variants={itemVars}>
-                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-900 mb-4">
+                <h2 className="text-[10px] uppercase tracking-[0.25em] font-bold bg-[#ffdbac] inline-block text-zinc-900 px-2 py-1  mb-5">
                   Shipping Address
                 </h2>
-                <div className="grid grid-cols-2 gap-8 mb-4">
+                <div className="grid grid-cols-2 gap-6 mb-5">
                   <input
                     type="text"
                     placeholder="First Name"
-                    className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                    className={inputClasses}
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
-                    className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                    className={inputClasses}
                   />
                 </div>
                 <input
                   type="text"
                   placeholder="Flat, House no., Building, Company, Apartment"
-                  className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300 mb-4"
+                  className={`${inputClasses} mb-5`}
                 />
-                <div className="grid grid-cols-3 gap-8">
+                <div className="grid grid-cols-3 gap-6">
                   <input
                     type="text"
                     placeholder="City"
-                    className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                    className={inputClasses}
                   />
                   <input
                     type="text"
                     placeholder="State"
-                    className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                    className={inputClasses}
                   />
                   <input
                     type="text"
                     placeholder="Pincode"
-                    className="w-full border-b border-zinc-200 py-3 focus:border-zinc-900 outline-none transition-colors placeholder:text-stone-300"
+                    className={inputClasses}
                   />
                 </div>
               </motion.div>
 
               {/* Payment */}
               <motion.div variants={itemVars} layout className="space-y-4">
-                <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-900 mb-4">
+                <h2 className="text-[10px] uppercase tracking-[0.25em] font-bold  bg-[#ffdbac] inline-block text-zinc-900 px-2 py-1 mb-5">
                   Payment Method
                 </h2>
 
@@ -143,20 +160,20 @@ const VastraCheckout = () => {
                   <div
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id)}
-                    className={`group relative flex flex-col p-5 border cursor-pointer transition-all duration-300 ${
+                    className={`group relative flex flex-col p-5 border cursor-pointer transition-all duration-300 rounded-xl ${
                       paymentMethod === method.id
-                        ? "border-zinc-900 bg-zinc-50"
+                        ? "border-zinc-900 bg-zinc-50/80"
                         : "border-zinc-100 hover:border-zinc-300"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-4">
                         <span
-                          className={
+                          className={`transition-colors duration-300 ${
                             paymentMethod === method.id
                               ? "text-zinc-900"
                               : "text-zinc-300"
-                          }
+                          }`}
                         >
                           {method.icon}
                         </span>
@@ -165,27 +182,32 @@ const VastraCheckout = () => {
                         </span>
                       </div>
                       <div
-                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
                           paymentMethod === method.id
                             ? "border-zinc-900"
                             : "border-zinc-200"
                         }`}
                       >
-                        {paymentMethod === method.id && (
-                          <div className="w-2 h-2 bg-zinc-900 rounded-full" />
-                        )}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            scale: paymentMethod === method.id ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.2 }}
+                          className="w-2.5 h-2.5 bg-zinc-900 rounded-full"
+                        />
                       </div>
                     </div>
 
-                    {/* Fixed Logo Mapping */}
+                    {/* Payment logos */}
                     <div className="flex gap-4 items-center ml-9">
                       {(method.id === "upi" || method.id === "card") &&
                         paymentIcons[method.id].map((app) => (
                           <img
                             key={app.name}
-                            src={app.icon} // Fixed: app.url was undefined
+                            src={app.icon}
                             alt={app.name}
-                            className={`h-3 md:h-4 w-auto transition-all ${
+                            className={`h-3.5 md:h-4 w-auto transition-all duration-300 ${
                               paymentMethod === method.id
                                 ? "grayscale-0 opacity-100"
                                 : "grayscale opacity-30"
@@ -202,24 +224,25 @@ const VastraCheckout = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="p-6 bg-zinc-50 border border-zinc-100 space-y-4">
+                      <div className="p-6 bg-zinc-50/80 border border-zinc-100 rounded-xl space-y-5">
                         <input
                           type="text"
                           placeholder="Card number"
-                          className="w-full bg-transparent border-b border-zinc-200 py-2 outline-none focus:border-zinc-900 transition-colors"
+                          className={inputClasses}
                         />
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-6">
                           <input
                             type="text"
                             placeholder="Expiry MM/YY"
-                            className="w-full bg-transparent border-b border-zinc-200 py-2 outline-none focus:border-zinc-900 transition-colors"
+                            className={inputClasses}
                           />
                           <input
                             type="text"
                             placeholder="CVV"
-                            className="w-full bg-transparent border-b border-zinc-200 py-2 outline-none focus:border-zinc-900 transition-colors"
+                            className={inputClasses}
                           />
                         </div>
                       </div>
@@ -228,81 +251,109 @@ const VastraCheckout = () => {
                 </AnimatePresence>
               </motion.div>
 
-              <Button
-                variant="default"
-                type="submit"
-                className="w-full bg-black cursor-pointer text-white hover:bg-zinc-800 rounded-none uppercase tracking-widest text-xs h-11"
-              >
-                Complete Purchase
-              </Button>
+              <motion.div variants={itemVars} className="space-y-4">
+                <Button
+                  variant="default"
+                  type="submit"
+                  className="w-full bg-zinc-900 cursor-pointer text-white hover:bg-zinc-800 rounded-xl uppercase tracking-[0.15em] text-xs h-13 font-semibold transition-colors"
+                >
+                  <Lock size={14} className="mr-2" />
+                  Complete Purchase — ₹{totalPrice.toLocaleString()}
+                </Button>
+
+                {/* Trust signals */}
+                <div className="flex items-center justify-center gap-6 pt-2">
+                  {[
+                    { icon: <ShieldCheck size={14} />, text: "Secure" },
+                    { icon: <Truck size={14} />, text: "Free Shipping" },
+                    { icon: <Lock size={14} />, text: "SSL Encrypted" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-zinc-400">
+                      {item.icon}
+                      <span className="text-[10px] tracking-wide font-medium">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </form>
           </motion.div>
         </section>
 
         {/* Right: Summary (5 Columns) */}
-        <section className="lg:col-span-5 bg-zinc-50/50 p-6 md:p-16">
-          <div className="sticky top-32 max-w-sm mx-auto">
-            <h2 className="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-400 mb-8">
+        <section className="lg:col-span-5 bg-zinc-50/30 p-6 md:p-12 lg:p-16">
+          <div className="sticky top-28 max-w-sm mx-auto">
+            <h2 className="text-[10px] uppercase tracking-[0.25em] font-bold  bg-[#ffdbac] inline-block text-zinc-900 px-2 py-1 mb-8">
               Your Selection
             </h2>
+
             {cart.length === 0 && (
-              <p className="text-center text-gray-400 mb-6">
-                Your cart is empty
-              </p>
+              <div className="text-center py-12">
+                <p className="text-zinc-400 text-sm mb-4">Your cart is empty</p>
+                <Button
+                  variant="outline"
+                  onClick={() => navigate("/collections")}
+                  className="rounded-xl cursor-pointer"
+                >
+                  Browse Collections
+                </Button>
+              </div>
             )}
+
             {cart.map((item) => (
-              <div
+              <motion.div
                 key={item.id + item.size}
-                className="flex gap-6 mb-10 pb-10 border-b border-zinc-100"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex gap-5 mb-8 pb-8 border-b border-zinc-100"
               >
-                <div className="relative group overflow-hidden bg-white border border-zinc-200 p-2">
+                <div className="relative overflow-hidden bg-white border border-zinc-100 rounded-xl p-1.5 flex-shrink-0">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-24 h-32 object-cover transition-all duration-700"
+                    className="w-20 h-26 object-cover rounded-lg"
                   />
                 </div>
 
                 <div className="flex flex-col justify-center">
-                  <h3 className="text-xl font-bold tracking-tighter italic">
+                  <h3 className="text-base font-bold tracking-tight leading-tight mb-1">
                     {item.name}
                   </h3>
 
-                  <p className="text-zinc-500 text-sm">Size {item.size}</p>
+                  <p className="text-zinc-400 text-sm">Size {item.size}</p>
 
-                  <p className="mt-2 font-mono text-[10px] tracking-widest text-zinc-400">
+                  <p className="mt-1.5 font-mono text-[10px] tracking-widest text-zinc-300">
                     ITEM #{item.id}
                   </p>
 
-                  <p className="mt-2 font-bold text-sm">
-                    ₹{item.price} × {item.quantity}
+                  <p className="mt-2 font-bold text-sm tabular-nums">
+                    ₹{item.price.toLocaleString()} × {item.quantity || item.qty}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
 
             <div className="space-y-4">
-              <div className="flex justify-between text-sm tracking-tight">
-                <span className="text-zinc-500 font-medium">Subtotal</span>
-                <span className="font-bold">₹{totalPrice}</span>
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-400 font-medium">Subtotal</span>
+                <span className="font-bold tabular-nums">₹{totalPrice.toLocaleString()}</span>
               </div>
-              <div className="flex justify-between text-sm tracking-tight">
-                <span className="text-zinc-500 font-medium">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-400 font-medium">
                   Standard Shipping
                 </span>
-                <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-widest">
+                <span className="text-emerald-600 font-bold uppercase text-[10px] tracking-[0.15em]">
                   Complimentary
                 </span>
               </div>
-              <div className="flex justify-between text-2xl font-black pt-6 border-t border-zinc-200 tracking-tighter">
+              <div className="flex justify-between text-xl font-black pt-6 border-t border-zinc-200 tracking-tight">
                 <span>Total</span>
-                <span>₹2,499.00</span>
+                <span className="tabular-nums">₹{totalPrice.toLocaleString()}</span>
               </div>
             </div>
 
-            <div className="mt-12 p-4 bg-white border border-dashed border-zinc-200 text-center">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">
-                Estimated Delivery: April 14 — April 18
+            <div className="mt-10 p-4 bg-white border border-dashed border-zinc-200 text-center rounded-xl">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
+                Estimated Delivery: 3–5 Business Days
               </p>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { products } from "@/Data/Product";
 import { ProductCard } from "@/components/product/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 import {
   ShoppingBag,
@@ -12,31 +13,33 @@ import {
   User,
   UserRound,
   Sparkles,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
 
 /* ✅ CATEGORY ICONS */
 const CATEGORY_ICON = {
-  bags: <ShoppingBag size={16} />,
-  sneakers: <Footprints size={16} />,
-  baby: <Baby size={16} />,
-  accessories: <Glasses size={16} />,
-  men: <User size={16} />,
-  women: <UserRound size={16} />,
+  bags: <ShoppingBag size={15} />,
+  sneakers: <Footprints size={15} />,
+  baby: <Baby size={15} />,
+  accessories: <Glasses size={15} />,
+  men: <User size={15} />,
+  women: <UserRound size={15} />,
 };
 
 /* ✅ CATEGORY BUTTON */
 const CatBtn = ({ cat, active, onClick }) => (
   <Button
-  variant="default"
+    variant="ghost"
     onClick={onClick}
-    className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm border transition-all duration-300 cursor-pointer ${
+    className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-300 cursor-pointer ${
       active
-        ? "bg-black text-white border-black shadow-md scale-105"
-        : "bg-white text-gray-600 border-gray-200 hover:border-black hover:text-black hover:scale-105"
+        ? "bg-zinc-900 text-white border-zinc-900 shadow-lg shadow-zinc-900/20"
+        : "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
     }`}
   >
     {CATEGORY_ICON[cat]}
-    {cat}
+    <span className="capitalize">{cat}</span>
   </Button>
 );
 
@@ -49,6 +52,7 @@ export const ProductCollection = () => {
   const [maxPrice, setMaxPrice] = useState(5000);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
 
   const ITEMS_PER_PAGE = 4;
 
@@ -90,39 +94,55 @@ export const ProductCollection = () => {
     startIndex + ITEMS_PER_PAGE
   );
 
+  const totalPages = Math.ceil(categoryProducts.length / ITEMS_PER_PAGE);
+
   /* ✅ RESET PAGE WHEN FILTER CHANGES */
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory, sort, minRating, maxPrice, search]);
 
+  const hasActiveFilters = search || sort || minRating > 0 || maxPrice < 5000;
+
   return (
-    <section className="bg-gradient-to-b from-white to-gray-50 py-12 px-4">
+    <section id="collection" className="bg-white py-8 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
 
         {/* 🔥 TITLE */}
-        <div className="text-center mb-14">
-          <h1 className="text-5xl font-semibold flex items-center justify-center gap-2">
-            <Sparkles className="w-6 h-6" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-10"
+        >
+          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-semibold mb-3">
+            Curated for You
+          </p>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight flex items-center justify-center gap-3">
             Our Collection
           </h1>
-          <p className="text-gray-500 mt-2 text-sm">
+          <p className="text-zinc-400 mt-3 text-sm max-w-md mx-auto">
             Premium fashion curated for modern lifestyle
           </p>
-        </div>
+        </motion.div>
 
         {/* 👔 MEN */}
-        <div className="mb-16">
+        <div className="mb-14">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold">Men</h2>
-            <span
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Men</h2>
+              <p className="text-zinc-400 text-sm mt-0.5">Essentials for him</p>
+            </div>
+            <button
               onClick={() => navigate("/collections?category=men")}
-              className="text-sm text-gray-400 cursor-pointer hover:text-black"
+              className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-900 transition-colors font-medium group flex items-center gap-1"
             >
-              View All →
-            </span>
+              View All
+              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
             {menProducts.slice(0, 4).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -130,18 +150,22 @@ export const ProductCollection = () => {
         </div>
 
         {/* 👗 WOMEN */}
-        <div className="mb-16">
+        <div className="mb-14">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold">Women</h2>
-            <span
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Women</h2>
+              <p className="text-zinc-400 text-sm mt-0.5">Curated essentials for her</p>
+            </div>
+            <button
               onClick={() => navigate("/collections?category=women")}
-              className="text-sm text-gray-400 cursor-pointer hover:text-black"
+              className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-900 transition-colors font-medium group flex items-center gap-1"
             >
-              View All →
-            </span>
+              View All
+              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+            </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
             {womenProducts.slice(0, 4).map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -150,12 +174,15 @@ export const ProductCollection = () => {
 
         {/* 🔥 CATEGORY */}
         <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">
-            Explore Categories
-          </h2>
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold tracking-tight">
+              Explore Categories
+            </h2>
+            <p className="text-zinc-400 text-sm mt-0.5">Browse by category</p>
+          </div>
 
           {/* CATEGORY BUTTONS */}
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="flex flex-wrap gap-2.5 mb-6">
             {["bags", "sneakers", "baby", "accessories"].map((cat) => (
               <CatBtn
                 key={cat}
@@ -166,111 +193,153 @@ export const ProductCollection = () => {
             ))}
           </div>
 
-          {/* 🔍 FILTER */}
-          <div className="bg-white border rounded-2xl p-5 mb-8 shadow-sm">
-            <div className="flex flex-wrap justify-between items-end gap-4">
-
-              {/* LEFT */}
-              <div className="flex flex-wrap gap-6 items-end">
-
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="border px-3 py-2 rounded-lg text-sm w-44 md:w-56"
-                />
-
-                <select
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value)}
-                  className="border px-3 py-2 rounded-lg text-sm"
-                >
-                  <option value="">Sort</option>
-                  <option value="low">Low → High</option>
-                  <option value="high">High → Low</option>
-                </select>
-
-                <select
-                  value={minRating}
-                  onChange={(e) => setMinRating(Number(e.target.value))}
-                  className="border px-3 py-2 rounded-lg text-sm"
-                >
-                  <option value={0}>All</option>
-                  <option value={3}>3★+</option>
-                  <option value={4}>4★+</option>
-                </select>
-
-                <div className="flex flex-col">
-                  <label className="text-xs text-gray-500 mb-1">
-                    Max Price: ₹{maxPrice}
-                  </label>
-
-                  <input
-                    type="range"
-                    min="500"
-                    max="5000"
-                    step="100"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(Number(e.target.value))}
-                    className="cursor-pointer"
-                  />
-                </div>
-              </div>
-
-              {/* RIGHT RESET */}
+          {/* 🔍 FILTER TOGGLE + BAR */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
               <Button
                 variant="outline"
-                onClick={() => {
-                  setSearch("");
-                  setSort("");
-                  setMinRating(0);
-                  setMaxPrice(5000);
-                }}
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 rounded-xl text-sm font-medium cursor-pointer"
               >
-                Reset
+                <SlidersHorizontal size={14} />
+                {showFilters ? "Hide Filters" : "Filters"}
+                {hasActiveFilters && (
+                  <span className="w-2 h-2 bg-orange-500 rounded-full" />
+                )}
               </Button>
 
+              <p className="text-sm text-zinc-400 font-medium">
+                {categoryProducts.length} product{categoryProducts.length !== 1 ? "s" : ""}
+              </p>
             </div>
+
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-zinc-50/80 border border-zinc-100 rounded-2xl p-5 md:p-6 overflow-hidden"
+              >
+                <div className="flex flex-wrap justify-between items-end gap-5">
+
+                  <div className="flex flex-wrap gap-5 items-end">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Search</label>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="border border-zinc-200 px-3.5 py-2.5 rounded-xl text-sm w-44 md:w-56 bg-white focus:outline-none focus:border-zinc-400 transition-colors"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Sort by</label>
+                      <select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                        className="border border-zinc-200 px-3.5 py-2.5 rounded-xl text-sm bg-white focus:outline-none focus:border-zinc-400 transition-colors cursor-pointer"
+                      >
+                        <option value="">Default</option>
+                        <option value="low">Price: Low → High</option>
+                        <option value="high">Price: High → Low</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Rating</label>
+                      <select
+                        value={minRating}
+                        onChange={(e) => setMinRating(Number(e.target.value))}
+                        className="border border-zinc-200 px-3.5 py-2.5 rounded-xl text-sm bg-white focus:outline-none focus:border-zinc-400 transition-colors cursor-pointer"
+                      >
+                        <option value={0}>All</option>
+                        <option value={3}>3★ & above</option>
+                        <option value={4}>4★ & above</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
+                        Max Price: ₹{maxPrice.toLocaleString()}
+                      </label>
+                      <input
+                        type="range"
+                        min="500"
+                        max="5000"
+                        step="100"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(Number(e.target.value))}
+                        className="cursor-pointer accent-zinc-900 w-36"
+                      />
+                    </div>
+                  </div>
+
+                  {hasActiveFilters && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setSearch("");
+                        setSort("");
+                        setMinRating(0);
+                        setMaxPrice(5000);
+                      }}
+                      className="text-sm text-zinc-500 hover:text-zinc-900 cursor-pointer flex items-center gap-1.5"
+                    >
+                      <X size={14} />
+                      Clear All
+                    </Button>
+                  )}
+                </div>
+              </motion.div>
+            )}
           </div>
 
-          {/* 📊 COUNT */}
-          <p className="text-sm text-gray-500 mb-4">
-            Showing {paginatedProducts.length} of {categoryProducts.length} products
-          </p>
-
           {/* 🛍 PRODUCTS */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
             {paginatedProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>
 
           {/* 🔢 PAGINATION */}
-          <div className="flex justify-center mt-8 gap-2 flex-wrap">
-            {Array.from(
-              { length: Math.ceil(categoryProducts.length / ITEMS_PER_PAGE) },
-              (_, i) => (
-                <Button
-                  key={i}
-                  onClick={() => setCurrentPage(i + 1)}
-                  className={`px-3 py-1 rounded-md border text-sm ${
-                    currentPage === i + 1
-                      ? "bg-black text-white"
-                      : "bg-white text-gray-600"
-                  }`}
-                >
-                  {i + 1}
-                </Button>
-              )
-            )}
-          </div>
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-10 gap-2 flex-wrap">
+              {Array.from(
+                { length: totalPages },
+                (_, i) => (
+                  <Button
+                    key={i}
+                    variant="ghost"
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`w-10 h-10 rounded-xl text-sm font-medium cursor-pointer transition-all duration-300 ${
+                      currentPage === i + 1
+                        ? "bg-zinc-900 text-white shadow-md hover:bg-zinc-800 hover:text-white"
+                        : "bg-zinc-50 text-zinc-500 hover:bg-zinc-100"
+                    }`}
+                  >
+                    {i + 1}
+                  </Button>
+                )
+              )}
+            </div>
+          )}
 
           {/* ❌ EMPTY */}
           {categoryProducts.length === 0 && (
-            <p className="text-center mt-10 text-gray-500">
-              No products found 😕
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-16 text-center"
+            >
+              <div className="w-16 h-16 rounded-full bg-zinc-50 flex items-center justify-center mb-4">
+                <ShoppingBag className="w-7 h-7 text-zinc-300" />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight mb-1">No products found</h3>
+              <p className="text-zinc-400 text-sm">Try adjusting your filters</p>
+            </motion.div>
           )}
 
         </div>
