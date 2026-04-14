@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { ProductCard } from "@/components/product/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
+import { Button } from "../ui/button";
 
 export const CollectionLayout = ({
   title,
@@ -20,7 +21,7 @@ export const CollectionLayout = ({
     >
       <div className="max-w-7xl mx-auto">
         {/* Back */}
-        <button
+        <Button
           variant="default"
           onClick={() => navigate("/")}
           aria-label="Go back to shop"
@@ -28,11 +29,11 @@ export const CollectionLayout = ({
         >
           <ArrowLeft className="w-4 h-4" aria-hidden="true" />
           Back to Shop
-        </button>
+        </Button  >
       </div>
 
       {/* Heading */}
-      <header className="text-center mb-12">
+      <div className="text-center mb-12">
         <h1 id={`${title}-heading`} className="text-5xl font-black uppercase">
           {title}
         </h1>
@@ -40,7 +41,7 @@ export const CollectionLayout = ({
           {subtitle}
         </p>
         <div className="w-24 h-1 bg-orange-500 mx-auto mt-4 rounded-full" />
-      </header>
+      </div>
 
       {/* Slider */}
       <div className="relative mb-14">

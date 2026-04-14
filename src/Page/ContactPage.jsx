@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner"; // Import toast
-
+import { Button } from "@/components/ui/button";
 const contactSchema = z.object({
   fullName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -112,12 +112,9 @@ export default function ContactPage() {
               {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-black text-white py-4 rounded-lg font-bold uppercase tracking-[3px] hover:bg-zinc-800 transition active:scale-[0.98]"
-            >
+            <Button variant="default" type="submit" className="w-full bg-black text-white hover:bg-zinc-800 rounded-none uppercase tracking-widest text-xs h-11">
               Send Message
-            </button>
+                        </Button>
           </form>
         </div>
       </div>

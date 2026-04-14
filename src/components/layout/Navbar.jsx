@@ -56,7 +56,7 @@ export const Navbar = () => {
     p.name.toLowerCase().includes(debouncedQuery.toLowerCase())
   );
 
-  // ✅ Close on outside click
+  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -96,12 +96,6 @@ export const Navbar = () => {
                   </Link>
                 </SheetClose>
 
-                <SheetClose asChild>
-                  <Link to="/collections" className="px-3 py-2 hover:bg-gray-100 rounded-lg">
-                    Collection
-                  </Link>
-                </SheetClose>
-
                 <div className="border-t"></div>
 
                 <p className="text-xs text-gray-400 uppercase">Categories</p>
@@ -132,7 +126,7 @@ export const Navbar = () => {
           {/* DESKTOP NAV */}
           <div className="hidden md:flex items-center gap-6 ml-4">
             <Link to="/">Home</Link>
-            <Link to="/collections">Collection</Link>
+           
 
             <div className="relative group">
               <div className="flex items-center gap-1 cursor-pointer">

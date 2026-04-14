@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 import { ProductCard } from "../components/product/ProductCard";
-
+import { Button } from "../components/ui/button";
 export const WishlistPage = () => {
   const { wishlist } = useWishlist();
   const navigate = useNavigate();
@@ -29,12 +29,12 @@ export const WishlistPage = () => {
             Start adding products you love
           </p>
 
-          <button
+          <Button
             onClick={() => navigate("/collections")}
-            className="bg-black text-white px-6 py-2 rounded-lg"
+            className="bg-black text-white px-6 py-2 rounded-lg cursor-pointer"
           >
             Explore Collections
-          </button>
+          </Button>
         </div>
       ) : (
         /* PRODUCT GRID */

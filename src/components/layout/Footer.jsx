@@ -111,7 +111,7 @@ export const Footer = () => {
                 className="bg-zinc-50 border-zinc-200 rounded-none focus-visible:ring-orange-500"
               />
             </div>
-            <Button type="submit" className="w-full bg-black text-white hover:bg-zinc-800 rounded-none uppercase tracking-widest text-xs h-11">
+            <Button variant="default" type="submit" className="w-full bg-black text-white hover:bg-zinc-800 rounded-none uppercase tracking-widest text-xs h-11">
               Subscribe
             </Button>
           </form>

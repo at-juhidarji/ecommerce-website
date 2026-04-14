@@ -291,7 +291,15 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { addToCart } = useCart();
+const handleBuyNow = () => {
+  if (!selectedSize) {
+    alert("Please select a size");
+    return;
+  }
 
+  addToCart(product, qty, selectedSize);
+  navigate("/checkout");
+};  
   const product = products.find((item) => item.id === Number(id));
 
   const [selectedSize, setSelectedSize] = useState(null);
@@ -538,7 +546,7 @@ const ProductDetail = () => {
                 <Button
                   variant="outline"
                   className="w-full text-base py-6 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition"
-                    onClick={() => navigate("/checkout")}
+                    onClick={handleBuyNow}
                 >
                   Buy Now
                 </Button>

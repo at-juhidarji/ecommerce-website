@@ -26,7 +26,8 @@ const CATEGORY_ICON = {
 
 /* ✅ CATEGORY BUTTON */
 const CatBtn = ({ cat, active, onClick }) => (
-  <button
+  <Button
+  variant="default"
     onClick={onClick}
     className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm border transition-all duration-300 cursor-pointer ${
       active
@@ -36,7 +37,7 @@ const CatBtn = ({ cat, active, onClick }) => (
   >
     {CATEGORY_ICON[cat]}
     {cat}
-  </button>
+  </Button>
 );
 
 export const ProductCollection = () => {
@@ -250,7 +251,7 @@ export const ProductCollection = () => {
             {Array.from(
               { length: Math.ceil(categoryProducts.length / ITEMS_PER_PAGE) },
               (_, i) => (
-                <button
+                <Button
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`px-3 py-1 rounded-md border text-sm ${
@@ -260,7 +261,7 @@ export const ProductCollection = () => {
                   }`}
                 >
                   {i + 1}
-                </button>
+                </Button>
               )
             )}
           </div>

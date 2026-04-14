@@ -2,6 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
+import { Button } from "./button";
 
 import "swiper/css";
 
@@ -19,24 +20,24 @@ export default function HeroSlider({ images, title, subtitle }) {
     >
 
       {/* LEFT ARROW */}
-      <button
+      <Button
         ref={prevRef}
-        type="button"
+        type="Button"
         aria-label="Previous slide"
         className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
       >
         <ChevronLeft />
-      </button>
+      </Button>
 
       {/* RIGHT ARROW */}
-      <button
+      <Button
         ref={nextRef}
-        type="button"
+        type="Button"
         aria-label="Next slide"
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
       >
         <ChevronRight />
-      </button>
+      </Button>
 
       <Swiper
         modules={[Navigation, Autoplay]}
@@ -86,9 +87,9 @@ export default function HeroSlider({ images, title, subtitle }) {
       {/* ✅ ACCESSIBLE DOTS */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {images.map((_, i) => (
-          <button
+          <Button
             key={i}
-            type="button"
+            type="Button"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => swiperRef.current.slideToLoop(i)}
             className={`w-2.5 h-2.5 rounded-full transition ${

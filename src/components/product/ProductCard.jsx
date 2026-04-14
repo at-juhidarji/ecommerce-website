@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export const ProductCard = ({ product, listMode = false }) => {
   const navigate = useNavigate();
@@ -40,12 +41,9 @@ export const ProductCard = ({ product, listMode = false }) => {
     const alreadyInWishlist = isInWishlist(product.id);
     toggleWishlist(product);
 
-    toast(
-      alreadyInWishlist ? "Removed from Wishlist" : "Saved to Wishlist",
-      {
-        description: product.name,
-      }
-    );
+    toast(alreadyInWishlist ? "Removed from Wishlist" : "Saved to Wishlist", {
+      description: product.name,
+    });
   };
 
   // ⭐ STAR RATING
@@ -56,9 +54,7 @@ export const ProductCard = ({ product, listMode = false }) => {
           key={s}
           size={12}
           className={
-            s <= fullStars
-              ? "text-amber-400 fill-amber-400"
-              : "text-gray-200"
+            s <= fullStars ? "text-amber-400 fill-amber-400" : "text-gray-200"
           }
         />
       ))}
@@ -108,13 +104,14 @@ export const ProductCard = ({ product, listMode = false }) => {
               )}
             </div>
 
-            <button
+            <Button
+              variant="default"
               onClick={handleAddToCart}
               className="text-xs bg-black text-white px-3 py-1.5 rounded-lg flex items-center gap-1"
             >
               <ShoppingBag size={12} />
               {adding ? "Adding…" : "Add"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -150,14 +147,13 @@ export const ProductCard = ({ product, listMode = false }) => {
             </span>
           )}
           {product.isNew && (
-            <span className="text-xs bg-white px-2 py-1 rounded-full">
-              New
-            </span>
+            <span className="text-xs bg-white px-2 py-1 rounded-full">New</span>
           )}
         </div>
 
         {/* ❤️ WISHLIST */}
-        <button
+        <Button
+          variant="default"
           onClick={handleWishlist}
           className="absolute top-2 right-2"
         >
@@ -168,17 +164,18 @@ export const ProductCard = ({ product, listMode = false }) => {
                 : "text-white"
             }`}
           />
-        </button>
+        </Button>
 
         {/* QUICK ADD */}
         <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition">
-          <button
+          <Button
+            variant="default"
             onClick={handleAddToCart}
             className="w-full bg-white text-black text-sm py-2 rounded-xl flex justify-center gap-2"
           >
             <ShoppingBag size={14} />
             {adding ? "Adding…" : "Quick Add"}
-          </button>
+          </Button>
         </div>
 
         {/* SIZES */}
@@ -198,9 +195,7 @@ export const ProductCard = ({ product, listMode = false }) => {
 
       {/* INFO */}
       <div className="mt-3 space-y-1">
-        <h3 className="text-sm font-semibold line-clamp-1">
-          {product.name}
-        </h3>
+        <h3 className="text-sm font-semibold line-clamp-1">{product.name}</h3>
 
         <StarRating />
 
