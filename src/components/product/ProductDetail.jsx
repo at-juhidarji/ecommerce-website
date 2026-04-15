@@ -713,17 +713,13 @@ const ProductDetail = () => {
         <div>
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-xl font-bold tracking-tight">You may also like</h2>
-            <Button
-              variant="ghost"
+             <button
               onClick={() => navigate("/productCollection")}
-              className="text-sm font-semibold flex items-center gap-1 px-2 hover:bg-transparent hover:text-zinc-600 transition-all group cursor-pointer"
+              className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-900 transition-colors font-medium group flex items-center gap-1"
             >
-              View all
-              <ChevronRight
-                size={16}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Button>
+              View All
+              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+            </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {showRelated.map((p) => (
