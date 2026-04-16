@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import "@n8n/chat/style.css";
-import { createChat } from "@n8n/chat";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Navbar } from "./components/layout/Navbar";
@@ -19,20 +15,15 @@ import { HomePage } from "./Page/HomePage";
 import { CollectionsPage } from "./Page/CollectionPage";
 import { WishlistPage } from "./Page/WishList";
 import CheckoutPage from "./Page/CheckOutPAge";
+import OrderSuccess from "./Page/Success";
+import OrdersPage from "./Page/Order";
 
 export default function App() {
-  // n8n Chatbot Init
-  useEffect(() => {
-    createChat({
-      webhookUrl: "https://piyushkarekar.app.n8n.cloud/webhook/640755bb-0ef6-4553-8392-6ce4fcefab91/chat",
-    });
-  }, []);
-
   return (
     <BrowserRouter>
       <ScrollToTop />
 
-      {/* Navbar always visible */}
+      {/* Navbar */}
       <Navbar />
 
       {/* Routes */}
@@ -46,12 +37,16 @@ export default function App() {
         <Route path="/productCollection" element={<ProductCollection />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/success" element={<OrderSuccess />} />
+        <Route path="/orders" element={<OrdersPage />} />
+
+
       </Routes>
 
-      {/* Footer always visible */}
+      {/* Footer */}
       <Footer />
 
-      {/* Toast notifications */}
+      {/* Toast */}
       <Toaster />
     </BrowserRouter>
   );

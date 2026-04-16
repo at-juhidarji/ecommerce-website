@@ -137,7 +137,7 @@ export default function ContactPage() {
                   <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-zinc-400 mb-2.5">
                     Full Name
                   </label>
-                  <input
+                  <Input
                     {...register("fullName")}
                     placeholder="Your name"
                     className={`${inputBase} ${errors.fullName ? inputError : inputNormal}`}
@@ -149,7 +149,7 @@ export default function ContactPage() {
                   <label className="block text-[10px] uppercase tracking-[0.2em] font-semibold text-zinc-400 mb-2.5">
                     Email Address
                   </label>
-                  <input
+                  <Input
                     {...register("email")}
                     placeholder="email@example.com"
                     className={`${inputBase} ${errors.email ? inputError : inputNormal}`}

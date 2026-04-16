@@ -139,129 +139,105 @@ const VastraCheckout = () => {
 
               {/* Payment */}
               <motion.div variants={itemVars} layout className="space-y-4">
-  <h2 className="text-[10px] uppercase tracking-[0.25em] font-bold bg-[#ffdbac] inline-block text-zinc-900 px-2 py-1 mb-5">
-    Payment Method
-  </h2>
+                <h2 className="text-[10px] uppercase tracking-[0.25em] font-bold bg-[#ffdbac] inline-block text-zinc-900 px-2 py-1 mb-5">
+                  Payment Method
+                </h2>
 
-  {/* Radio Group Container */}
-  <div role="radiogroup" className="space-y-3">
-    {[
-      {
-        id: "upi",
-        label: "UPI (Google Pay, PhonePe, Paytm)",
-        icon: <Smartphone size={18} />,
-      },
-      {
-        id: "card",
-        label: "Credit / Debit Card",
-        icon: <CreditCard size={18} />,
-      },
-      {
-        id: "cod",
-        label: "Cash on Delivery",
-        icon: <Truck size={18} />,
-      },
-    ].map((method) => (
-      <label
-        key={method.id}
-        className={`group relative flex flex-col p-5 border cursor-pointer transition-all duration-300 rounded-xl ${
-          paymentMethod === method.id
-            ? "border-zinc-900 bg-zinc-50/80"
-            : "border-zinc-100 hover:border-zinc-300"
-        }`}
-      >
-        {/* Hidden Native Radio Input */}
-        <input
-          type="radio"
-          name="paymentMethod"
-          value={method.id}
-          checked={paymentMethod === method.id}
-          onChange={() => setPaymentMethod(method.id)}
-          className="sr-only" // Screen reader only (hidden visually)
-        />
+                {/* Radio Group Container */}
+                <div className="space-y-3">
+                  {[
+                    {
+                      id: "upi",
+                      label: "UPI (Google Pay, PhonePe, Paytm)",
+                      icon: <Smartphone size={18} />,
+                    },
+                    {
+                      id: "card",
+                      label: "Credit / Debit Card",
+                      icon: <CreditCard size={18} />,
+                    },
+                    {
+                      id: "cod",
+                      label: "Cash on Delivery",
+                      icon: <Truck size={18} />,
+                    },
+                  ].map((method) => (
+                    <label
+                      key={method.id}
+                      className={`flex items-start gap-4 p-4 border rounded-xl cursor-pointer ${
+                        paymentMethod === method.id
+                          ? "border-black bg-zinc-50"
+                          : "border-zinc-200"
+                      }`}
+                    >
+                      {/* ✅ REAL CHECKBOX */}
+                      <input
+                        type="checkbox"
+                        checked={paymentMethod === method.id}
+                        onChange={() => setPaymentMethod(method.id)}
+                        className="mt-1 w-4 h-4"
+                      />
 
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-4">
-            <span
-              className={`transition-colors duration-300 ${
-                paymentMethod === method.id ? "text-zinc-900" : "text-zinc-300"
-              }`}
-            >
-              {method.icon}
-            </span>
-            <span className="text-sm font-semibold tracking-tight">
-              {method.label}
-            </span>
-          </div>
+                      <div className="flex flex-col w-full">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center gap-3">
+                            {method.icon}
+                            <span className="font-medium">{method.label}</span>
+                          </div>
+                        </div>
 
-          {/* Custom Radio Circle */}
-          <div
-            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-              paymentMethod === method.id ? "border-zinc-900" : "border-zinc-200"
-            }`}
-          >
-            <motion.div
-              initial={false}
-              animate={{
-                scale: paymentMethod === method.id ? 1 : 0,
-              }}
-              transition={{ duration: 0.2 }}
-              className="w-2.5 h-2.5 bg-zinc-900 rounded-full"
-            />
-          </div>
-        </div>
+                        {/* Logos */}
+                        <div className="flex gap-3 mt-2 ml-7">
+                          {(method.id === "upi" || method.id === "card") &&
+                            paymentIcons[method.id].map((app) => (
+                              <img
+                                key={app.name}
+                                src={app.icon}
+                                className="h-4"
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    </label>
+                  ))}
+                </div>
 
-        {/* Payment logos */}
-        <div className="flex gap-4 items-center ml-9">
-          {(method.id === "upi" || method.id === "card") &&
-            paymentIcons[method.id].map((app) => (
-              <img
-                key={app.name}
-                src={app.icon}
-                alt={app.name}
-                className={`h-3.5 md:h-4 w-auto transition-all duration-300 ${
-                  paymentMethod === method.id
-                    ? "grayscale-0 opacity-100"
-                    : "grayscale opacity-30"
-                }`}
-              />
-            ))}
-        </div>
-      </label>
-    ))}
-  </div>
-
-  <AnimatePresence mode="wait">
-    {paymentMethod === "card" && (
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "auto", opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="overflow-hidden"
-      >
-        <div className="p-6 bg-zinc-50/80 border border-zinc-100 rounded-xl space-y-5">
-          <Input
-            type="text"
-            placeholder="Card number"
-            className={inputClasses}
-          />
-          <div className="grid grid-cols-2 gap-6">
-            <Input
-              type="text"
-              placeholder="Expiry MM/YY"
-              className={inputClasses}
-            />
-            <Input type="text" placeholder="CVV" className={inputClasses} />
-          </div>
-        </div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.div>
+                <AnimatePresence mode="wait">
+                  {paymentMethod === "card" && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="p-6 bg-zinc-50/80 border border-zinc-100 rounded-xl space-y-5">
+                        <Input
+                          type="text"
+                          placeholder="Card number"
+                          className={inputClasses}
+                        />
+                        <div className="grid grid-cols-2 gap-6">
+                          <Input
+                            type="text"
+                            placeholder="Expiry MM/YY"
+                            className={inputClasses}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="CVV"
+                            className={inputClasses}
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               <motion.div variants={itemVars} className="space-y-4">
                 <Button
+                onClick={() => navigate("/success")}
                   variant="default"
                   type="submit"
                   className="w-full bg-zinc-900 cursor-pointer text-white hover:bg-zinc-800 rounded-xl uppercase tracking-[0.15em] text-xs h-13 font-semibold transition-colors"

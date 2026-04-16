@@ -1,5 +1,9 @@
 import React from "react";
-import { Trash2, Plus, Minus, ArrowLeft, ShoppingBag } from "lucide-react";
+import {
+  Trash2,
+  ArrowLeft,
+  ShoppingBag,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { Button } from "../ui/button";
@@ -8,13 +12,20 @@ import { motion, AnimatePresence } from "framer-motion";
 const CartDrawer = () => {
   const navigate = useNavigate();
 
-  const { cart, removeFromCart, increaseQty, decreaseQty, totalPrice } =
-    useCart();
+  const {
+    cart,
+    removeFromCart,
+    increaseQty,
+    decreaseQty,
+    totalPrice,
+  } = useCart();
+
+  const totalItems = cart.reduce((t, i) => t + i.qty, 0);
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-
+        
         {/* 🔙 BACK */}
         <Button
           variant="ghost"
@@ -32,14 +43,12 @@ const CartDrawer = () => {
           </h1>
           <p className="text-zinc-400 text-sm mt-2">
             {cart.length > 0
-              ? `${cart.reduce((t, i) => t + i.qty, 0)} item${
-                  cart.reduce((t, i) => t + i.qty, 0) > 1 ? "s" : ""
-                } in your bag`
+              ? `${totalItems} item${totalItems > 1 ? "s" : ""} in your bag`
               : "Your bag is empty"}
           </p>
         </div>
 
-        {/* 🔥 EMPTY CART CENTER FIX */}
+        {/* 🔥 EMPTY CART */}
         {cart.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,12 +58,15 @@ const CartDrawer = () => {
             <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center mb-6">
               <ShoppingBag className="w-8 h-8 text-zinc-300" />
             </div>
+
             <h2 className="text-xl font-semibold mb-2 tracking-tight">
               Your bag is empty
             </h2>
+
             <p className="text-zinc-400 text-sm mb-8">
               Looks like you haven't added anything yet
             </p>
+
             <Button
               onClick={() => navigate("/collections")}
               className="bg-zinc-900 text-white px-8 py-3 rounded-xl hover:bg-zinc-800"
@@ -66,7 +78,7 @@ const CartDrawer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
 
             {/* 🛍️ LEFT */}
-            <div className="lg:col-span-8 space-y-0">
+            <div className="lg:col-span-8">
               <AnimatePresence>
                 {cart.map((item, index) => (
                   <motion.div
@@ -77,6 +89,7 @@ const CartDrawer = () => {
                     transition={{ delay: index * 0.05 }}
                     className="flex flex-col sm:grid sm:grid-cols-4 gap-4 sm:gap-6 border-b border-zinc-100 py-6 first:pt-0"
                   >
+                    
                     {/* PRODUCT */}
                     <div className="flex gap-4 sm:col-span-2">
                       <div className="w-20 h-24 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-zinc-50">
@@ -97,13 +110,14 @@ const CartDrawer = () => {
                           </p>
                         </div>
 
-                        {/* ✅ SHADCN REMOVE */}
+                        {/* REMOVE */}
                         <Button
                           variant="ghost"
                           onClick={() => removeFromCart(item.id)}
                           className="flex items-center gap-1.5 text-zinc-400 text-xs hover:text-red-500 w-fit px-0 h-auto"
                         >
-                          <Trash2 className="w-3 h-3" /> Remove
+                          <Trash2 className="w-3 h-3" />
+                          Remove
                         </Button>
                       </div>
                     </div>
@@ -116,23 +130,25 @@ const CartDrawer = () => {
 
                       <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden">
                         <Button
+                          size="sm"
                           variant="ghost"
                           onClick={() => decreaseQty(item.id)}
-                          className="p-2.5"
+                          className="rounded-none h-10 w-10 hover:bg-zinc-50 cursor-pointer"
                         >
-                          <Minus size={14} />
+                          −
                         </Button>
 
-                        <span className="px-4 text-sm font-semibold">
+                        <span className="w-10 text-center font-semibold text-sm tabular-nums">
                           {item.qty}
                         </span>
 
                         <Button
+                          size="sm"
                           variant="ghost"
                           onClick={() => increaseQty(item.id)}
-                          className="p-2.5"
+                          className="rounded-none h-10 w-10 hover:bg-zinc-50 cursor-pointer"
                         >
-                          <Plus size={14} />
+                          +
                         </Button>
                       </div>
                     </div>
@@ -177,9 +193,7 @@ const CartDrawer = () => {
 
                   <div className="border-t pt-4 flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span>
-                      ₹{totalPrice.toLocaleString()}
-                    </span>
+                    <span>₹{totalPrice.toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -191,6 +205,7 @@ const CartDrawer = () => {
                 </Button>
               </motion.div>
             </div>
+
           </div>
         )}
       </div>

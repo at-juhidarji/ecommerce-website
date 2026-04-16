@@ -226,7 +226,7 @@ export const ProductCollection = () => {
                   <div className="flex flex-wrap gap-5 items-end">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Search</label>
-                      <input
+                      <Input
                         type="text"
                         placeholder="Search..."
                         value={search}
@@ -265,7 +265,7 @@ export const ProductCollection = () => {
                       <label className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
                         Max Price: ₹{maxPrice.toLocaleString()}
                       </label>
-                      <input
+                      <Input
                         type="range"
                         min="500"
                         max="5000"
