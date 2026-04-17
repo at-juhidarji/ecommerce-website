@@ -146,6 +146,13 @@ export const Navbar = () => {
               Home
             </Link>
 
+             <Link
+              to="/orders"
+              className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1.5px] after:bg-zinc-950 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Order
+            </Link>
+
             <div className="relative group">
               <div className="flex items-center gap-1 cursor-pointer text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors">
                 Categories
@@ -189,7 +196,6 @@ export const Navbar = () => {
                       placeholder="Search products..."
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
-                      className="h-9 text-sm rounded-xl bg-zinc-50 border-zinc-200 focus-visible:ring-1 focus-visible:ring-zinc-300 placeholder:text-zinc-400"
                     />
 
                     {debouncedQuery && (
