@@ -63,11 +63,10 @@ const FilterSection = ({ title, children, defaultOpen = true }) => {
     <div className="border-b border-zinc-100 py-1">
       <Button
         onClick={() => setOpen(!open)}
-        variant="ghost">
+        variant="ghost"
+      >
         {title}
-        <ChevronDown
-          size={14}
-        />
+        <ChevronDown size={14} />
       </Button>
       <AnimatePresence initial={false}>
         {open && (
@@ -87,16 +86,32 @@ const FilterSection = ({ title, children, defaultOpen = true }) => {
 };
 
 /* ─────────────────────────────────────────────
-   CHECKBOX ROW
+   CUSTOM CHECKBOX ROW
 ───────────────────────────────────────────── */
 const CheckRow = ({ label, checked, onChange, swatch, count }) => (
   <label className="flex items-center gap-2.5 cursor-pointer group">
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={onChange}
-      className="w-3.5 h-3.5 rounded border-zinc-300 accent-orange-500 cursor-pointer flex-shrink-0"
-    />
+    <span className="relative flex-shrink-0 w-3.5 h-3.5">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="hidden peer"
+      />
+      {/* Custom box */}
+      <span className="absolute inset-0 rounded border border-zinc-300 bg-white peer-checked:bg-orange-500 peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+      {/* Tick mark */}
+      <svg
+        viewBox="0 0 10 8"
+        className="absolute inset-0 w-full h-full p-[2px] text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="1,4 3.8,7 9,1" />
+      </svg>
+    </span>
     {swatch && (
       <span
         className="w-3.5 h-3.5 rounded-full border border-zinc-200 flex-shrink-0"
@@ -118,7 +133,7 @@ const CheckRow = ({ label, checked, onChange, swatch, count }) => (
 const FilterTag = ({ label, onRemove }) => (
   <span className="inline-flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-700 text-xs px-2.5 py-1 rounded-full">
     {label}
-    <Button onClick={onRemove} variant="ghost" >
+    <Button onClick={onRemove} variant="ghost">
       <X size={10} />
     </Button>
   </span>
@@ -152,13 +167,26 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
   const toggle = (setter, arr, val) =>
     setter(arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val]);
 
-  // Collect all active tag labels for the top pill strip
   const activeTags = [
-    ...selectedPriceRanges.map((r) => ({ label: r, onRemove: () => toggle(setSelectedPriceRanges, selectedPriceRanges, r) })),
-    ...selectedBrands.map((b) => ({ label: b, onRemove: () => toggle(setSelectedBrands, selectedBrands, b) })),
-    ...selectedColors.map((c) => ({ label: c, onRemove: () => toggle(setSelectedColors, selectedColors, c) })),
-    ...selectedDiscount.map((d) => ({ label: `${d}%+ off`, onRemove: () => toggle(setSelectedDiscount, selectedDiscount, d) })),
-    ...(minRating > 0 ? [{ label: `${minRating}★ & up`, onRemove: () => setMinRating(0) }] : []),
+    ...selectedPriceRanges.map((r) => ({
+      label: r,
+      onRemove: () => toggle(setSelectedPriceRanges, selectedPriceRanges, r),
+    })),
+    ...selectedBrands.map((b) => ({
+      label: b,
+      onRemove: () => toggle(setSelectedBrands, selectedBrands, b),
+    })),
+    ...selectedColors.map((c) => ({
+      label: c,
+      onRemove: () => toggle(setSelectedColors, selectedColors, c),
+    })),
+    ...selectedDiscount.map((d) => ({
+      label: `${d}%+ off`,
+      onRemove: () => toggle(setSelectedDiscount, selectedDiscount, d),
+    })),
+    ...(minRating > 0
+      ? [{ label: `${minRating}★ & up`, onRemove: () => setMinRating(0) }]
+      : []),
   ];
 
   const hasFilters = activeTags.length > 0;
@@ -172,9 +200,7 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
           Filters
         </h3>
         {hasFilters && (
-          <Button
-            onClick={clearAll}
-            variant="ghost">
+          <Button onClick={clearAll} variant="ghost">
             Clear all
           </Button>
         )}
@@ -202,14 +228,23 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
           { val: "high", label: "Price: High → Low" },
           { val: "rating", label: "Avg. Customer Review" },
         ].map((opt) => (
-          <label key={opt.val} className="flex items-center gap-2.5 cursor-pointer group">
-            <input
-              type="radio"
-              name="sort"
-              checked={sort === opt.val}
-              onChange={() => setSort(opt.val)}
-              className="w-3.5 h-3.5 accent-orange-500 cursor-pointer"
-            />
+          <label
+            key={opt.val}
+            className="flex items-center gap-2.5 cursor-pointer group"
+          >
+            <span className="relative flex-shrink-0 w-3.5 h-3.5">
+              <input
+                type="radio"
+                name="sort"
+                checked={sort === opt.val}
+                onChange={() => setSort(opt.val)}
+                className="hidden peer"
+              />
+              {/* Custom circle border */}
+              <span className="absolute inset-0 rounded-full border border-zinc-300 bg-white peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+              {/* Inner dot */}
+              <span className="absolute inset-[3px] rounded-full bg-orange-500 scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
+            </span>
             <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
               {opt.label}
             </span>
@@ -220,20 +255,33 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
       {/* ── Customer Rating ── */}
       <FilterSection title="Customer Rating">
         {[4, 3, 2].map((r) => (
-          <label key={r} className="flex items-center gap-2.5 cursor-pointer group">
-            <input
-              type="radio"
-              name="rating"
-              checked={minRating === r}
-              onChange={() => setMinRating(minRating === r ? 0 : r)}
-              className="w-3.5 h-3.5 accent-orange-500 cursor-pointer"
-            />
+          <label
+            key={r}
+            className="flex items-center gap-2.5 cursor-pointer group"
+          >
+            <span className="relative flex-shrink-0 w-3.5 h-3.5">
+              <input
+                type="radio"
+                name="rating"
+                checked={minRating === r}
+                onChange={() => setMinRating(minRating === r ? 0 : r)}
+                className="hidden peer"
+              />
+              {/* Custom circle border */}
+              <span className="absolute inset-0 rounded-full border border-zinc-300 bg-white peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+              {/* Inner dot */}
+              <span className="absolute inset-[3px] rounded-full bg-orange-500 scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
+            </span>
             <span className="flex items-center gap-1 text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
                   size={11}
-                  className={i < r ? "fill-orange-400 text-orange-400" : "text-zinc-200 fill-zinc-200"}
+                  className={
+                    i < r
+                      ? "fill-orange-400 text-orange-400"
+                      : "text-zinc-200 fill-zinc-200"
+                  }
                 />
               ))}
               <span className="text-zinc-400 text-xs ml-0.5">& up</span>
@@ -249,7 +297,9 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
             key={range.label}
             label={range.label}
             checked={selectedPriceRanges.includes(range.label)}
-            onChange={() => toggle(setSelectedPriceRanges, selectedPriceRanges, range.label)}
+            onChange={() =>
+              toggle(setSelectedPriceRanges, selectedPriceRanges, range.label)
+            }
           />
         ))}
       </FilterSection>
@@ -286,7 +336,9 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
             key={d.value}
             label={d.label}
             checked={selectedDiscount.includes(d.value)}
-            onChange={() => toggle(setSelectedDiscount, selectedDiscount, d.value)}
+            onChange={() =>
+              toggle(setSelectedDiscount, selectedDiscount, d.value)
+            }
           />
         ))}
       </FilterSection>
@@ -295,7 +347,7 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
 };
 
 /* ─────────────────────────────────────────────
-   CATEGORY TAB Button
+   CATEGORY TAB BUTTON
 ───────────────────────────────────────────── */
 const CatBtn = ({ cat, active, onClick }) => (
   <Button
@@ -408,15 +460,11 @@ export const ProductCollection = () => {
     }
 
     if (selectedBrands.length > 0) {
-      filtered = filtered.filter((p) =>
-        selectedBrands.includes(p.brand)
-      );
+      filtered = filtered.filter((p) => selectedBrands.includes(p.brand));
     }
 
     if (selectedColors.length > 0) {
-      filtered = filtered.filter((p) =>
-        selectedColors.includes(p.color)
-      );
+      filtered = filtered.filter((p) => selectedColors.includes(p.color));
     }
 
     if (selectedDiscount.length > 0) {
@@ -426,7 +474,8 @@ export const ProductCollection = () => {
 
     if (sort === "low") filtered = [...filtered].sort((a, b) => a.price - b.price);
     if (sort === "high") filtered = [...filtered].sort((a, b) => b.price - a.price);
-    if (sort === "rating") filtered = [...filtered].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    if (sort === "rating")
+      filtered = [...filtered].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
 
     return filtered;
   }, [
@@ -451,10 +500,36 @@ export const ProductCollection = () => {
   /* ── Reset page on filter change ── */
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, sort, minRating, selectedPriceRanges, selectedBrands, selectedColors, selectedDiscount, search]);
+  }, [
+    selectedCategory,
+    sort,
+    minRating,
+    selectedPriceRanges,
+    selectedBrands,
+    selectedColors,
+    selectedDiscount,
+    search,
+  ]);
 
-  const filters = { sort, minRating, selectedPriceRanges, selectedBrands, selectedColors, selectedDiscount, search };
-  const setters = { setSort, setMinRating, setSelectedPriceRanges, setSelectedBrands, setSelectedColors, setSelectedDiscount, setSearch, clearAll };
+  const filters = {
+    sort,
+    minRating,
+    selectedPriceRanges,
+    selectedBrands,
+    selectedColors,
+    selectedDiscount,
+    search,
+  };
+  const setters = {
+    setSort,
+    setMinRating,
+    setSelectedPriceRanges,
+    setSelectedBrands,
+    setSelectedColors,
+    setSelectedDiscount,
+    setSearch,
+    clearAll,
+  };
 
   const sidebarNode = (
     <FilterSidebar
@@ -559,7 +634,7 @@ export const ProductCollection = () => {
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 max-w-xs border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-zinc-400 transition-colors placeholder-zinc-300"
             />
-            {/* Mobile filter Button */}
+            {/* Mobile filter button */}
             <Button
               onClick={() => setMobileFiltersOpen(true)}
               className="md:hidden flex items-center gap-2 px-4 py-2.5 border border-zinc-200 rounded-xl text-sm text-zinc-600 hover:border-zinc-400 transition-colors"
@@ -585,8 +660,11 @@ export const ProductCollection = () => {
                 <p className="text-sm text-zinc-500">
                   Showing{" "}
                   <span className="font-medium text-zinc-800">
-                    {Math.min((currentPage - 1) * ITEMS_PER_PAGE + 1, categoryProducts.length) || 0}–
-                    {Math.min(currentPage * ITEMS_PER_PAGE, categoryProducts.length)}
+                    {Math.min(
+                      (currentPage - 1) * ITEMS_PER_PAGE + 1,
+                      categoryProducts.length
+                    ) || 0}
+                    –{Math.min(currentPage * ITEMS_PER_PAGE, categoryProducts.length)}
                   </span>{" "}
                   of{" "}
                   <span className="font-medium text-zinc-800">

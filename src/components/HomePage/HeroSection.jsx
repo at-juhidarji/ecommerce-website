@@ -23,9 +23,10 @@ const categories = [
 
 const HeroSection = () => {
   const navigate = useNavigate();
+
   return (
     <div className="bg-[var(--background)] text-white overflow-hidden">
-      {/* HERO SECTION */}
+      {/* HERO */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* LEFT IMAGE */}
         <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-[400px] md:h-[450px] lg:h-[520px] group">
@@ -35,21 +36,24 @@ const HeroSection = () => {
             className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
 
-          {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
           {/* CTA BUTTONS */}
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
+            {/* PRIMARY BUTTON */}
             <Button
               onClick={() => navigate("/productcollection")}
-              className="flex items-center gap-2 bg-primary hover:bg-orange-600 rounded-full px-5 cursor-pointer" 
+              variant="ghost"
+              className="rounded-full px-5 flex items-center gap-2 bg-white text-black cursor-pointer hover:bg-gray-300"
             >
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
+            {/* SECONDARY BUTTON */}
             <Button
               onClick={() => navigate("/contact")}
-              className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 hover:bg-white/20 cursor-pointer "
+              variant="ghost"
+              className="rounded-full px-5 flex items-center gap-2 bg-white text-black cursor-pointer hover:bg-gray-300"
             >
               Contact <Phone className="w-4 h-4" />
             </Button>
@@ -67,13 +71,15 @@ const HeroSection = () => {
               Discover premium fashion curated for your individuality.
             </p>
 
+            {/* EXPLORE BUTTON */}
             <Button
               onClick={() =>
                 document.getElementById("collection")?.scrollIntoView({
                   behavior: "smooth",
                 })
               }
-              className="bg-primary hover:bg-orange-600 rounded-full px-6 mb-8 cursor-pointer"
+              variant="ghost"
+              className="rounded-full px-6 mb-8 bg-orange-600 cursor-pointer hover:bg-orange-400 "
             >
               Explore Collection
             </Button>
@@ -108,10 +114,8 @@ const HeroSection = () => {
               className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
             />
 
-            {/* OVERLAY */}
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition" />
 
-            {/* TEXT */}
             <div className="absolute bottom-4 left-4 text-white text-xl font-bold">
               {card.tag}
             </div>
