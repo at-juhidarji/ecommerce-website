@@ -20,18 +20,7 @@ export const CollectionLayout = ({
       role="region"
       aria-labelledby={`${title}-heading`}
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Back */}
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          aria-label="Go back to shop"
-          className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 mb-6 -ml-2 rounded-xl cursor-pointer font-medium text-sm transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-          Back to Shop
-        </Button>
-      </div>
+    
 
       {/* Heading */}
       <motion.div
