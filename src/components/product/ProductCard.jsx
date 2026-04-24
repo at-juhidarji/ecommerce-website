@@ -7,6 +7,26 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
+const StarRating = ({ rating }) => {
+  const fullStars = Math.round(rating || 0);
+  return (
+    <div className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star
+          key={s}
+          size={11}
+          className={
+            s <= fullStars ? "text-accent fill-accent" : "text-muted-foreground"
+          }
+        />
+      ))}
+      <span className="text-[11px] text-muted-foreground ml-1.5 font-medium">
+        ({rating || 0})
+      </span>
+    </div>
+  );
+};
+
 export const ProductCard = ({ product, listMode = false }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -47,24 +67,6 @@ export const ProductCard = ({ product, listMode = false }) => {
     });
   };
 
-  // ⭐ STAR RATING
-  const StarRating = () => (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map((s) => (
-        <Star
-          key={s}
-          size={11}
-          className={
-            s <= fullStars ? "text-amber-400 fill-amber-400" : "text-zinc-200"
-          }
-        />
-      ))}
-      <span className="text-[11px] text-zinc-400 ml-1.5 font-medium">
-        ({product.rating || 0})
-      </span>
-    </div>
-  );
-
   // ================= LIST MODE =================
   if (listMode) {
     return (
@@ -73,9 +75,9 @@ export const ProductCard = ({ product, listMode = false }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         onClick={() => navigate(`/product/${product.id}`)}
-        className="group cursor-pointer flex gap-4 bg-white border border-zinc-100 rounded-2xl p-3 hover:shadow-lg hover:shadow-zinc-100/80 transition-all duration-500"
+        className="group cursor-pointer flex gap-4 bg-surface border border-border rounded-2xl p-3 hover:shadow-lg transition-all duration-500"
       >
-        <div className="w-24 h-24 rounded-xl overflow-hidden bg-zinc-50">
+        <div className="w-24 h-24 rounded-xl overflow-hidden bg-muted">
           <img
             src={product.image}
             alt={product.name}
@@ -88,30 +90,33 @@ export const ProductCard = ({ product, listMode = false }) => {
             <h3 className="text-sm font-semibold line-clamp-1 tracking-tight">
               {product.name}
             </h3>
-            <StarRating />
+            <StarRating rating={product.rating} />
           </div>
 
           <div className="flex items-center justify-between">
             <div className="flex gap-2 items-baseline">
-              <span className="font-bold text-zinc-900">₹{product.price}</span>
+              <span className="font-bold text-foreground">
+                ₹{product.price}
+              </span>
 
               {product.oldPrice && (
-                <span className="text-xs line-through text-zinc-400">
+                <span className="text-xs line-through text-muted-foreground">
                   ₹{product.oldPrice}
                 </span>
               )}
 
               {discount && (
-                <span className="text-[11px] text-emerald-600 font-semibold">
+                <span className="text-[11px] text-accent font-semibold">
                   {discount}% off
                 </span>
               )}
             </div>
 
             <Button
+              type="button"
               variant="default"
+              size="sm"
               onClick={handleAddToCart}
-              className="text-xs bg-zinc-900 text-white px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 hover:bg-zinc-800 transition-colors"
             >
               <ShoppingBag size={12} />
               {adding ? "Adding…" : "Add"}
@@ -132,9 +137,9 @@ export const ProductCard = ({ product, listMode = false }) => {
       className="group cursor-pointer"
     >
       {/* IMAGE */}
-      <div className="relative rounded-2xl overflow-hidden bg-zinc-50 aspect-[3/4]">
+      <div className="relative rounded-2xl overflow-hidden bg-muted aspect-[3/4]">
         {!imgLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-zinc-100 rounded-2xl" />
+          <div className="absolute inset-0 animate-pulse bg-muted rounded-2xl" />
         )}
 
         <img
@@ -149,12 +154,12 @@ export const ProductCard = ({ product, listMode = false }) => {
         {/* BADGES */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           {discount && (
-            <span className="text-[10px] font-semibold bg-emerald-500 text-white px-2.5 py-1 rounded-full tracking-wide uppercase">
+            <span className="text-[10px] font-semibold bg-accent text-foreground px-2.5 py-1 rounded-full tracking-wide uppercase">
               -{discount}%
             </span>
           )}
           {product.isNew && (
-            <span className="text-[10px] font-semibold bg-white/90 backdrop-blur-sm text-zinc-800 px-2.5 py-1 rounded-full tracking-wide uppercase shadow-sm">
+            <span className="text-[10px] font-semibold bg-secondary text-foreground px-2.5 py-1 rounded-full tracking-wide uppercase shadow-sm">
               New
             </span>
           )}
@@ -165,13 +170,13 @@ export const ProductCard = ({ product, listMode = false }) => {
           variant="ghost"
           size="icon"
           onClick={handleWishlist}
-          className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full bg-white/70 backdrop-blur-sm hover:bg-white/90 shadow-sm transition-all duration-300"
+          className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full bg-surface hover:bg-surface shadow-sm transition-all duration-300"
         >
           <Heart
             className={`w-4 h-4 transition-all duration-300 ${
               isInWishlist(product.id)
-                ? "fill-red-500 text-red-500 scale-110"
-                : "text-zinc-600"
+                ? "fill-destructive text-destructive scale-110"
+                : "text-secondary"
             }`}
           />
         </Button>
@@ -179,9 +184,11 @@ export const ProductCard = ({ product, listMode = false }) => {
         {/* QUICK ADD - slides up on hover */}
         <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
           <Button
+            type="button"
             variant="default"
+            size="sm"
             onClick={handleAddToCart}
-            className="w-full bg-white/90 backdrop-blur-md text-zinc-900 text-sm py-2.5 rounded-xl flex justify-center gap-2 hover:bg-white shadow-lg border border-zinc-100/50 font-medium transition-colors"
+            className="w-full"
           >
             <ShoppingBag size={14} />
             {adding ? "Adding…" : "Quick Add"}
@@ -194,7 +201,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             {product.sizes.slice(0, 5).map((sz) => (
               <span
                 key={sz}
-                className="text-[10px] font-medium bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm text-zinc-700"
+                className="text-[10px] font-medium bg-surface backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm text-secondary"
               >
                 {sz}
               </span>
@@ -205,23 +212,23 @@ export const ProductCard = ({ product, listMode = false }) => {
 
       {/* INFO */}
       <div className="mt-3.5 space-y-1.5">
-        <h3 className="text-sm font-semibold line-clamp-1 tracking-tight text-zinc-900">
+        <h3 className="text-sm font-semibold line-clamp-1 tracking-tight text-foreground">
           {product.name}
         </h3>
 
-        <StarRating />
+        <StarRating rating={product.rating} />
 
         <div className="flex items-baseline gap-2">
-          <span className="font-bold text-zinc-900">₹{product.price}</span>
+          <span className="font-bold text-foreground">₹{product.price}</span>
 
           {product.oldPrice && (
-            <span className="text-xs line-through text-zinc-400">
+            <span className="text-xs line-through text-muted-foreground">
               ₹{product.oldPrice}
             </span>
           )}
 
           {discount && (
-            <span className="text-[11px] text-emerald-600 font-semibold ml-auto">
+            <span className="text-[11px] text-accent font-semibold ml-auto">
               {discount}% off
             </span>
           )}

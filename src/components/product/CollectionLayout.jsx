@@ -10,18 +10,16 @@ export const CollectionLayout = ({
   subtitle,
   images,
   products,
-  glowColor = "bg-orange-400",
+  glowColor = "bg-warning",
 }) => {
   const navigate = useNavigate();
 
   return (
     <section
-      className="bg-white py-6 px-4 sm:px-6 text-zinc-900"
+      className="bg-surface py-6 px-4 sm:px-6 text-foreground"
       role="region"
       aria-labelledby={`${title}-heading`}
     >
-    
-
       {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -29,13 +27,16 @@ export const CollectionLayout = ({
         transition={{ duration: 0.5 }}
         className="text-center mb-14"
       >
-        <h1 id={`${title}-heading`} className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+        <h1
+          id={`${title}-heading`}
+          className="text-4xl md:text-5xl font-black uppercase tracking-tight"
+        >
           {title}
         </h1>
-        <p className="text-zinc-400 mt-3 uppercase tracking-[0.2em] text-xs font-medium">
+        <p className="text-muted-foreground mt-3 uppercase tracking-[0.2em] text-xs font-medium">
           {subtitle}
         </p>
-        <div className="w-16 h-1 bg-zinc-900 mx-auto mt-5 rounded-full" />
+        <div className="w-16 h-1 bg-foreground mx-auto mt-5 rounded-full" />
       </motion.div>
 
       {/* Slider */}

@@ -1,4 +1,5 @@
 import React from "react";
+import SectionContainer from "@/components/ui/SectionContainer";
 import { Truck, RefreshCcw, ShieldCheck, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -52,10 +53,8 @@ const cardVariants = {
 
 export const WhyChooseUs = () => {
   return (
-    <section className="bg-white text-zinc-900  relative overflow-hidden">
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-
+    <section className="bg-white text-zinc-900 relative overflow-hidden">
+      <SectionContainer className="relative">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,12 +86,15 @@ export const WhyChooseUs = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 className="group"
               >
-                <div className={`bg-gradient-to-br ${item.gradient} rounded-2xl p-8 text-center h-full border border-zinc-100/50 hover:shadow-xl hover:shadow-zinc-100/50 hover:-translate-y-1 transition-all duration-500`}>
-
+                <div
+                  className={`bg-gradient-to-br ${item.gradient} rounded-2xl p-8 text-center h-full border border-zinc-100/50 hover:shadow-xl hover:shadow-zinc-100/50 hover:-translate-y-1 transition-all duration-500`}
+                >
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
                     <div className={`p-4 rounded-2xl ${item.iconBg}`}>
-                      <Icon className={`size-8 ${item.iconColor} group-hover:scale-110 transition-transform duration-500`} />
+                      <Icon
+                        className={`size-8 ${item.iconColor} group-hover:scale-110 transition-transform duration-500`}
+                      />
                     </div>
                   </div>
 
@@ -110,8 +112,7 @@ export const WhyChooseUs = () => {
             );
           })}
         </div>
-
-      </div>
+      </SectionContainer>
     </section>
   );
 };

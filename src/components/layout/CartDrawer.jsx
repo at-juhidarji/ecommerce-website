@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Trash2,
-  ArrowLeft,
-  ShoppingBag,
-} from "lucide-react";
+import { Trash2, ArrowLeft, ShoppingBag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { Button } from "../ui/button";
@@ -12,29 +8,15 @@ import { motion, AnimatePresence } from "framer-motion";
 const CartDrawer = () => {
   const navigate = useNavigate();
 
-  const {
-    cart,
-    removeFromCart,
-    increaseQty,
-    decreaseQty,
-    totalPrice,
-  } = useCart();
+  const { cart, removeFromCart, increaseQty, decreaseQty, totalPrice } =
+    useCart();
 
   const totalItems = cart.reduce((t, i) => t + i.qty, 0);
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 pb-24">
+    <div className="min-h-screen bg-background text-foreground pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        
         {/* 🔙 BACK */}
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 mb-6 text-sm font-medium -ml-2 cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Shop
-        </Button>
 
         {/* 🧾 TITLE */}
         <div className="mb-10 sm:mb-14">
@@ -55,28 +37,28 @@ const CartDrawer = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center justify-center min-h-[60vh] text-center"
           >
-            <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center mb-6">
-              <ShoppingBag className="w-8 h-8 text-zinc-300" />
+            <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
+              <ShoppingBag className="w-8 h-8 text-muted-foreground" />
             </div>
 
             <h2 className="text-xl font-semibold mb-2 tracking-tight">
               Your bag is empty
             </h2>
 
-            <p className="text-zinc-400 text-sm mb-8">
+            <p className="text-muted-foreground text-sm mb-8">
               Looks like you haven't added anything yet
             </p>
 
             <Button
               onClick={() => navigate("/collections")}
-              className="bg-zinc-900 text-white px-8 py-3 rounded-xl hover:bg-zinc-800"
+              variant="default"
+              size="lg"
             >
               Start Shopping
             </Button>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
-
             {/* 🛍️ LEFT */}
             <div className="lg:col-span-8">
               <AnimatePresence>
@@ -89,7 +71,6 @@ const CartDrawer = () => {
                     transition={{ delay: index * 0.05 }}
                     className="flex flex-col sm:grid sm:grid-cols-4 gap-4 sm:gap-6 border-b border-zinc-100 py-6 first:pt-0"
                   >
-                    
                     {/* PRODUCT */}
                     <div className="flex gap-4 sm:col-span-2">
                       <div className="w-20 h-24 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-zinc-50">
@@ -114,7 +95,9 @@ const CartDrawer = () => {
                         <Button
                           variant="ghost"
                           onClick={() => removeFromCart(item.id)}
-                          className="flex items-center gap-1.5 text-zinc-400 text-xs hover:text-red-500 w-fit px-0 h-auto"
+                          size="sm"
+                          className="flex items-center gap-1.5 text-muted-foreground hover:text-danger w-fit px-0 h-auto"
+                          aria-label={`Remove ${item.name} from cart`}
                         >
                           <Trash2 className="w-3 h-3" />
                           Remove
@@ -124,16 +107,17 @@ const CartDrawer = () => {
 
                     {/* QTY */}
                     <div className="flex justify-between sm:justify-center items-center">
-                      <span className="text-sm sm:hidden text-zinc-400">
+                      <span className="text-sm sm:hidden text-muted-foreground">
                         Qty:
                       </span>
 
-                      <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden">
+                      <div className="flex items-center border border-border rounded-xl overflow-hidden">
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => decreaseQty(item.id)}
-                          className="rounded-none h-10 w-10 hover:bg-zinc-50 cursor-pointer"
+                          className="rounded-none h-10 w-10"
+                          aria-label={`Decrease quantity of ${item.name}`}
                         >
                           −
                         </Button>
@@ -146,7 +130,8 @@ const CartDrawer = () => {
                           size="sm"
                           variant="ghost"
                           onClick={() => increaseQty(item.id)}
-                          className="rounded-none h-10 w-10 hover:bg-zinc-50 cursor-pointer"
+                          className="rounded-none h-10 w-10"
+                          aria-label={`Increase quantity of ${item.name}`}
                         >
                           +
                         </Button>
@@ -155,10 +140,8 @@ const CartDrawer = () => {
 
                     {/* PRICE */}
                     <div className="flex justify-between sm:block sm:text-right font-semibold text-sm sm:text-base items-center">
-                      <span className="sm:hidden text-zinc-400">
-                        Total:
-                      </span>
-                      ₹{(item.price * item.qty).toLocaleString()}
+                      <span className="sm:hidden text-zinc-400">Total:</span>₹
+                      {(item.price * item.qty).toLocaleString()}
                     </div>
                   </motion.div>
                 ))}
@@ -170,28 +153,24 @@ const CartDrawer = () => {
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-zinc-50/80 p-6 sm:p-8 rounded-2xl border border-zinc-100 sticky top-24"
+                className="bg-surface-light p-6 sm:p-8 rounded-2xl border border-border sticky top-24"
               >
-                <h2 className="text-lg font-bold mb-6">
-                  Order Summary
-                </h2>
+                <h2 className="text-lg font-bold mb-6">Order Summary</h2>
 
                 <div className="space-y-4 text-sm">
-                  <div className="flex justify-between text-zinc-500">
+                  <div className="flex justify-between text-muted-foreground">
                     <span>Subtotal</span>
                     <span className="font-medium">
                       ₹{totalPrice.toLocaleString()}
                     </span>
                   </div>
 
-                  <div className="flex justify-between text-zinc-500">
+                  <div className="flex justify-between text-muted-foreground">
                     <span>Shipping</span>
-                    <span className="text-green-600 font-semibold">
-                      Free
-                    </span>
+                    <span className="text-success font-semibold">Free</span>
                   </div>
 
-                  <div className="border-t pt-4 flex justify-between text-lg font-bold">
+                  <div className="border-t border-border pt-4 flex justify-between text-lg font-bold">
                     <span>Total</span>
                     <span>₹{totalPrice.toLocaleString()}</span>
                   </div>
@@ -199,13 +178,15 @@ const CartDrawer = () => {
 
                 <Button
                   onClick={() => navigate("/checkout")}
-                  className="w-full bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl uppercase text-xs h-12 mt-8"
+                  variant="default"
+                  size="lg"
+                  className="w-full uppercase text-xs"
+                  aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
                 </Button>
               </motion.div>
             </div>
-
           </div>
         )}
       </div>

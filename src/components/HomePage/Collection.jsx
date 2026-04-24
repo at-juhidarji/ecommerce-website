@@ -1,9 +1,11 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
+import SectionContainer from "@/components/ui/SectionContainer";
 import { products } from "@/Data/Product";
 import { ProductCard } from "@/components/product/ProductCard";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { Input } from "@/components/ui/input";
 import {
   ShoppingBag,
   Footprints,
@@ -18,8 +20,8 @@ import {
 } from "lucide-react";
 
 /* ─────────────────────────────────────────────
-   CONSTANTS
-───────────────────────────────────────────── */
+    CONSTANTS
+  ───────────────────────────────────────────── */
 const ITEMS_PER_PAGE = 8;
 
 const CATEGORY_TABS = [
@@ -55,15 +57,17 @@ const DISCOUNTS = [
 ];
 
 /* ─────────────────────────────────────────────
-   ACCORDION SECTION
-───────────────────────────────────────────── */
+    ACCORDION SECTION
+  ───────────────────────────────────────────── */
 const FilterSection = ({ title, children, defaultOpen = true }) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-zinc-100 py-1">
+    <div className="border-b border-border py-1">
       <Button
         onClick={() => setOpen(!open)}
         variant="ghost"
+        size="sm"
+        aria-label={`Toggle ${title} filter`}
       >
         {title}
         <ChevronDown size={14} />
@@ -86,23 +90,23 @@ const FilterSection = ({ title, children, defaultOpen = true }) => {
 };
 
 /* ─────────────────────────────────────────────
-   CUSTOM CHECKBOX ROW
-───────────────────────────────────────────── */
+    CUSTOM CHECKBOX ROW
+  ───────────────────────────────────────────── */
 const CheckRow = ({ label, checked, onChange, swatch, count }) => (
   <label className="flex items-center gap-2.5 cursor-pointer group">
-    <span className="relative flex-shrink-0 w-3.5 h-3.5">
-      <input
+    <span className="relative shrink-0 w-3.5 h-3.5">
+      <Input
         type="checkbox"
         checked={checked}
         onChange={onChange}
         className="hidden peer"
       />
       {/* Custom box */}
-      <span className="absolute inset-0 rounded border border-zinc-300 bg-white peer-checked:bg-orange-500 peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+      <span className="absolute inset-0 rounded border border-border bg-surface peer-checked:bg-primary peer-checked:border-primary transition-colors duration-150 group-hover:border-border" />
       {/* Tick mark */}
       <svg
         viewBox="0 0 10 8"
-        className="absolute inset-0 w-full h-full p-[2px] text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
+        className="absolute inset-0 w-full h-full p-0.5 text-primary-foreground opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.8"
@@ -114,34 +118,48 @@ const CheckRow = ({ label, checked, onChange, swatch, count }) => (
     </span>
     {swatch && (
       <span
-        className="w-3.5 h-3.5 rounded-full border border-zinc-200 flex-shrink-0"
+        className="w-3.5 h-3.5 rounded-full border border-border bg-surface shrink-0"
         style={{ background: swatch }}
       />
     )}
-    <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors leading-tight">
+    <span
+      className="text-sm text-muted-foreground
+              group-hover:text-foreground transition-colors leading-tight"
+    >
       {label}
       {count !== undefined && (
-        <span className="text-zinc-400 ml-1 text-xs">({count})</span>
+        <span
+          className="text-muted-foreground
+              ml-1 text-xs"
+        >
+          ({count})
+        </span>
       )}
     </span>
   </label>
 );
 
 /* ─────────────────────────────────────────────
-   ACTIVE FILTER TAGS
-───────────────────────────────────────────── */
+    ACTIVE FILTER TAGS
+  ───────────────────────────────────────────── */
 const FilterTag = ({ label, onRemove }) => (
-  <span className="inline-flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-700 text-xs px-2.5 py-1 rounded-full">
+  <span className="inline-flex items-center gap-1 bg-muted border border-primary text-primary text-xs px-2.5 py-1 rounded-full">
     {label}
-    <Button onClick={onRemove} variant="ghost">
+    <Button
+      onClick={onRemove}
+      variant="ghost"
+      size="icon"
+      className="w-4 h-4"
+      aria-label={`Remove ${label} filter`}
+    >
       <X size={10} />
     </Button>
   </span>
 );
 
 /* ─────────────────────────────────────────────
-   SIDEBAR FILTER PANEL
-───────────────────────────────────────────── */
+    SIDEBAR FILTER PANEL
+  ───────────────────────────────────────────── */
 const FilterSidebar = ({ filters, setters, productCount }) => {
   const {
     selectedPriceRanges,
@@ -194,13 +212,22 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
   return (
     <aside className="w-56 shrink-0">
       {/* Header */}
-      <div className="flex items-center justify-between py-3 border-b border-zinc-200 mb-1">
-        <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
-          <SlidersHorizontal size={14} className="text-zinc-400" />
+      <div className="flex items-center justify-between py-3 border-b border-border mb-1">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <SlidersHorizontal
+            size={14}
+            className="text-muted-foreground
+              "
+          />
           Filters
         </h3>
         {hasFilters && (
-          <Button onClick={clearAll} variant="ghost">
+          <Button
+            onClick={clearAll}
+            variant="ghost"
+            size="sm"
+            aria-label="Clear all applied filters"
+          >
             Clear all
           </Button>
         )}
@@ -208,7 +235,7 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
 
       {/* Active tags */}
       {hasFilters && (
-        <div className="flex flex-wrap gap-1.5 pb-3 border-b border-zinc-100">
+        <div className="flex flex-wrap gap-1.5 pb-3 border-b border-border">
           {activeTags.map((t) => (
             <FilterTag key={t.label} label={t.label} onRemove={t.onRemove} />
           ))}
@@ -216,7 +243,10 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
       )}
 
       {/* Result count */}
-      <p className="text-xs text-zinc-400 py-2 border-b border-zinc-100">
+      <p
+        className="text-xs text-muted-foreground
+              py-2 border-b border-border"
+      >
         {productCount} result{productCount !== 1 ? "s" : ""}
       </p>
 
@@ -232,8 +262,8 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
             key={opt.val}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <span className="relative flex-shrink-0 w-3.5 h-3.5">
-              <input
+            <span className="relative shrink-0 w-3.5 h-3.5">
+              <Input
                 type="radio"
                 name="sort"
                 checked={sort === opt.val}
@@ -241,11 +271,14 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
                 className="hidden peer"
               />
               {/* Custom circle border */}
-              <span className="absolute inset-0 rounded-full border border-zinc-300 bg-white peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+              <span className="absolute inset-0 rounded-full border border-border bg-surface peer-checked:border-primary transition-colors duration-150 group-hover:border-border" />
               {/* Inner dot */}
-              <span className="absolute inset-[3px] rounded-full bg-orange-500 scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
+              <span className="absolute inset-0.75 rounded-full bg-primary scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
             </span>
-            <span className="text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
+            <span
+              className="text-sm text-muted-foreground
+              group-hover:text-foreground transition-colors"
+            >
               {opt.label}
             </span>
           </label>
@@ -259,8 +292,8 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
             key={r}
             className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <span className="relative flex-shrink-0 w-3.5 h-3.5">
-              <input
+            <span className="relative shrink-0 w-3.5 h-3.5">
+              <Input
                 type="radio"
                 name="rating"
                 checked={minRating === r}
@@ -268,23 +301,31 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
                 className="hidden peer"
               />
               {/* Custom circle border */}
-              <span className="absolute inset-0 rounded-full border border-zinc-300 bg-white peer-checked:border-orange-500 transition-colors duration-150 group-hover:border-zinc-400" />
+              <span className="absolute inset-0 rounded-full border border-border bg-surface peer-checked:border-primary transition-colors duration-150 group-hover:border-border" />
               {/* Inner dot */}
-              <span className="absolute inset-[3px] rounded-full bg-orange-500 scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
+              <span className="absolute inset-0.75 rounded-full bg-primary scale-0 peer-checked:scale-100 transition-transform duration-150 origin-center" />
             </span>
-            <span className="flex items-center gap-1 text-sm text-zinc-600 group-hover:text-zinc-900 transition-colors">
+            <span
+              className="flex items-center gap-1 text-sm text-muted-foreground
+              group-hover:text-foreground transition-colors"
+            >
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
                   size={11}
                   className={
                     i < r
-                      ? "fill-orange-400 text-orange-400"
-                      : "text-zinc-200 fill-zinc-200"
+                      ? "fill-primary text-primary"
+                      : "text-muted-foreground "
                   }
                 />
               ))}
-              <span className="text-zinc-400 text-xs ml-0.5">& up</span>
+              <span
+                className="text-muted-foreground
+              text-xs ml-0.5"
+              >
+                & up
+              </span>
             </span>
           </label>
         ))}
@@ -347,17 +388,15 @@ const FilterSidebar = ({ filters, setters, productCount }) => {
 };
 
 /* ─────────────────────────────────────────────
-   CATEGORY TAB BUTTON
-───────────────────────────────────────────── */
+    CATEGORY TAB BUTTON
+  ───────────────────────────────────────────── */
 const CatBtn = ({ cat, active, onClick }) => (
   <Button
-    variant="ghost"
+    variant={active ? "default" : "outline"}
+    size="sm"
     onClick={onClick}
-    className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-300 cursor-pointer ${
-      active
-        ? "bg-zinc-900 text-white border-zinc-900 shadow-lg shadow-zinc-900/20"
-        : "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400 hover:text-zinc-900"
-    }`}
+    className="rounded-full"
+    aria-label={`Select ${cat.label} category`}
   >
     {cat.icon}
     <span className="capitalize">{cat.label}</span>
@@ -365,8 +404,8 @@ const CatBtn = ({ cat, active, onClick }) => (
 );
 
 /* ─────────────────────────────────────────────
-   MOBILE FILTER DRAWER
-───────────────────────────────────────────── */
+    MOBILE FILTER DRAWER
+  ───────────────────────────────────────────── */
 const MobileFilterDrawer = ({ open, onClose, children }) => (
   <AnimatePresence>
     {open && (
@@ -383,11 +422,16 @@ const MobileFilterDrawer = ({ open, onClose, children }) => (
           animate={{ x: 0 }}
           exit={{ x: "-100%" }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed left-0 top-0 bottom-0 w-72 bg-white z-50 overflow-y-auto shadow-xl md:hidden"
+          className="fixed left-0 top-0 bottom-0 w-72 bg-surface z-50 overflow-y-auto shadow-xl md:hidden"
         >
-          <div className="flex items-center justify-between p-4 border-b border-zinc-100">
-            <span className="font-semibold text-zinc-900">Filters</span>
-            <Button onClick={onClose} className="text-zinc-400 hover:text-zinc-900">
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <span className="font-semibold text-foreground">Filters</span>
+            <Button
+              onClick={onClose}
+              variant="ghost"
+              size="icon"
+              aria-label="Close filters menu"
+            >
               <X size={18} />
             </Button>
           </div>
@@ -399,8 +443,8 @@ const MobileFilterDrawer = ({ open, onClose, children }) => (
 );
 
 /* ─────────────────────────────────────────────
-   MAIN COMPONENT
-───────────────────────────────────────────── */
+    MAIN COMPONENT
+  ───────────────────────────────────────────── */
 export const ProductCollection = () => {
   const navigate = useNavigate();
 
@@ -422,7 +466,7 @@ export const ProductCollection = () => {
   const menProducts = products.filter((p) => p.category === "men");
   const womenProducts = products.filter((p) => p.category === "women");
   const otherProducts = products.filter(
-    (p) => p.category !== "men" && p.category !== "women"
+    (p) => p.category !== "men" && p.category !== "women",
   );
 
   /* ── Clear all ── */
@@ -442,7 +486,7 @@ export const ProductCollection = () => {
 
     if (search) {
       filtered = filtered.filter((p) =>
-        p.name.toLowerCase().includes(search.toLowerCase())
+        p.name.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
@@ -455,7 +499,7 @@ export const ProductCollection = () => {
         selectedPriceRanges.some((label) => {
           const range = PRICE_RANGES.find((r) => r.label === label);
           return range && p.price >= range.min && p.price <= range.max;
-        })
+        }),
       );
     }
 
@@ -472,10 +516,14 @@ export const ProductCollection = () => {
       filtered = filtered.filter((p) => (p.discount ?? 0) >= minDiscount);
     }
 
-    if (sort === "low") filtered = [...filtered].sort((a, b) => a.price - b.price);
-    if (sort === "high") filtered = [...filtered].sort((a, b) => b.price - a.price);
+    if (sort === "low")
+      filtered = [...filtered].sort((a, b) => a.price - b.price);
+    if (sort === "high")
+      filtered = [...filtered].sort((a, b) => b.price - a.price);
     if (sort === "rating")
-      filtered = [...filtered].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+      filtered = [...filtered].sort(
+        (a, b) => (b.rating ?? 0) - (a.rating ?? 0),
+      );
 
     return filtered;
   }, [
@@ -494,12 +542,14 @@ export const ProductCollection = () => {
   const totalPages = Math.ceil(categoryProducts.length / ITEMS_PER_PAGE);
   const paginatedProducts = categoryProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   /* ── Reset page on filter change ── */
   useEffect(() => {
-    setCurrentPage(1);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
   }, [
     selectedCategory,
     sort,
@@ -509,6 +559,7 @@ export const ProductCollection = () => {
     selectedColors,
     selectedDiscount,
     search,
+    currentPage,
   ]);
 
   const filters = {
@@ -540,9 +591,8 @@ export const ProductCollection = () => {
   );
 
   return (
-    <section id="collection" className="bg-white py-8 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
-
+    <section id="collection" className="bg-surface py-8">
+      <SectionContainer>
         {/* ── TITLE ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -551,13 +601,19 @@ export const ProductCollection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-semibold mb-3">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground
+              font-semibold mb-3"
+          >
             Curated for You
           </p>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
             Our Collection
           </h1>
-          <p className="text-zinc-400 mt-3 text-sm max-w-md mx-auto">
+          <p
+            className="text-muted-foreground
+              -foreground mt-3 text-sm max-w-md mx-auto"
+          >
             Premium fashion curated for modern lifestyle
           </p>
         </motion.div>
@@ -567,14 +623,23 @@ export const ProductCollection = () => {
           <div className="flex justify-between items-center mb-6">
             <div>
               <h2 className="text-2xl font-bold tracking-tight">Men</h2>
-              <p className="text-zinc-400 text-sm mt-0.5">Essentials for him</p>
+              <p
+                className="text-muted-foreground
+              text-sm mt-0.5"
+              >
+                Essentials for him
+              </p>
             </div>
             <Button
               onClick={() => navigate("/collections?category=men")}
-              className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-900 transition-colors font-medium group flex items-center gap-1"
+              variant="ghost"
+              size="sm"
+              aria-label="View all men's products"
             >
               View All
-              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              <span className="group-hover:translate-x-0.5 transition-transform">
+                →
+              </span>
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
@@ -589,14 +654,23 @@ export const ProductCollection = () => {
           <div className="flex justify-between items-center mb-6">
             <div>
               <h2 className="text-2xl font-bold tracking-tight">Women</h2>
-              <p className="text-zinc-400 text-sm mt-0.5">Curated essentials for her</p>
+              <p
+                className="text-muted-foreground
+              text-sm mt-0.5"
+              >
+                Curated essentials for her
+              </p>
             </div>
             <Button
               onClick={() => navigate("/collections?category=women")}
-              className="text-sm text-zinc-400 cursor-pointer hover:text-zinc-900 transition-colors font-medium group flex items-center gap-1"
+              variant="ghost"
+              size="sm"
+              aria-label="View all women's products"
             >
               View All
-              <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              <span className="group-hover:translate-x-0.5 transition-transform">
+                →
+              </span>
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6">
@@ -609,8 +683,15 @@ export const ProductCollection = () => {
         {/* ── EXPLORE CATEGORIES ── */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold tracking-tight">Explore Categories</h2>
-            <p className="text-zinc-400 text-sm mt-0.5">Browse by category</p>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Explore Categories
+            </h2>
+            <p
+              className="text-muted-foreground
+              text-sm mt-0.5"
+            >
+              Browse by category
+            </p>
           </div>
 
           {/* Category tabs */}
@@ -627,17 +708,20 @@ export const ProductCollection = () => {
 
           {/* Search bar + mobile filter toggle */}
           <div className="flex items-center gap-3 mb-6">
-            <input
+            <Input
               type="text"
               placeholder={`Search in ${selectedCategory}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 max-w-xs border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-zinc-400 transition-colors placeholder-zinc-300"
+              className="flex-1 max-w-xs"
             />
             {/* Mobile filter button */}
             <Button
               onClick={() => setMobileFiltersOpen(true)}
-              className="md:hidden flex items-center gap-2 px-4 py-2.5 border border-zinc-200 rounded-xl text-sm text-zinc-600 hover:border-zinc-400 transition-colors"
+              variant="outline"
+              size="sm"
+              className="md:hidden"
+              aria-label="Open filters menu"
             >
               <SlidersHorizontal size={14} />
               Filters
@@ -646,28 +730,31 @@ export const ProductCollection = () => {
 
           {/* Layout: sidebar + grid */}
           <div className="flex gap-8 items-start">
-
             {/* ── Desktop Sidebar ── */}
-            <div className="hidden md:block sticky top-6">
-              {sidebarNode}
-            </div>
+            <div className="hidden md:block sticky top-6">{sidebarNode}</div>
 
             {/* ── Products ── */}
             <div className="flex-1 min-w-0">
-
               {/* Result info */}
-              <div className="flex items-center justify-between mb-5 pb-3 border-b border-zinc-100">
-                <p className="text-sm text-zinc-500">
+              <div className="flex items-center justify-between mb-5 pb-3 border-b border-border">
+                <p
+                  className="text-sm text-muted-foreground
+              "
+                >
                   Showing{" "}
-                  <span className="font-medium text-zinc-800">
+                  <span className="font-medium text-foreground">
                     {Math.min(
                       (currentPage - 1) * ITEMS_PER_PAGE + 1,
-                      categoryProducts.length
+                      categoryProducts.length,
                     ) || 0}
-                    –{Math.min(currentPage * ITEMS_PER_PAGE, categoryProducts.length)}
+                    –
+                    {Math.min(
+                      currentPage * ITEMS_PER_PAGE,
+                      categoryProducts.length,
+                    )}
                   </span>{" "}
                   of{" "}
-                  <span className="font-medium text-zinc-800">
+                  <span className="font-medium text-foreground">
                     {categoryProducts.length}
                   </span>{" "}
                   results
@@ -693,18 +780,26 @@ export const ProductCollection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex flex-col items-center justify-center py-20 text-center"
                 >
-                  <div className="w-16 h-16 rounded-full bg-zinc-50 flex items-center justify-center mb-4">
-                    <ShoppingBag className="w-7 h-7 text-zinc-300" />
+                  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                    <ShoppingBag
+                      className="w-7 h-7 text-muted-foreground
+              "
+                    />
                   </div>
                   <h3 className="text-lg font-semibold tracking-tight mb-1">
                     No products found
                   </h3>
-                  <p className="text-zinc-400 text-sm mb-4">
+                  <p
+                    className="text-muted-foreground
+              text-sm mb-4"
+                  >
                     Try adjusting your filters
                   </p>
                   <Button
                     onClick={clearAll}
-                    className="text-sm text-orange-500 hover:text-orange-700 font-medium transition-colors"
+                    variant="ghost"
+                    size="sm"
+                    aria-label="Clear all filters to show all products"
                   >
                     Clear all filters
                   </Button>
@@ -718,29 +813,33 @@ export const ProductCollection = () => {
                     variant="ghost"
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="px-3 h-10 rounded-xl text-sm text-zinc-500 disabled:opacity-30 cursor-pointer"
+                    size="sm"
+                    aria-label="Go to previous page"
                   >
                     ← Prev
                   </Button>
                   {Array.from({ length: totalPages }, (_, i) => (
                     <Button
                       key={i}
-                      variant="ghost"
+                      variant={currentPage === i + 1 ? "default" : "ghost"}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`w-10 h-10 rounded-xl text-sm font-medium cursor-pointer transition-all duration-200 ${
-                        currentPage === i + 1
-                          ? "bg-zinc-900 text-white shadow-md hover:bg-zinc-800 hover:text-white"
-                          : "bg-zinc-50 text-zinc-500 hover:bg-zinc-100"
-                      }`}
+                      size="sm"
+                      className={
+                        currentPage === i + 1 ? "" : "text-muted-foreground "
+                      }
+                      aria-label={`Go to page ${i + 1}`}
                     >
                       {i + 1}
                     </Button>
                   ))}
                   <Button
                     variant="ghost"
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
                     disabled={currentPage === totalPages}
-                    className="px-3 h-10 rounded-xl text-sm text-zinc-500 disabled:opacity-30 cursor-pointer"
+                    size="sm"
+                    aria-label="Go to next page"
                   >
                     Next →
                   </Button>
@@ -749,7 +848,7 @@ export const ProductCollection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
 
       {/* ── Mobile Filter Drawer ── */}
       <MobileFilterDrawer

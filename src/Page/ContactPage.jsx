@@ -9,7 +9,9 @@ import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 
 const contactSchema = z.object({
-  fullName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  fullName: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Enter valid email" }),
   message: z.string().min(10, { message: "Minimum 10 characters required" }),
 });
@@ -55,15 +57,14 @@ export default function ContactPage() {
   ];
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-white to-zinc-50 px-4 md:px-12 py-16">
+    <section className="min-h-screen bg-gradient-to-b from-background to-muted px-4 md:px-12 py-16">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
-
         {/* LEFT SIDE */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-zinc-400 mb-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
             Contact
           </p>
 
@@ -71,9 +72,9 @@ export default function ContactPage() {
             Let’s talk 👋
           </h1>
 
-          <p className="text-zinc-500 mb-8 max-w-md">
-            Have questions about your order, sizing, or anything else?
-            We're here to help you.
+          <p className="text-muted-foreground mb-8 max-w-md">
+            Have questions about your order, sizing, or anything else? We're
+            here to help you.
           </p>
 
           {/* Info Cards */}
@@ -84,11 +85,11 @@ export default function ContactPage() {
                 <motion.div
                   key={i}
                   whileHover={{ y: -4 }}
-                  className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm"
+                  className="p-5 bg-surface border border-border rounded-2xl shadow-sm"
                 >
-                  <Icon className="w-5 h-5 text-zinc-800 mb-2" />
+                  <Icon className="w-5 h-5 text-foreground mb-2" />
                   <p className="text-sm font-semibold">{item.title}</p>
-                  <p className="text-xs text-zinc-500">{item.desc}</p>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                 </motion.div>
               );
             })}
@@ -99,12 +100,11 @@ export default function ContactPage() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-zinc-100 rounded-3xl p-8 md:p-10 shadow-xl"
+          className="bg-surface border border-border rounded-3xl p-8 md:p-10 shadow-xl"
         >
           <h2 className="text-lg font-bold mb-6">Send a message</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
             {/* Name */}
             <div>
               <Input
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 aria-invalid={!!errors.fullName}
               />
               {errors.fullName && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-destructive text-xs mt-1">
                   {errors.fullName.message}
                 </p>
               )}
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 aria-invalid={!!errors.email}
               />
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-destructive text-xs mt-1">
                   {errors.email.message}
                 </p>
               )}
@@ -143,14 +143,14 @@ export default function ContactPage() {
                 className="w-full border rounded-xl px-4 py-3 text-sm outline-none resize-none"
               />
               {errors.message && (
-                <p className="text-red-500 text-xs mt-1">
+                <p className="text-destructive text-xs mt-1">
                   {errors.message.message}
                 </p>
               )}
             </div>
 
             {/* Button */}
-            <Button className="w-full bg-black text-white rounded-xl h-12 flex items-center justify-center gap-2">
+            <Button type="submit" variant="default" size="lg">
               <Send size={16} />
               Send Message
             </Button>

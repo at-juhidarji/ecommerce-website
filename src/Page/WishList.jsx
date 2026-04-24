@@ -10,8 +10,7 @@ export const WishlistPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white">
-
+    <div className="min-h-screen bg-background">
       {/* HEADER */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14">
         <motion.div
@@ -19,13 +18,13 @@ export const WishlistPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 font-semibold mb-2">
+          <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-semibold mb-2">
             Your Favourites
           </p>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
             Wishlist
           </h1>
-          <p className="text-zinc-400 mt-1.5 text-sm">
+          <p className="text-muted-foreground mt-1.5 text-sm">
             {wishlist.length > 0
               ? `${wishlist.length} item${wishlist.length > 1 ? "s" : ""} saved`
               : "Save your favorite items and shop later"}
@@ -41,19 +40,20 @@ export const WishlistPage = () => {
           transition={{ delay: 0.15 }}
           className="flex flex-col items-center justify-center py-20 text-center px-4"
         >
-          <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center mb-6">
-            <Heart className="w-8 h-8 text-zinc-300" />
+          <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
+            <Heart className="w-8 h-8 text-muted-foreground" />
           </div>
           <h2 className="text-xl font-semibold mb-2 tracking-tight">
             Your wishlist is empty
           </h2>
-          <p className="text-zinc-400 mb-8 text-sm max-w-xs">
+          <p className="text-muted-foreground mb-8 text-sm max-w-xs">
             Browse our collections and tap the heart icon to save items you love
           </p>
 
           <Button
             onClick={() => navigate("/collections")}
-            className="bg-zinc-900 text-white px-8 py-3 rounded-xl cursor-pointer font-medium hover:bg-zinc-800 transition-colors"
+            variant="default"
+            size="lg"
           >
             Explore Collections
           </Button>

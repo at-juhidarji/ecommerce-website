@@ -33,14 +33,15 @@ export default function App() {
         <Route path="/collections" element={<CollectionsPage />} />
         <Route path="/New" element={<ProductCollection />} />
         <Route path="/CartDrawer" element={<CartDrawer />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route
+          path="/product/:id"
+          element={<ProductDetail key={window.location.pathname} />}
+        />
         <Route path="/productCollection" element={<ProductCollection />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/success" element={<OrderSuccess />} />
         <Route path="/orders" element={<OrdersPage />} />
-
-
       </Routes>
 
       {/* Footer */}

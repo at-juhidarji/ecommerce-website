@@ -78,7 +78,7 @@ export const Navbar = () => {
 
   return (
     <header
-      className={`relative w-full sticky top-0 z-50 transition-all duration-500 ${
+      className={`w-full sticky top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-white/80 backdrop-blur-xl shadow-[0_1px_0_0_rgba(0,0,0,0.04)] border-b border-zinc-100/50"
           : "bg-white border-b border-zinc-100"
@@ -86,14 +86,17 @@ export const Navbar = () => {
     >
       {/* NAVBAR */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-
         {/* LEFT */}
         <div className="flex items-center gap-4">
-
           {/* MOBILE MENU */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden cursor-pointer hover:bg-zinc-50 transition-colors">
+              <Button               
+                variant="ghost"
+                size="icon"
+                className="md:hidden"
+                aria-label="Open mobile menu"
+              >
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
@@ -105,14 +108,19 @@ export const Navbar = () => {
                 </h2>
 
                 <SheetClose asChild>
-                  <Link to="/" className="px-3 py-2.5 hover:bg-zinc-50 rounded-xl text-sm font-medium transition-colors">
+                  <Link
+                    to="/"
+                    className="px-3 py-2.5 hover:bg-zinc-50 rounded-xl text-sm font-medium transition-colors"
+                  >
                     Home
                   </Link>
                 </SheetClose>
 
                 <div className="border-t border-zinc-100"></div>
 
-                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-semibold">Categories</p>
+                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-semibold">
+                  Categories
+                </p>
 
                 {categories.map((cat) => (
                   <SheetClose asChild key={cat.name}>
@@ -121,7 +129,7 @@ export const Navbar = () => {
                       className="flex justify-between items-center px-3 py-2.5 rounded-xl hover:bg-zinc-50 text-sm font-medium transition-colors"
                     >
                       {cat.name}
-                      <ChevronDown className="w-4 h-4 rotate-[-90deg] text-zinc-300" />
+                      <ChevronDown className="w-4 h-4 -rotate-90 text-zinc-300" />
                     </Link>
                   </SheetClose>
                 ))}
@@ -141,14 +149,14 @@ export const Navbar = () => {
           <nav className="hidden md:flex items-center gap-8 ml-6">
             <Link
               to="/"
-              className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1.5px] after:bg-zinc-950 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-zinc-950 after:transition-all after:duration-300 hover:after:w-full"
             >
               Home
             </Link>
 
-             <Link
+            <Link
               to="/orders"
-              className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors relative after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1.5px] after:bg-zinc-950 after:transition-all after:duration-300 hover:after:w-full"
+              className="text-sm font-medium text-zinc-600 hover:text-zinc-950 transition-colors relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 after:h-[1.5px] after:bg-zinc-950 after:transition-all after:duration-300 hover:after:w-full"
             >
               Order
             </Link>
@@ -176,10 +184,8 @@ export const Navbar = () => {
 
         {/* RIGHT */}
         <div className="flex items-center gap-1" ref={searchRef}>
-
           {/* SEARCH */}
           <div className="flex items-center gap-1">
-
             {/* DESKTOP */}
             <div className="hidden md:flex items-center gap-2 relative">
               <AnimatePresence>
@@ -215,8 +221,14 @@ export const Navbar = () => {
                               }}
                               className="px-3 py-2.5 hover:bg-zinc-50 cursor-pointer flex items-center gap-3 rounded-xl transition-colors"
                             >
-                              <img src={p.image} className="w-9 h-9 rounded-lg object-cover" alt={p.name} />
-                              <span className="text-sm font-medium text-zinc-700 line-clamp-1">{p.name}</span>
+                              <img  
+                                src={p.image}
+                                className="w-9 h-9 rounded-lg object-cover"
+                                alt={p.name}
+                              />
+                              <span className="text-sm font-medium text-zinc-700 line-clamp-1">
+                                {p.name}
+                              </span>
                             </div>
                           ))
                         ) : (
@@ -231,36 +243,45 @@ export const Navbar = () => {
               </AnimatePresence>
 
               <Button
-                className="cursor-pointer hover:bg-zinc-50 transition-colors"
                 onClick={() => setShowSearch(!showSearch)}
                 variant="ghost"
                 size="icon"
+                aria-label={showSearch ? "Close search" : "Open search"}
               >
-                {showSearch ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
+                {showSearch ? (
+                  <X className="w-4 h-4" />
+                ) : (
+                  <Search className="w-4 h-4" />
+                )}
               </Button>
             </div>
 
             {/* MOBILE ICON */}
             <Button
-              className="md:hidden cursor-pointer"
+              className="md:hidden"
               variant="ghost"
               size="icon"
               onClick={() => setShowSearch(!showSearch)}
+              aria-label={showSearch ? "Close search" : "Open search"}
             >
-              {showSearch ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
+              {showSearch ? (
+                <X className="w-4 h-4" />
+              ) : (
+                <Search className="w-4 h-4" />
+              )}
             </Button>
           </div>
 
           {/* WISHLIST */}
           <div className="relative">
             <Button
-              className="cursor-pointer hover:bg-zinc-50 transition-colors"
               variant="ghost"
               size="icon"
               onClick={() => navigate("/wishlist")}
+              aria-label="View wishlist"
             >
               <Heart
-                className={`w-[18px] h-[18px] transition-all duration-300 ${
+                className={`w-4.5 h-4.5 transition-all duration-300 ${
                   wishlist.length > 0
                     ? "text-red-500 fill-red-500 scale-110"
                     : "text-zinc-700"
@@ -282,12 +303,12 @@ export const Navbar = () => {
           {/* CART */}
           <div className="relative">
             <Button
-              className="cursor-pointer hover:bg-zinc-50 transition-colors"
               variant="ghost"
               size="icon"
               onClick={() => navigate("/CartDrawer")}
+              aria-label="View shopping cart"
             >
-              <ShoppingCart className="w-[18px] h-[18px] text-zinc-700" />
+              <ShoppingCart className="w-4.5 h-4.5 text-zinc-700" />
             </Button>
 
             {cart.length > 0 && (
@@ -335,8 +356,14 @@ export const Navbar = () => {
                         }}
                         className="px-3 py-2.5 hover:bg-zinc-50 cursor-pointer flex items-center gap-3 rounded-xl transition-colors"
                       >
-                        <img src={p.image} className="w-9 h-9 rounded-lg object-cover" alt={p.name} />
-                        <span className="text-sm font-medium text-zinc-700">{p.name}</span>
+                        <img
+                          src={p.image}
+                          className="w-9 h-9 rounded-lg object-cover"
+                          alt={p.name}
+                        />
+                        <span className="text-sm font-medium text-zinc-700">
+                          {p.name}
+                        </span>
                       </div>
                     ))
                   ) : (

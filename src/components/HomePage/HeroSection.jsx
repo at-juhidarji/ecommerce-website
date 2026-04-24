@@ -1,4 +1,5 @@
 import React from "react";
+import SectionContainer from "@/components/ui/SectionContainer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -25,35 +26,39 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-[var(--background)] text-white overflow-hidden">
+    <div className="bg-background text-foreground overflow-hidden">
       {/* HERO */}
-      <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <SectionContainer className="py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* LEFT IMAGE */}
-        <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-[400px] md:h-[450px] lg:h-[520px] group">
+        <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-100 md:h-112.5 lg:h-130 group">
           <img
             alt="Hero banner"
             src={HERO_MAIN_IMAGE}
             className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-hero-overlay" />
 
           {/* CTA BUTTONS */}
           <div className="absolute bottom-6 left-6 flex gap-3 flex-wrap">
             {/* PRIMARY BUTTON */}
             <Button
+              type="button"
               onClick={() => navigate("/productcollection")}
-              variant="ghost"
-              className="rounded-full px-5 flex items-center gap-2 bg-white text-black cursor-pointer hover:bg-gray-300"
+              variant="default"
+              size="sm"
+              aria-label="Shop now for latest products"
             >
               Shop Now <ArrowRight className="w-4 h-4" />
             </Button>
 
             {/* SECONDARY BUTTON */}
             <Button
+              type="button"
               onClick={() => navigate("/contact")}
-              variant="ghost"
-              className="rounded-full px-5 flex items-center gap-2 bg-white text-black cursor-pointer hover:bg-gray-300"
+              variant="secondary"
+              size="sm"
+              aria-label="Contact us for inquiries"
             >
               Contact <Phone className="w-4 h-4" />
             </Button>
@@ -61,31 +66,33 @@ const HeroSection = () => {
         </div>
 
         {/* RIGHT TEXT */}
-        <div className="flex flex-col justify-center text-black">
+        <div className="flex flex-col justify-center text-foreground">
           <div className="py-6">
             <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
               FIND CLOTHES THAT MATCHES YOUR STYLE
             </h1>
 
-            <p className="text-gray-400 mb-6">
+            <p className="text-muted-foreground mb-6">
               Discover premium fashion curated for your individuality.
             </p>
 
             {/* EXPLORE BUTTON */}
             <Button
+              type="button"
               onClick={() =>
                 document.getElementById("collection")?.scrollIntoView({
                   behavior: "smooth",
                 })
               }
-              variant="ghost"
-              className="rounded-full px-6 mb-8 bg-orange-600 cursor-pointer hover:bg-orange-400 "
+              variant="default"
+              size="sm"
+              aria-label="Explore our product collection"
             >
               Explore Collection
             </Button>
 
             {/* STATS */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-white/10 pt-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-surface-light pt-6">
               {[
                 { value: "200+", label: "Brands" },
                 { value: "2K+", label: "Products" },
@@ -93,16 +100,16 @@ const HeroSection = () => {
               ].map((item, i) => (
                 <div key={i}>
                   <h3 className="text-xl font-bold">{item.value}</h3>
-                  <p className="text-gray-500 text-sm">{item.label}</p>
+                  <p className="text-muted-foreground text-sm">{item.label}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </SectionContainer>
 
       {/* CATEGORY CARDS */}
-      <div className="max-w-7xl mx-auto px-4 pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <SectionContainer className="pb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((card, i) => (
           <div
             key={i}
@@ -114,14 +121,14 @@ const HeroSection = () => {
               className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
             />
 
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition" />
+            <div className="absolute inset-0 bg-overlay group-hover:bg-overlay-strong transition" />
 
-            <div className="absolute bottom-4 left-4 text-white text-xl font-bold">
+            <div className="absolute bottom-4 left-4 text-on-dark text-xl font-bold">
               {card.tag}
             </div>
           </div>
         ))}
-      </div>
+      </SectionContainer>
     </div>
   );
 };

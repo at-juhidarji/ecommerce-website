@@ -18,13 +18,14 @@ export default function HeroSlider({ images, title, subtitle }) {
       role="region"
       aria-label="Hero image slider"
     >
-
       {/* LEFT ARROW */}
       <Button
         ref={prevRef}
-        type="Button"
+        type="button"
+        variant="ghost"
+        size="icon"
         aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20"
       >
         <ChevronLeft />
       </Button>
@@ -32,9 +33,11 @@ export default function HeroSlider({ images, title, subtitle }) {
       {/* RIGHT ARROW */}
       <Button
         ref={nextRef}
-        type="Button"
+        type="button"
+        variant="ghost"
+        size="icon"
         aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 text-orange-400 p-3 rounded-full hover:bg-black/70 transition"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20"
       >
         <ChevronRight />
       </Button>
@@ -61,7 +64,6 @@ export default function HeroSlider({ images, title, subtitle }) {
         {images.map((img, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
-              
               {/* IMAGE */}
               <img
                 src={img}
@@ -70,13 +72,11 @@ export default function HeroSlider({ images, title, subtitle }) {
               />
 
               {/* OVERLAY */}
-              <div className="absolute inset-0 bg-black/40" />
+              <div className="absolute inset-0 bg-overlay" />
 
               {/* TEXT */}
-              <div className="absolute bottom-10 left-10 text-white">
-                <h2 className="text-4xl font-bold text-orange-400">
-                  {title}
-                </h2>
+              <div className="absolute bottom-10 left-10 text-primary-foreground">
+                <h2 className="text-4xl font-bold text-primary">{title}</h2>
                 <p className="text-lg opacity-80">{subtitle}</p>
               </div>
             </div>
@@ -89,11 +89,13 @@ export default function HeroSlider({ images, title, subtitle }) {
         {images.map((_, i) => (
           <Button
             key={i}
-            type="Button"
+            type="button"
+            variant="ghost"
+            size="icon"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => swiperRef.current.slideToLoop(i)}
             className={`w-2.5 h-2.5 rounded-full transition ${
-              active === i ? "bg-orange-400 scale-110" : "bg-white/40"
+              active === i ? "bg-primary scale-110" : "bg-muted"
             }`}
           />
         ))}
