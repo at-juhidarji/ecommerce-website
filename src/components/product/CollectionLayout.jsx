@@ -1,9 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { ProductCard } from "@/components/product/ProductCard";
 import HeroSlider from "@/components/ui/HeroSlider";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export const CollectionLayout = ({
   title,
@@ -20,6 +28,23 @@ export const CollectionLayout = ({
       role="region"
       aria-labelledby={`${title}-heading`}
     >
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="capitalize">{title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
       {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}

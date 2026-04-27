@@ -36,7 +36,7 @@ const reviews = [
 
 const PremiumReviewSlider = () => {
   return (
-    <section className="bg-zinc-50/50 text-zinc-900 py-12 md:py-16 overflow-hidden relative">
+    <section className="bg-muted/50 text-zinc-900 py-12 md:py-16 overflow-hidden relative">
       {/* 🔥 Animation */}
       <style>
         {`
@@ -66,13 +66,13 @@ const PremiumReviewSlider = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 font-semibold mb-3">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted font-semibold mb-3">
             Testimonials
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Loved by Thousands
           </h2>
-          <p className="text-zinc-400 mt-2 text-sm">
+          <p className="text-muted mt-2 text-sm">
             Real reviews from real customers
           </p>
         </motion.div>
@@ -87,18 +87,18 @@ const PremiumReviewSlider = () => {
             {[...reviews, ...reviews].map((r, i) => (
               <div
                 key={i}
-                className="min-w-[340px] max-w-[340px] bg-white rounded-2xl p-7 flex flex-col gap-5 border border-zinc-100 shadow-sm hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500 select-none"
+                className="min-w-[340px] max-w-[340px] bg-surface rounded-2xl p-7 flex flex-col gap-5 border border-border shadow-sm hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500 select-none"
               >
                 {/* Quote icon */}
                 <Quote className="w-8 h-8 text-orange-200" />
 
                 {/* Review Text */}
-                <p className="text-zinc-600 text-sm leading-relaxed flex-1">
+                <p className="text-muted-foreground text-sm leading-relaxed flex-1">
                   "{r.text}"
                 </p>
 
                 {/* Divider */}
-                <div className="border-t border-zinc-100" />
+                <div className="border-t border-border" />
 
                 {/* 👤 Avatar + Name */}
                 <div className="flex items-center justify-between">
@@ -106,14 +106,14 @@ const PremiumReviewSlider = () => {
                     <img
                       src={r.img}
                       alt={r.name}
-                      className="w-10 h-10 rounded-full object-cover border-2 border-zinc-100"
+                      className="w-10 h-10 rounded-full object-cover border-2 border-border"
                       loading="lazy"
                     />
                     <div>
                       <p className="text-zinc-900 font-semibold text-sm tracking-tight">
                         {r.name}
                       </p>
-                      <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
+                      <p className="text-[10px] text-muted font-medium tracking-wide">
                         {r.tag}
                       </p>
                     </div>

@@ -74,7 +74,7 @@ export const Footer = () => {
                 id="footer-newsletter-email"
                 name="email"
                 type="email"
-                className="bg-surface-light border-surface-light text-on-dark placeholder:text-surface-muted focus-visible:border-warning focus-visible:ring-warning/30"
+                className="bg-surface border-surface-light text-foreground placeholder:text-surface-muted focus-visible:border-warning focus-visible:ring-warning/30"
                 placeholder="email@example.com"
                 required
                 autoComplete="email"

@@ -25,11 +25,11 @@ const OrderSuccess = () => {
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="bg-surface w-full max-w-2xl rounded-2xl shadow-xl border border-border p-6 md:p-10"
+        className="bg-surface w-full max-w-5xl rounded-2xl shadow-xl border border-border p-6 md:p-10"
       >
         {/* HEADER */}
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 rounded-full bg-success flex items-center justify-center">
+          <div className="mx-auto w-16 h-16 rounded-full bg-surface flex items-center justify-center">
             <CheckCircle className="text-success w-10 h-10" />
           </div>
 
@@ -114,23 +114,13 @@ const OrderSuccess = () => {
 
         {/* BUTTONS */}
         <div className="mt-6 grid gap-3">
-          <Button
-            onClick={() => navigate(`/track-order/${order.id}`)}
-            variant="default"
-            size="lg"
-            className="w-full"
-            aria-label="Track your order"
-          >
-            Track Your Order
-            <ArrowRight className="w-4 h-4" />
-          </Button>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button variant="outline" onClick={() => navigate("/orders")}>
+            <Button  aria-label="View your orders" variant="outline" onClick={() => navigate("/orders")}>
               View Orders
             </Button>
 
-            <Button onClick={() => navigate("/")} variant="default">
+            <Button aria-label="Return to home" onClick={() => navigate("/")} variant="default">
               <Home className="w-4 h-4 mr-2" />
               Home
             </Button>

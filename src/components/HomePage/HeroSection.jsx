@@ -32,7 +32,7 @@ const HeroSection = () => {
         {/* LEFT IMAGE */}
         <div className="lg:col-span-2 relative rounded-2xl overflow-hidden h-100 md:h-112.5 lg:h-130 group">
           <img
-            alt="Hero banner"
+            alt="Trendy fashion collection banner"
             src={HERO_MAIN_IMAGE}
             className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
           />
@@ -69,7 +69,7 @@ const HeroSection = () => {
         <div className="flex flex-col justify-center text-foreground">
           <div className="py-6">
             <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight mb-4">
-              FIND CLOTHES THAT MATCHES YOUR STYLE
+              FIND CLOTHES THAT MATCH YOUR STYLE
             </h1>
 
             <p className="text-muted-foreground mb-6">

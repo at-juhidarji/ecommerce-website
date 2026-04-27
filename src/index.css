@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
@@ -73,6 +73,7 @@
   --success: #10b981;
   --warning: #f59e0b;
   --info: #3b82f6;
+  --text-muted: #a1a1aa;
 }
 
 @theme inline {
@@ -107,6 +108,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-info: var(--info);
+--color-muted: var(--text-muted);
 
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) - 2px);

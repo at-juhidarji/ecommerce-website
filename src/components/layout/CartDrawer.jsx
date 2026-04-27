@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2, ArrowLeft, ShoppingBag } from "lucide-react";
+import { Trash2, ArrowLeft, ShoppingBag, Plus, Minus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { Button } from "../ui/button";
@@ -21,9 +21,9 @@ const CartDrawer = () => {
         {/* 🧾 TITLE */}
         <div className="mb-10 sm:mb-14">
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
-            YOUR <span className="text-orange-500">BAG</span>
+            YOUR <span className="text-primary">BAG</span>
           </h1>
-          <p className="text-zinc-400 text-sm mt-2">
+          <p className="text-muted text-sm mt-2">
             {cart.length > 0
               ? `${totalItems} item${totalItems > 1 ? "s" : ""} in your bag`
               : "Your bag is empty"}
@@ -69,11 +69,11 @@ const CartDrawer = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                     transition={{ delay: index * 0.05 }}
-                    className="flex flex-col sm:grid sm:grid-cols-4 gap-4 sm:gap-6 border-b border-zinc-100 py-6 first:pt-0"
+                    className="flex flex-col sm:grid sm:grid-cols-4 gap-4 sm:gap-6 border-b border-border py-6 first:pt-0"
                   >
                     {/* PRODUCT */}
                     <div className="flex gap-4 sm:col-span-2">
-                      <div className="w-20 h-24 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-zinc-50">
+                      <div className="w-20 h-24 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-muted">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -86,7 +86,7 @@ const CartDrawer = () => {
                           <h3 className="font-semibold text-sm sm:text-base">
                             {item.name}
                           </h3>
-                          <p className="text-zinc-400 text-sm">
+                          <p className="text-muted text-sm">
                             ₹{item.price.toLocaleString()}
                           </p>
                         </div>
@@ -116,10 +116,10 @@ const CartDrawer = () => {
                           size="sm"
                           variant="ghost"
                           onClick={() => decreaseQty(item.id)}
-                          className="rounded-none h-10 w-10"
+                          className="rounded-none h-10 w-10 flex items-center justify-center p-0"
                           aria-label={`Decrease quantity of ${item.name}`}
                         >
-                          −
+                          <Minus className="w-4 h-4" />
                         </Button>
 
                         <span className="w-10 text-center font-semibold text-sm tabular-nums">
@@ -130,17 +130,17 @@ const CartDrawer = () => {
                           size="sm"
                           variant="ghost"
                           onClick={() => increaseQty(item.id)}
-                          className="rounded-none h-10 w-10"
+                          className="rounded-none h-10 w-10 flex items-center justify-center p-0"
                           aria-label={`Increase quantity of ${item.name}`}
                         >
-                          +
+                          <Plus className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
 
                     {/* PRICE */}
                     <div className="flex justify-between sm:block sm:text-right font-semibold text-sm sm:text-base items-center">
-                      <span className="sm:hidden text-zinc-400">Total:</span>₹
+                      <span className="sm:hidden text-muted">Total:</span>₹
                       {(item.price * item.qty).toLocaleString()}
                     </div>
                   </motion.div>

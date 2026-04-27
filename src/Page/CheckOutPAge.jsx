@@ -74,8 +74,6 @@ const VastraCheckout = () => {
 
     localStorage.setItem("orders", JSON.stringify([newOrder, ...existing]));
 
-    // ❌ OLD: setCart([])
-    // ✅ FIXED:
     clearCart();
 
     setTimeout(() => {
@@ -92,133 +90,126 @@ const VastraCheckout = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      
       <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-80px)]">
         {/* LEFT (UNCHANGED) */}
-        <section className="lg:col-span-7 p-6 md:p-12 lg:p-16 lg:border-r border-border">
-          <Button
-            type="button"
-            onClick={() => navigate(-1)}
-            variant="ghost"
-            size="sm"
-            aria-label="Go back"
-          >
-            <ChevronLeft size={16} />
-            Back
-          </Button>
+        <section className="lg:col-span-7 px-4 sm:px-6 py-8 md:py-14 lg:border-r border-border">
 
-          <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+           <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
+            YOUR <span className="text-primary">CHECKOUT</span>
+          </h1>
+        <form onSubmit={placeOrder} className="space-y-8 max-w-xl mx-auto py-4">
 
-          <form onSubmit={placeOrder} className="space-y-10">
-            {/* CONTACT */}
-            <div>
-              <h2 className="text-xs font-bold mb-3">Contact</h2>
-              <Input type="email" placeholder="Email" />
-            </div>
+  {/* CONTACT */}
+  <div className="border border-border rounded-xl p-5 bg-white space-y-4">
+    <h2 className="text-sm font-semibold text-foreground">Contact</h2>
 
-            {/* SHIPPING */}
-            <div>
-              <h2 className="text-xs font-bold mb-3">Shipping</h2>
+    <Input
+      type="email"
+      placeholder="Email address"
+      required
+      className="h-11"
+    />
+  </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <Input placeholder="First Name" />
-                <Input placeholder="Last Name" />
-              </div>
+  {/* SHIPPING */}
+  <div className="border border-border rounded-xl p-5 bg-white space-y-4">
+    <h2 className="text-sm font-semibold text-foreground">
+      Shipping Address
+    </h2>
 
-              <Input placeholder="Address" />
+    <div className="grid grid-cols-2 gap-4">
+      <Input placeholder="First Name" required className="h-11" />
+      <Input placeholder="Last Name" required className="h-11" />
+    </div>
 
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                <Input placeholder="City" />
-                <Input placeholder="State" />
-                <Input placeholder="Pincode" />
-              </div>
-            </div>
+    <Input placeholder="Street Address" required className="h-11" />
 
-            {/* PAYMENT */}
-            <div>
-              <h2 className="text-xs font-bold mb-3">Payment</h2>
+    <div className="grid grid-cols-3 gap-4">
+      <Input placeholder="City" required className="h-11" />
+      <Input placeholder="State" required className="h-11" />
+      <Input placeholder="Pincode" required className="h-11" />
+    </div>
+  </div>
 
-              {[
-                {
-                  id: "upi",
-                  label: "UPI Payments",
-                  icon: <Smartphone size={18} />,
-                },
-                {
-                  id: "card",
-                  label: "Card Payment",
-                  icon: <CreditCard size={18} />,
-                },
-                {
-                  id: "cod",
-                  label: "Cash on Delivery",
-                  icon: <Truck size={18} />,
-                },
-              ].map((method) => (
-                <label
-                  key={method.id}
-                  className={`flex items-start gap-4 border p-4 rounded-lg mb-3 cursor-pointer ${
-                    paymentMethod === method.id
-                      ? "border-border bg-muted"
-                      : "border-border"
-                  }`}
-                >
-                  <Input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === method.id}
-                    onChange={() => setPaymentMethod(method.id)}
-                    className="mt-1.5 h-4 w-4 shrink-0 rounded-full border border-border p-0 accent-primary"
-                  />
+  {/* PAYMENT */}
+  <div className="border border-border rounded-xl p-5 bg-white space-y-3">
+    <h2 className="text-sm font-semibold text-foreground">
+      Payment Method
+    </h2>
 
-                  <div className="flex flex-col w-full">
-                    <div className="flex items-center gap-3">
-                      {method.icon}
-                      <span className="font-medium">{method.label}</span>
-                    </div>
+    {[
+      { id: "upi", label: "UPI Payments", icon: <Smartphone size={18} /> },
+      { id: "card", label: "Card Payment", icon: <CreditCard size={18} /> },
+      { id: "cod", label: "Cash on Delivery", icon: <Truck size={18} /> },
+    ].map((method) => (
+      <label
+        key={method.id}
+        className={`flex items-start gap-4 border rounded-xl p-4 cursor-pointer transition-all
+        ${
+          paymentMethod === method.id
+            ? "border-primary bg-muted"
+            : "border-border hover:bg-muted/50"
+        }`}
+      >
+        <input
+          type="radio"
+          name="payment"
+          checked={paymentMethod === method.id}
+          onChange={() => setPaymentMethod(method.id)}
+          className="mt-1 accent-primary"
+        />
 
-                    {(method.id === "upi" || method.id === "card") && (
-                      <div className="flex gap-3 mt-3 ml-6">
-                        {paymentIcons[method.id].map((app) => (
-                          <img
-                            key={app.name}
-                            src={app.icon}
-                            className="h-5"
-                            alt={app.name}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </label>
+        <div className="flex flex-col w-full">
+          <div className="flex items-center gap-3">
+            {method.icon}
+            <span className="text-sm font-medium text-foreground">
+              {method.label}
+            </span>
+          </div>
+
+          {(method.id === "upi" || method.id === "card") && (
+            <div className="flex gap-3 mt-3 ml-6 opacity-80">
+              {paymentIcons[method.id].map((app) => (
+                <img
+                  key={app.name}
+                  src={app.icon}
+                  className="h-5 w-10"
+                  alt={app.name}
+                />
               ))}
             </div>
+          )}
+        </div>
+      </label>
+    ))}
+  </div>
 
-            {/* PAY BUTTON (UNCHANGED) */}
-            <Button
-              type="submit"
-              disabled={loading}
-              variant="default"
-              size="lg"
-              className="w-full"
-              aria-label="Pay now"
-            >
-              <Lock className="mr-2 w-4 h-4" />
-              {loading ? "Processing..." : `Pay ₹${total.toLocaleString()}`}
-            </Button>
+  {/* PAY BUTTON */}
+  <Button
+    type="submit"
+    disabled={!paymentMethod || loading}
+    size="lg"
+    className="w-full h-12 text-sm font-semibold"
+  >
+    <Lock className="mr-2 w-4 h-4" />
+    {loading ? "Processing..." : `Pay ₹${total.toLocaleString()}`}
+  </Button>
 
-            {/* TRUST (UNCHANGED) */}
-            <div className="flex justify-center gap-6 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <ShieldCheck size={14} /> Secure
-              </div>
-              <div className="flex items-center gap-1">
-                <Truck size={14} /> Free Delivery
-              </div>
-              <div className="flex items-center gap-1">
-                <Lock size={14} /> SSL Protected
-              </div>
-            </div>
-          </form>
+  {/* TRUST */}
+  <div className="flex justify-center gap-6 text-xs text-muted-foreground pt-2">
+    <div className="flex items-center gap-1">
+      <ShieldCheck size={14} /> Secure
+    </div>
+    <div className="flex items-center gap-1">
+      <Truck size={14} /> Free Delivery
+    </div>
+    <div className="flex items-center gap-1">
+      <Lock size={14} /> SSL Protected
+    </div>
+  </div>
+
+</form>
         </section>
 
         {/* RIGHT (UNCHANGED) */}

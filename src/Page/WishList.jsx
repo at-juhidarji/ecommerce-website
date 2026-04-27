@@ -12,17 +12,14 @@ export const WishlistPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* HEADER */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-14">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-semibold mb-2">
-            Your Favourites
-          </p>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Wishlist
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
+            YOUR <span className="text-primary">WISHLIST</span>
           </h1>
           <p className="text-muted-foreground mt-1.5 text-sm">
             {wishlist.length > 0

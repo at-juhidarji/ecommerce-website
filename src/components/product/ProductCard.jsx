@@ -16,7 +16,9 @@ const StarRating = ({ rating }) => {
           key={s}
           size={11}
           className={
-            s <= fullStars ? "text-warning fill-warning" : "text-muted-foreground"
+            s <= fullStars
+              ? "text-warning fill-warning"
+              : "text-muted-foreground"
           }
         />
       ))}
@@ -169,6 +171,7 @@ export const ProductCard = ({ product, listMode = false }) => {
         <Button
           variant="ghost"
           size="icon"
+          aria-label="Toggle wishlist"
           onClick={handleWishlist}
           className="absolute top-2.5 right-2.5 w-9 h-9 rounded-full bg-surface hover:bg-surface shadow-sm transition-all duration-300"
         >
@@ -176,7 +179,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             className={`w-4 h-4 transition-all duration-300 ${
               isInWishlist(product.id)
                 ? "fill-destructive text-destructive scale-110"
-                : "text-zinc-400"
+                : "text-muted"
             }`}
           />
         </Button>

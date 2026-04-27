@@ -1,11 +1,19 @@
 import React, { useState, useRef } from "react";
 import { products } from "@/Data/Product";
 import { useCart } from "@/context/CartContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { cn } from "@/lib/utils";
@@ -24,6 +32,8 @@ import {
   ThumbsUp,
   ZoomIn,
   Package,
+  Plus,
+  Minus,
 } from "lucide-react";
 
 // ── Mock Reviews ──────────────────────────────────────────────────────────────
@@ -66,11 +76,11 @@ const MOCK_REVIEWS = [
 // ── Size Data ─────────────────────────────────────────────────────────────────
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 const SIZE_GUIDE = {
-  XS:  { chest: "32–34", waist: "26–28", hip: "34–36" },
-  S:   { chest: "34–36", waist: "28–30", hip: "36–38" },
-  M:   { chest: "36–38", waist: "30–32", hip: "38–40" },
-  L:   { chest: "38–40", waist: "32–34", hip: "40–42" },
-  XL:  { chest: "40–42", waist: "34–36", hip: "42–44" },
+  XS: { chest: "32–34", waist: "26–28", hip: "34–36" },
+  S: { chest: "34–36", waist: "28–30", hip: "36–38" },
+  M: { chest: "36–38", waist: "30–32", hip: "38–40" },
+  L: { chest: "38–40", waist: "32–34", hip: "40–42" },
+  XL: { chest: "40–42", waist: "34–36", hip: "42–44" },
   XXL: { chest: "42–44", waist: "36–38", hip: "44–46" },
 };
 
@@ -81,7 +91,9 @@ const StarRow = ({ rating, size = 16 }) => (
       <Star
         key={s}
         size={size}
-        className={s <= rating ? "text-amber-400 fill-amber-400" : "text-zinc-200"}
+        className={
+          s <= rating ? "text-amber-400 fill-amber-400" : "text-zinc-200"
+        }
       />
     ))}
   </div>
@@ -101,7 +113,9 @@ const RatingBar = ({ label, value, total }) => {
           className="h-full bg-amber-400 rounded-full"
         />
       </div>
-      <span className="w-4 text-zinc-400 text-xs font-medium text-right">{value}</span>
+      <span className="w-4 text-muted text-xs font-medium text-right">
+        {value}
+      </span>
     </div>
   );
 };
@@ -114,18 +128,20 @@ const ReviewCard = ({ review }) => {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       // FIX: p-6 → p-4 on small screens, gap tight
-      className="border border-zinc-100 rounded-2xl p-4 sm:p-6 space-y-3 hover:shadow-md hover:shadow-zinc-100/50 transition-all duration-500"
+      className="border border-border rounded-2xl p-4 sm:p-6 space-y-3 hover:shadow-md hover:shadow-zinc-100/50 transition-all duration-500"
     >
       {/* FIX: header wraps on very small screens */}
       <div className="flex items-start justify-between gap-2 flex-wrap">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center text-xs font-bold shrink-0">
+          <div className="w-9 h-9 rounded-full bg-zinc-900 text-destructive-foreground flex items-center justify-center text-xs font-bold shrink-0">
             {review.avatar}
           </div>
           <div className="min-w-0">
             {/* FIX: truncate long name */}
-            <p className="font-semibold text-sm tracking-tight truncate">{review.name}</p>
-            <p className="text-xs text-zinc-400 truncate">
+            <p className="font-semibold text-sm tracking-tight truncate">
+              {review.name}
+            </p>
+            <p className="text-xs text-muted truncate">
               {review.date} · Size: {review.size}
             </p>
           </div>
@@ -140,7 +156,7 @@ const ReviewCard = ({ review }) => {
         onClick={() => setLiked((p) => !p)}
         className={cn(
           "flex items-center gap-1.5 text-xs transition-colors bg-transparent border-none cursor-pointer p-0",
-          liked ? "text-blue-600" : "text-zinc-400 hover:text-zinc-600"
+          liked ? "text-blue-600" : "text-muted hover:text-muted-foreground",
         )}
       >
         <ThumbsUp size={12} />
@@ -157,10 +173,10 @@ const RelatedCard = ({ product, onNavigate }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    className="cursor-pointer group rounded-2xl overflow-hidden border border-zinc-100 hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500"
+    className="cursor-pointer group rounded-2xl overflow-hidden border border-border hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500"
     onClick={() => onNavigate(product.id)}
   >
-    <div className="relative overflow-hidden aspect-[4/5] bg-zinc-50">
+    <div className="relative overflow-hidden aspect-[4/5] bg-muted">
       <img
         src={product.image}
         alt={product.name}
@@ -178,11 +194,15 @@ const RelatedCard = ({ product, onNavigate }) => (
     </div>
     {/* FIX: tighter padding on tiny screens */}
     <div className="p-2.5 sm:p-4 space-y-1">
-      <p className="text-xs sm:text-sm font-semibold line-clamp-1 tracking-tight">{product.name}</p>
+      <p className="text-xs sm:text-sm font-semibold line-clamp-1 tracking-tight">
+        {product.name}
+      </p>
       <div className="flex items-baseline gap-1.5 flex-wrap">
         <span className="text-xs sm:text-sm font-bold">₹{product.price}</span>
         {product.oldPrice && (
-          <span className="text-[10px] sm:text-xs line-through text-zinc-400">₹{product.oldPrice}</span>
+          <span className="text-[10px] sm:text-xs line-through text-muted">
+            ₹{product.oldPrice}
+          </span>
         )}
       </div>
     </div>
@@ -200,7 +220,10 @@ const ImageGallery = ({ images, productName }) => {
   const handleThumbnailClick = (index) => {
     if (index === activeIndex) return;
     setIsTransitioning(true);
-    setTimeout(() => { setActiveIndex(index); setIsTransitioning(false); }, 180);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setIsTransitioning(false);
+    }, 180);
   };
 
   const handleMouseMove = (e) => {
@@ -222,7 +245,7 @@ const ImageGallery = ({ images, productName }) => {
       {/* Main Image — FIX: aspect ratio adjusted for tiny screens */}
       <div
         ref={imgRef}
-        className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-zinc-50 cursor-zoom-in select-none aspect-square sm:aspect-[4/5]"
+        className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-muted cursor-zoom-in select-none aspect-square sm:aspect-[4/5]"
         onMouseEnter={() => setIsZoomed(true)}
         onMouseLeave={() => setIsZoomed(false)}
         onMouseMove={handleMouseMove}
@@ -246,14 +269,14 @@ const ImageGallery = ({ images, productName }) => {
 
         {!isZoomed && (
           // FIX: hide zoom hint on very small screens (too cramped)
-          <div className="hidden sm:flex absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm text-zinc-600 text-xs px-2.5 py-1 rounded-full items-center gap-1.5 shadow-sm pointer-events-none">
+          <div className="hidden sm:flex absolute bottom-3 right-3 bg-surface/80 backdrop-blur-sm text-muted-foreground text-xs px-2.5 py-1 rounded-full items-center gap-1.5 shadow-sm pointer-events-none">
             <ZoomIn size={11} />
             Hover to zoom
           </div>
         )}
 
         {/* FIX: smaller counter on mobile */}
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-black/50 backdrop-blur-sm text-white text-[10px] sm:text-xs px-2 py-1 rounded-full pointer-events-none font-medium">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-black/50 backdrop-blur-sm text-destructive-foreground text-[10px] sm:text-xs px-2 py-1 rounded-full pointer-events-none font-medium">
           {activeIndex + 1} / {images.length}
         </div>
       </div>
@@ -276,7 +299,7 @@ const ImageGallery = ({ images, productName }) => {
                   "relative block rounded-lg overflow-hidden transition-all duration-300 ease-out p-0 border-2 border-transparent",
                   activeIndex === i
                     ? "opacity-100 scale-105 shadow-sm ring-2 ring-zinc-900 ring-offset-1"
-                    : "opacity-40 hover:opacity-70 scale-100"
+                    : "opacity-40 hover:opacity-70 scale-100",
                 )}
                 // FIX: smaller thumbs on tiny screens via inline style with clamp equivalent
                 style={{ width: 56, height: 70 }}
@@ -315,9 +338,15 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen flex items-center justify-center flex-col gap-4 px-4 text-center">
         <Package className="w-14 h-14 text-zinc-200" />
-        <h2 className="text-lg font-semibold tracking-tight">Product not found</h2>
-        <p className="text-zinc-400 text-sm">The item you're looking for doesn't exist.</p>
-        <Button variant="default" onClick={() => navigate("/")}>Go Home</Button>
+        <h2 className="text-lg font-semibold tracking-tight">
+          Product not found
+        </h2>
+        <p className="text-muted text-sm">
+          The item you're looking for doesn't exist.
+        </p>
+        <Button variant="default" onClick={() => navigate("/")}>
+          Go Home
+        </Button>
       </div>
     );
   }
@@ -358,272 +387,346 @@ const ProductDetail = () => {
   }));
 
   const BENEFITS = [
-    { icon: <ShieldCheck size={16} className="text-emerald-500 shrink-0" />, text: "Premium Quality" },
-    { icon: <Sparkles size={16} className="text-amber-500 shrink-0" />,      text: "Modern Design"  },
-    { icon: <Truck size={16} className="text-blue-500 shrink-0" />,           text: "Free Delivery"  },
-    { icon: <RefreshCcw size={16} className="text-violet-500 shrink-0" />,    text: "7-Day Returns"  },
+    {
+      icon: <ShieldCheck size={16} className="text-emerald-500 shrink-0" />,
+      text: "Premium Quality",
+    },
+    {
+      icon: <Sparkles size={16} className="text-amber-500 shrink-0" />,
+      text: "Modern Design",
+    },
+    {
+      icon: <Truck size={16} className="text-blue-500 shrink-0" />,
+      text: "Free Delivery",
+    },
+    {
+      icon: <RefreshCcw size={16} className="text-violet-500 shrink-0" />,
+      text: "7-Day Returns",
+    },
   ];
 
   const DETAILS = [
-    { label: "Material",        value: "100% Premium Cotton" },
-    { label: "Fit",             value: "Regular Fit" },
-    { label: "Care",            value: "Machine wash cold, tumble dry low" },
-    { label: "Origin",          value: "Made in India" },
-    { label: "SKU",             value: `PRD-${product.id}-${selectedSize || "XXX"}` },
+    { label: "Material", value: "100% Premium Cotton" },
+    { label: "Fit", value: "Regular Fit" },
+    { label: "Care", value: "Machine wash cold, tumble dry low" },
+    { label: "Origin", value: "Made in India" },
+    { label: "SKU", value: `PRD-${product.id}-${selectedSize || "XXX"}` },
     { label: "Available Sizes", value: availableSizes.join(", ") },
   ];
 
   return (
     // FIX: min px-3 so content never touches edges at 320px
-    <div className="bg-white max-w-7xl mx-auto text-zinc-900 min-h-screen px-3 sm:px-5 md:px-10 lg:px-16 py-6 sm:py-8 md:py-12 space-y-12 md:space-y-20">
+    <div className="bg-surface max-w-7xl mx-auto text-zinc-900 min-h-screen px-3 sm:px-5 md:px-10 lg:px-16 py-6 sm:py-8 md:py-12 space-y-12 md:space-y-20">
+      <div className="space-y-6 sm:space-y-8">
+        {/* ── BREADCRUMB ──────────────────────────────────────────────────────── */}
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/">Home</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/collections">Collections</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="line-clamp-1 max-w-[150px] sm:max-w-xs md:max-w-sm">
+                {product.name}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
-      {/* ── TOP GRID ──────────────────────────────────────────────────────── */}
-      {/* FIX: single column until lg, stack naturally */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
+        {/* ── TOP GRID ──────────────────────────────────────────────────────── */}
+        {/* FIX: single column until lg, stack naturally */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
+          {/* Gallery */}
+          <ImageGallery images={galleryImages} productName={product.name} />
 
-        {/* Gallery */}
-        <ImageGallery images={galleryImages} productName={product.name} />
-
-        {/* Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-5 sm:space-y-7"
-        >
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-semibold mb-1.5">
-              {product.category || "Collection"}
-            </p>
-            {/* FIX: clamp title font so it doesn't overflow at 320px */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight break-words">
-              {product.name}
-            </h1>
-          </div>
-
-          <div className="flex items-center gap-2 flex-wrap">
-            <StarRow rating={Math.round(Number(avgRating))} />
-            <span className="text-zinc-400 text-xs sm:text-sm font-medium">
-              {avgRating} ({totalReviews} reviews)
-            </span>
-          </div>
-
-          <Separator className="bg-zinc-100" />
-
-          <p className="text-zinc-500 text-sm leading-relaxed">
-            {product.description ||
-              "Premium quality product designed for comfort and modern style. Crafted with attention to every detail."}
-          </p>
-
-          {/* Benefits — FIX: 1 col on very small, 2 col from sm */}
-          <div>
-            <h3 className="font-semibold mb-3 text-sm tracking-tight">Why you'll love it</h3>
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-2">
-              {BENEFITS.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2.5 bg-zinc-50/80 px-3 py-3 rounded-xl hover:bg-zinc-100/80 transition-colors duration-300"
-                >
-                  {item.icon}
-                  <span className="text-xs sm:text-sm font-medium text-zinc-700">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Size Selector */}
-          <div>
-            <div className="flex items-center justify-between mb-3 gap-2">
-              <h3 className="text-sm font-semibold tracking-tight">Select Size</h3>
-              <button
-                onClick={() => setShowSizeGuide((p) => !p)}
-                className="text-zinc-500 hover:text-zinc-900 underline underline-offset-4 decoration-zinc-300 text-xs font-medium bg-transparent border-none cursor-pointer transition-colors whitespace-nowrap"
-              >
-                {showSizeGuide ? "Hide Guide" : "Size Guide"}
-              </button>
-            </div>
-
-            {/* FIX: size buttons smaller on mobile, wrap naturally */}
-            <div className="flex gap-1.5 sm:gap-2 flex-wrap">
-              {availableSizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={cn(
-                    "min-w-10 h-9 sm:h-11 px-2.5 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer border",
-                    selectedSize === size
-                      ? "border-zinc-900 bg-zinc-900 text-white shadow-md hover:bg-zinc-800"
-                      : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:bg-zinc-50"
-                  )}
-                  aria-pressed={selectedSize === size}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-
-            <AnimatePresence>
-              {showSizeGuide && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  {/* FIX: overflow-x-auto so table scrolls horizontally on 320px */}
-                  <div className="mt-3 overflow-x-auto rounded-xl border border-zinc-200">
-                    <table className="min-w-full text-[11px] sm:text-xs text-center">
-                      <thead className="bg-zinc-50">
-                        <tr>
-                          <th className="px-2 sm:px-3 py-2 text-left font-semibold text-zinc-600 whitespace-nowrap">Size</th>
-                          <th className="px-2 sm:px-3 py-2 font-semibold text-zinc-600 whitespace-nowrap">Chest (in)</th>
-                          <th className="px-2 sm:px-3 py-2 font-semibold text-zinc-600 whitespace-nowrap">Waist (in)</th>
-                          <th className="px-2 sm:px-3 py-2 font-semibold text-zinc-600 whitespace-nowrap">Hip (in)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(SIZE_GUIDE).map(([sz, dims], i) => (
-                          <tr
-                            key={sz}
-                            className={cn(
-                              "transition-colors",
-                              i % 2 === 0 ? "bg-white" : "bg-zinc-50/50",
-                              selectedSize === sz && "bg-amber-50/80 font-semibold"
-                            )}
-                          >
-                            <td className="px-2 sm:px-3 py-2 text-left text-zinc-700 font-medium">{sz}</td>
-                            <td className="px-2 sm:px-3 py-2 text-zinc-500">{dims.chest}</td>
-                            <td className="px-2 sm:px-3 py-2 text-zinc-500">{dims.waist}</td>
-                            <td className="px-2 sm:px-3 py-2 text-zinc-500">{dims.hip}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {!selectedSize && (
-              <p className="text-xs text-orange-500 mt-2 font-medium">
-                * Please select a size to continue
+          {/* Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.15,
+              duration: 0.6,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="space-y-5 sm:space-y-7"
+          >
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-semibold mb-1.5">
+                {product.category || "Collection"}
               </p>
-            )}
-          </div>
-        </motion.div>
+              {/* FIX: clamp title font so it doesn't overflow at 320px */}
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight wrap-break-word">
+                {product.name}
+              </h1>
+            </div>
 
-        {/* Price Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Card className="rounded-2xl border border-zinc-100 shadow-lg shadow-zinc-100/50 overflow-hidden">
-            {/* FIX: tighter padding on small screens */}
-            <CardContent className="p-4 sm:p-6 md:p-8 space-y-5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <StarRow rating={Math.round(Number(avgRating))} />
+              <span className="text-muted text-xs sm:text-sm font-medium">
+                {avgRating} ({totalReviews} reviews)
+              </span>
+            </div>
 
-              {/* Price */}
-              <div>
-                <div className="flex items-baseline gap-2 flex-wrap">
-                  {/* FIX: font size down on tiny screen */}
-                  <span className="text-2xl sm:text-3xl font-black tracking-tight">₹{product.price}</span>
-                  {product.oldPrice && (
-                    <>
-                      <span className="line-through text-zinc-400 text-xs sm:text-sm">₹{product.oldPrice}</span>
-                      <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[10px] font-bold">
-                        {product.discount}
-                      </Badge>
-                    </>
-                  )}
-                </div>
-                <p className="text-emerald-600 text-xs sm:text-sm font-semibold mt-1.5 flex items-center gap-1.5">
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shrink-0" />
-                  In Stock
+            <Separator className="bg-zinc-100" />
+
+            <p className="text-zinc-500 text-sm leading-relaxed">
+              {product.description ||
+                "Premium quality product designed for comfort and modern style. Crafted with attention to every detail."}
+            </p>
+
+            {/* Benefits — FIX: 1 col on very small, 2 col from sm */}
+            <div>
+              <h3 className="font-semibold mb-3 text-sm tracking-tight">
+                Why you'll love it
+              </h3>
+              <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-2">
+                {BENEFITS.map((item, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2.5 bg-muted/80 px-3 py-3 rounded-xl hover:bg-zinc-100/80 transition-colors duration-300"
+                  >
+                    {item.icon}
+                    <span className="text-xs sm:text-sm font-medium text-foreground">
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Size Selector */}
+            <div>
+              <div className="flex items-center justify-between mb-3 gap-2">
+                <h3 className="text-sm font-semibold tracking-tight">
+                  Select Size
+                </h3>
+                <button
+                  onClick={() => setShowSizeGuide((p) => !p)}
+                  className="text-zinc-500 hover:text-zinc-900 underline underline-offset-4 decoration-zinc-300 text-xs font-medium bg-transparent border-none cursor-pointer transition-colors whitespace-nowrap"
+                >
+                  {showSizeGuide ? "Hide Guide" : "Size Guide"}
+                </button>
+              </div>
+
+              {/* FIX: size buttons smaller on mobile, wrap naturally */}
+              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
+                {availableSizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={cn(
+                      "min-w-10 h-9 sm:h-11 px-2.5 sm:px-4 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer border",
+                      selectedSize === size
+                        ? "border-zinc-900 bg-zinc-900 text-destructive-foreground shadow-md hover:bg-zinc-800"
+                        : "border-zinc-200 bg-surface text-muted-foreground hover:border-zinc-400 hover:bg-muted",
+                    )}
+                    aria-pressed={selectedSize === size}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              <AnimatePresence>
+                {showSizeGuide && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    {/* FIX: overflow-x-auto so table scrolls horizontally on 320px */}
+                    <div className="mt-3 overflow-x-auto rounded-xl border border-zinc-200">
+                      <table className="min-w-full text-[11px] sm:text-xs text-center">
+                        <thead className="bg-muted">
+                          <tr>
+                            <th className="px-2 sm:px-3 py-2 text-left font-semibold text-muted-foreground whitespace-nowrap">
+                              Size
+                            </th>
+                            <th className="px-2 sm:px-3 py-2 font-semibold text-muted-foreground whitespace-nowrap">
+                              Chest (in)
+                            </th>
+                            <th className="px-2 sm:px-3 py-2 font-semibold text-muted-foreground whitespace-nowrap">
+                              Waist (in)
+                            </th>
+                            <th className="px-2 sm:px-3 py-2 font-semibold text-muted-foreground whitespace-nowrap">
+                              Hip (in)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.entries(SIZE_GUIDE).map(([sz, dims], i) => (
+                            <tr
+                              key={sz}
+                              className={cn(
+                                "transition-colors",
+                                i % 2 === 0 ? "bg-surface" : "bg-muted/50",
+                                selectedSize === sz &&
+                                  "bg-amber-50/80 font-semibold",
+                              )}
+                            >
+                              <td className="px-2 sm:px-3 py-2 text-left text-foreground font-medium">
+                                {sz}
+                              </td>
+                              <td className="px-2 sm:px-3 py-2 text-zinc-500">
+                                {dims.chest}
+                              </td>
+                              <td className="px-2 sm:px-3 py-2 text-zinc-500">
+                                {dims.waist}
+                              </td>
+                              <td className="px-2 sm:px-3 py-2 text-zinc-500">
+                                {dims.hip}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {!selectedSize && (
+                <p className="text-xs text-primary mt-2 font-medium">
+                  * Please select a size to continue
                 </p>
-              </div>
-
-              <Separator className="bg-zinc-100" />
-
-              {/* Delivery Meta */}
-              <div className="text-xs sm:text-sm space-y-3">
-                <div className="flex items-center gap-2.5">
-                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 shrink-0" />
-                  <span className="text-zinc-600">
-                    Deliver to <span className="font-semibold text-zinc-900">Vadodara</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 shrink-0" />
-                  <span className="text-zinc-600">Free Standard Delivery</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400 shrink-0" />
-                  <span className="text-zinc-600">
-                    Delivery: <span className="font-semibold text-zinc-900">Tomorrow</span>
-                  </span>
-                </div>
-              </div>
-
-              <Separator className="bg-zinc-100" />
-
-              {/* Quantity */}
-              <div>
-                <h3 className="text-xs sm:text-sm mb-2.5 font-semibold tracking-tight">Quantity</h3>
-                <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden w-fit">
-                  <button
-                    onClick={() => setQty((p) => Math.max(1, p - 1))}
-                    className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-semibold text-zinc-600 hover:bg-zinc-50 transition-colors cursor-pointer bg-transparent border-none"
-                    aria-label="Decrease quantity"
-                  >
-                    −
-                  </button>
-                  <span className="w-9 sm:w-10 text-center font-semibold text-sm tabular-nums">
-                    {qty}
-                  </span>
-                  <button
-                    onClick={() => setQty((p) => p + 1)}
-                    className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-semibold text-zinc-600 hover:bg-zinc-50 transition-colors cursor-pointer bg-transparent border-none"
-                    aria-label="Increase quantity"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {selectedSize && (
-                <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <span className="text-zinc-400">Size:</span>
-                  <span className="bg-zinc-900 text-white text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                    {selectedSize}
-                  </span>
-                </div>
               )}
+            </div>
+          </motion.div>
 
-              {/* CTA Buttons — FIX: full-width stacked, always readable */}
-              <div className="space-y-2.5 pt-1">
-                <Button
-                  variant="default"
-                  size="lg"
-                  className="w-full gap-2 text-sm sm:text-base h-10 sm:h-11"
-                  onClick={handleAddToCart}
-                >
-                  <ShoppingCart className="w-4 h-4" />
-                  Add to Cart
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full text-sm sm:text-base h-10 sm:h-11"
-                  onClick={handleBuyNow}
-                >
-                  Buy Now
-                </Button>
-              </div>
+          {/* Price Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Card className="rounded-2xl border border-border shadow-lg shadow-zinc-100/50 overflow-hidden">
+              {/* FIX: tighter padding on small screens */}
+              <CardContent className="p-4 sm:p-6 md:p-8 space-y-5">
+                {/* Price */}
+                <div>
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    {/* FIX: font size down on tiny screen */}
+                    <span className="text-2xl sm:text-3xl font-black tracking-tight">
+                      ₹{product.price}
+                    </span>
+                    {product.oldPrice && (
+                      <>
+                        <span className="line-through text-muted text-xs sm:text-sm">
+                          ₹{product.oldPrice}
+                        </span>
+                        <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[10px] font-bold">
+                          {product.discount}
+                        </Badge>
+                      </>
+                    )}
+                  </div>
+                  <p className="text-emerald-600 text-xs sm:text-sm font-semibold mt-1.5 flex items-center gap-1.5">
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shrink-0" />
+                    In Stock
+                  </p>
+                </div>
 
-            </CardContent>
-          </Card>
-        </motion.div>
+                <Separator className="bg-zinc-100" />
+
+                {/* Delivery Meta */}
+                <div className="text-xs sm:text-sm space-y-3">
+                  <div className="flex items-center gap-2.5">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <span className="text-muted-foreground">
+                      Deliver to{" "}
+                      <span className="font-semibold text-zinc-900">
+                        Vadodara
+                      </span>
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <span className="text-muted-foreground">
+                      Free Standard Delivery
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <span className="text-muted-foreground">
+                      Delivery:{" "}
+                      <span className="font-semibold text-zinc-900">
+                        Tomorrow
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <Separator className="bg-zinc-100" />
+
+                {/* Quantity */}
+                <div>
+                  <h3 className="text-xs sm:text-sm mb-2.5 font-semibold tracking-tight">
+                    Quantity
+                  </h3>
+                  <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden w-fit">
+                    <button
+                      onClick={() => setQty((p) => Math.max(1, p - 1))}
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors cursor-pointer bg-transparent border-none"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-9 sm:w-10 text-center font-semibold text-sm tabular-nums">
+                      {qty}
+                    </span>
+                    <button
+                      onClick={() => setQty((p) => p + 1)}
+                      className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors cursor-pointer bg-transparent border-none"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {selectedSize && (
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <span className="text-muted">Size:</span>
+                    <span className="bg-zinc-900 text-destructive-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                      {selectedSize}
+                    </span>
+                  </div>
+                )}
+
+                {/* CTA Buttons — FIX: full-width stacked, always readable */}
+                <div className="space-y-2.5 pt-1">
+                  <Button
+                    variant="default"
+                    size="lg"
+                    className="w-full gap-2 text-sm sm:text-base h-10 sm:h-11"
+                    onClick={handleAddToCart}
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    Add to Cart
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full text-sm sm:text-base h-10 sm:h-11"
+                    onClick={handleBuyNow}
+                  >
+                    Buy Now
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
 
       {/* ── TABS ──────────────────────────────────────────────────────────── */}
@@ -639,11 +742,13 @@ const ProductDetail = () => {
                 "px-3 sm:px-6 py-3 text-xs sm:text-sm font-semibold capitalize transition-all border-b-2 -mb-px cursor-pointer bg-transparent rounded-none whitespace-nowrap shrink-0",
                 activeTab === tab
                   ? "border-zinc-900 text-zinc-900"
-                  : "border-transparent text-zinc-400 hover:text-zinc-600"
+                  : "border-transparent text-muted hover:text-muted-foreground",
               )}
               aria-pressed={activeTab === tab}
             >
-              {tab === "reviews" ? `Reviews (${totalReviews})` : "Product Details"}
+              {tab === "reviews"
+                ? `Reviews (${totalReviews})`
+                : "Product Details"}
             </button>
           ))}
         </div>
@@ -664,20 +769,29 @@ const ProductDetail = () => {
               <div className="space-y-5">
                 <div className="text-center">
                   {/* FIX: large number smaller on 320px */}
-                  <p className="text-5xl sm:text-6xl font-black tracking-tight">{avgRating}</p>
+                  <p className="text-5xl sm:text-6xl font-black tracking-tight">
+                    {avgRating}
+                  </p>
                   <div className="flex justify-center mt-2">
                     <StarRow rating={Math.round(Number(avgRating))} size={18} />
                   </div>
-                  <p className="text-xs sm:text-sm text-zinc-400 mt-2 font-medium">{totalReviews} reviews</p>
+                  <p className="text-xs sm:text-sm text-muted mt-2 font-medium">
+                    {totalReviews} reviews
+                  </p>
                 </div>
                 <div className="space-y-2">
                   {ratingCounts.map(({ star, count }) => (
-                    <RatingBar key={star} label={star} value={count} total={totalReviews} />
+                    <RatingBar
+                      key={star}
+                      label={star}
+                      value={count}
+                      total={totalReviews}
+                    />
                   ))}
                 </div>
                 <Button
                   variant="outline"
-                  className="w-full rounded-xl py-5 text-xs sm:text-sm font-bold border-2 border-zinc-900 hover:bg-zinc-900 hover:text-white transition-all duration-300 cursor-pointer"
+                  className="w-full rounded-xl py-5 text-xs sm:text-sm font-bold border-2 border-zinc-900 hover:bg-zinc-900 hover:text-destructive-foreground transition-all duration-300 cursor-pointer"
                 >
                   Write a Review
                 </Button>
@@ -707,10 +821,14 @@ const ProductDetail = () => {
                 <div
                   key={label}
                   // FIX: wrap value on tiny screens
-                  className="flex justify-between items-start gap-4 border-b border-zinc-100 py-3.5"
+                  className="flex justify-between items-start gap-4 border-b border-border py-3.5"
                 >
-                  <span className="text-zinc-400 font-medium text-xs sm:text-sm shrink-0">{label}</span>
-                  <span className="font-semibold text-right text-zinc-700 text-xs sm:text-sm break-words">{value}</span>
+                  <span className="text-muted font-medium text-xs sm:text-sm shrink-0">
+                    {label}
+                  </span>
+                  <span className="font-semibold text-right text-foreground text-xs sm:text-sm break-words">
+                    {value}
+                  </span>
                 </div>
               ))}
             </motion.div>
@@ -723,18 +841,20 @@ const ProductDetail = () => {
         <div>
           <div className="flex justify-between items-center mb-5 sm:mb-8 gap-2">
             {/* FIX: title smaller on mobile */}
-            <h2 className="text-base sm:text-xl font-bold tracking-tight">You may also like</h2>
+            <h2 className="text-base sm:text-xl font-bold tracking-tight">
+              You may also like
+            </h2>
             <Button
-                         onClick={() => navigate("/productcollection")}
-                         variant="ghost"
-                         size="sm"
-                         aria-label="View all men's products"
-                       >
-                         View All
-                         <span className="group-hover:translate-x-0.5 transition-transform">
-                           →
-                         </span>
-                       </Button>
+              onClick={() => navigate("/productcollection")}
+              variant="ghost"
+              size="sm"
+              aria-label="View all men's products"
+            >
+              View All
+              <span className="group-hover:translate-x-0.5 transition-transform">
+                →
+              </span>
+            </Button>
           </div>
           {/* FIX: 2 cols always, 4 from md */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
@@ -748,7 +868,6 @@ const ProductDetail = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };
