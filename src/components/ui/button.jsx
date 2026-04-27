@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-foreground text-secondary hover:bg-foreground/90 active:scale-[0.98] cursor-pointer transition-all duration-200",
+          "bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] cursor-pointer transition-all duration-200",
         outline:
           "border border-border bg-surface text-foreground hover:bg-muted cursor-pointer",
         secondary: "bg-muted text-foreground hover:bg-secondary cursor-pointer",

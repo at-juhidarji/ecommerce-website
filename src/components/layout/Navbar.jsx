@@ -104,7 +104,7 @@ export const Navbar = () => {
             <SheetContent side="left" className="w-72 px-6 py-8 bg-white">
               <div className="flex flex-col gap-6">
                 <h2 className="text-xl font-semibold tracking-tight border-b border-zinc-100 pb-4">
-                  Explore <span className="text-orange-500">Vastra</span>
+                  Explore <span className="text-primary">Vastra</span>
                 </h2>
 
                 <SheetClose asChild>
@@ -142,7 +142,7 @@ export const Navbar = () => {
             onClick={() => navigate("/")}
             className="text-lg font-black tracking-tight cursor-pointer select-none"
           >
-            VASTRA<span className="text-orange-500">.CO</span>
+            VASTRA<span className="text-primary">.CO</span>
           </h1>
 
           {/* DESKTOP NAV */}
@@ -315,7 +315,7 @@ export const Navbar = () => {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute -top-0.5 -right-0.5 bg-orange-500 text-white text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full shadow-sm"
+                className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full shadow-sm"
               >
                 {cart.reduce((t, i) => t + i.qty, 0)}
               </motion.span>

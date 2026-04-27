@@ -48,7 +48,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-footer text-on-dark" role="contentinfo">
+    <footer className="bg-surface-dark text-on-dark" role="contentinfo">
       {/* Newsletter */}
       <div className="border-b border-surface-border-light">
         <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">

@@ -16,7 +16,7 @@ const StarRating = ({ rating }) => {
           key={s}
           size={11}
           className={
-            s <= fullStars ? "text-accent fill-accent" : "text-muted-foreground"
+            s <= fullStars ? "text-warning fill-warning" : "text-muted-foreground"
           }
         />
       ))}
@@ -106,7 +106,7 @@ export const ProductCard = ({ product, listMode = false }) => {
               )}
 
               {discount && (
-                <span className="text-[11px] text-accent font-semibold">
+                <span className="text-[11px] text-success font-semibold">
                   {discount}% off
                 </span>
               )}
@@ -176,7 +176,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             className={`w-4 h-4 transition-all duration-300 ${
               isInWishlist(product.id)
                 ? "fill-destructive text-destructive scale-110"
-                : "text-secondary"
+                : "text-zinc-400"
             }`}
           />
         </Button>
@@ -201,7 +201,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             {product.sizes.slice(0, 5).map((sz) => (
               <span
                 key={sz}
-                className="text-[10px] font-medium bg-surface backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm text-secondary"
+                className="text-[10px] font-medium bg-surface backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm text-foreground"
               >
                 {sz}
               </span>
@@ -228,7 +228,7 @@ export const ProductCard = ({ product, listMode = false }) => {
           )}
 
           {discount && (
-            <span className="text-[11px] text-accent font-semibold ml-auto">
+            <span className="text-[11px] text-success font-semibold ml-auto">
               {discount}% off
             </span>
           )}
