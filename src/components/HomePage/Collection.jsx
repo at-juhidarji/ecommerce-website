@@ -611,8 +611,7 @@ export const ProductCollection = () => {
             Our Collection
           </h1>
           <p
-            className="text-muted-foreground
-              -foreground mt-3 text-sm max-w-md mx-auto"
+            className="text-muted-foreground mt-3 text-sm max-w-md mx-auto"
           >
             Premium fashion curated for modern lifestyle
           </p>

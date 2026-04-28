@@ -104,7 +104,7 @@ export const Navbar = () => {
       }`}
     >
       {/* ── MAIN BAR ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
         {/* ── LEFT ── */}
         <div className="flex items-center gap-4">
@@ -117,7 +117,7 @@ export const Navbar = () => {
               </Button>
             </SheetTrigger>
 
-            <SheetContent side="left" className="w-72 px-6 py-8 bg-surface">
+            <SheetContent side="left" className="w-72 px-8 py-8 bg-surface">
               <div className="flex flex-col gap-6">
                 <h2 className="text-xl font-semibold tracking-tight border-b border-border pb-4">
                   Explore <span className="text-primary">Vastra</span>
@@ -255,6 +255,15 @@ export const Navbar = () => {
                                   navigate(`/product/${p.id}`);
                                   closeSearch();
                                 }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    navigate(`/product/${p.id}`);
+                                    closeSearch();
+                                  }
+                                }}
+                                role="button"
+                                tabIndex={0}
                                 className="px-3 py-2.5 hover:bg-muted cursor-pointer flex items-center gap-3 rounded-xl transition-colors"
                               >
                                 <img
@@ -402,6 +411,15 @@ export const Navbar = () => {
                             navigate(`/product/${p.id}`);
                             closeSearch();
                           }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              navigate(`/product/${p.id}`);
+                              closeSearch();
+                            }
+                          }}
+                          role="button"
+                          tabIndex={0}
                           className="px-3 py-2.5 hover:bg-muted cursor-pointer flex items-center gap-3 rounded-xl transition-colors"
                         >
                           <img

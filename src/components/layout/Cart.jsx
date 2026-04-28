@@ -23,7 +23,7 @@ const CartDrawer = () => {
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
             YOUR <span className="text-primary">BAG</span>
           </h1>
-          <p className="text-muted text-sm mt-2">
+          <p className="text-muted-foreground text-sm mt-2">
             {cart.length > 0
               ? `${totalItems} item${totalItems > 1 ? "s" : ""} in your bag`
               : "Your bag is empty"}
@@ -86,7 +86,7 @@ const CartDrawer = () => {
                           <h3 className="font-semibold text-sm sm:text-base">
                             {item.name}
                           </h3>
-                          <p className="text-muted text-sm">
+                          <p className="text-muted-foreground text-sm">
                             ₹{item.price.toLocaleString()}
                           </p>
                         </div>
@@ -140,7 +140,7 @@ const CartDrawer = () => {
 
                     {/* PRICE */}
                     <div className="flex justify-between sm:block sm:text-right font-semibold text-sm sm:text-base items-center">
-                      <span className="sm:hidden text-muted">Total:</span>₹
+                      <span className="sm:hidden text-muted-foreground">Total:</span>₹
                       {(item.price * item.qty).toLocaleString()}
                     </div>
                   </motion.div>

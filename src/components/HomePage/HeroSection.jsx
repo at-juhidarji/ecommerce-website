@@ -99,7 +99,7 @@ const HeroSection = () => {
                 { value: "30K+", label: "Customers" },
               ].map((item, i) => (
                 <div key={i}>
-                  <h3 className="text-xl font-bold">{item.value}</h3>
+                  <h2 className="text-xl font-bold">{item.value}</h2>
                   <p className="text-muted-foreground text-sm">{item.label}</p>
                 </div>
               ))}

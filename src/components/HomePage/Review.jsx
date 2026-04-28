@@ -36,7 +36,7 @@ const reviews = [
 
 const PremiumReviewSlider = () => {
   return (
-    <section className="bg-muted/50 text-zinc-900 py-12 md:py-16 overflow-hidden relative">
+    <section className="bg-muted/50 text-foreground py-12 md:py-16 overflow-hidden relative">
       {/* 🔥 Animation */}
       <style>
         {`
@@ -66,13 +66,13 @@ const PremiumReviewSlider = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted font-semibold mb-3">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold mb-3">
             Testimonials
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Loved by Thousands
           </h2>
-          <p className="text-muted mt-2 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             Real reviews from real customers
           </p>
         </motion.div>
@@ -110,10 +110,10 @@ const PremiumReviewSlider = () => {
                       loading="lazy"
                     />
                     <div>
-                      <p className="text-zinc-900 font-semibold text-sm tracking-tight">
+                      <p className="text-foreground font-semibold text-sm tracking-tight">
                         {r.name}
                       </p>
-                      <p className="text-[10px] text-muted font-medium tracking-wide">
+                      <p className="text-[10px] text-muted-foreground font-medium tracking-wide">
                         {r.tag}
                       </p>
                     </div>

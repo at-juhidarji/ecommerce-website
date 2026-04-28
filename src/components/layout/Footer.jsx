@@ -61,27 +61,29 @@ export const Footer = () => {
             </p>
           </div>
 
-          <form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
-            aria-labelledby="footer-newsletter-heading"
-          >
-            <div className="w-full sm:w-auto">
-              <label htmlFor="footer-newsletter-email" className="sr-only">
-                Email address
-              </label>
-              <Input
-                id="footer-newsletter-email"
-                name="email"
-                type="email"
-                className="bg-surface border-surface-light text-foreground placeholder:text-surface-muted focus-visible:border-warning focus-visible:ring-warning/30"
-                placeholder="email@example.com"
-                required
-                autoComplete="email"
-              />
-            </div>
-            <Button type="submit">Subscribe</Button>
-          </form>
+         <form
+  onSubmit={handleSubscribe}
+  className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto"
+  aria-labelledby="footer-newsletter-heading"
+>
+  <label htmlFor="footer-newsletter-email" className="sr-only">
+    Email address
+  </label>
+
+  <Input
+    id="footer-newsletter-email"
+    name="email"
+    type="email"
+    placeholder="email@example.com"
+    required
+    autoComplete="email"
+    className="w-full sm:flex-1 bg-surface text-muted-foreground"
+  />
+
+  <Button size="default" variant="default" className="whitespace-nowrap">
+    Subscribe
+  </Button>
+</form>
         </div>
       </div>
 

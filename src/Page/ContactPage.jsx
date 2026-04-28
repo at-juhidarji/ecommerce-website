@@ -57,7 +57,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-background to-muted px-4 md:px-12 py-16">
+    <section className="min-h-screen bg-gradient-to-b from-background to-muted px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
         {/* LEFT SIDE */}
         <motion.div
@@ -140,7 +140,7 @@ export default function ContactPage() {
                 placeholder="Your message..."
                 rows="5"
                 aria-invalid={!!errors.message}
-                className="w-full border rounded-xl px-4 py-3 text-sm outline-none resize-none"
+                className="w-full border border-border rounded-xl px-4 py-3 text-sm outline-none resize-none bg-background text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/70 transition-colors"
               />
               {errors.message && (
                 <p className="text-destructive text-xs mt-1">

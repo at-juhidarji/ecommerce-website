@@ -179,7 +179,7 @@ export const ProductCard = ({ product, listMode = false }) => {
             className={`w-4 h-4 transition-all duration-300 ${
               isInWishlist(product.id)
                 ? "fill-destructive text-destructive scale-110"
-                : "text-muted"
+                : "text-muted-foreground"
             }`}
           />
         </Button>

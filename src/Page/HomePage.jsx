@@ -8,7 +8,6 @@ export const HomePage = () => {
   return (
     <>
     <HeroSection />
-    <ProductCollection />
     <WhyChooseUs />
     <PremiumReviewSlider />
     </>

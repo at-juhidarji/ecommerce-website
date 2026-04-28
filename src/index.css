@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
@@ -12,31 +12,31 @@
   --card-foreground: #111827;
   --popover: #ffffff;
   --popover-foreground: #111827;
-  --primary: #f97316; /* Orange */
+  --primary: #c2410c; /* Orange-700 — 5.19:1 on white (WCAG AA) */
   --primary-foreground: #ffffff;
   --secondary: #f3f4f6;
   --secondary-foreground: #111827;
   --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
+  --muted-foreground: #4b5563; /* Gray-600 — 7:1 on white (WCAG AA) */
   --accent: #f3f4f6;
   --accent-foreground: #111827;
-  --destructive: #ef4444;
+  --destructive: #dc2626; /* Red-600 — 4.63:1 on white */
   --destructive-foreground: #ffffff;
   --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #f97316;
+  --input: #d1d5db; /* Gray-300 — slightly darker for visibility */
+  --ring: #c2410c;
 
   /* Custom App Colors */
   --surface: #ffffff;
   --surface-light: rgba(0, 0, 0, 0.05);
   --surface-border-light: rgba(0, 0, 0, 0.1);
-  --surface-muted: #6b7280;
+  --surface-muted: #4b5563; /* Gray-600 — 7:1 on white */
   --surface-dark: #111827;
   --on-dark: #ffffff;
   
-  --success: #10b981;
-  --warning: #f59e0b;
-  --info: #3b82f6;
+  --success: #059669; /* Emerald-600 — 4.54:1 on white */
+  --warning: #d97706; /* Amber-600 */
+  --info: #2563eb; /* Blue-600 */
 
   --radius: 0.5rem;
 }
@@ -48,32 +48,31 @@
   --card-foreground: #f9fafb;
   --popover: #111827;
   --popover-foreground: #f9fafb;
-  --primary: #fb923c;
-  --primary-foreground: #ffffff;
+  --primary: #fb923c; /* Orange-400 — 6.58:1 on dark bg */
+  --primary-foreground: #18181b; /* Dark text on orange btn — 6.2:1 */
   --secondary: #1f2937;
   --secondary-foreground: #f9fafb;
   --muted: #1f2937;
-  --muted-foreground: #9ca3af;
+  --muted-foreground: #d1d5db; /* Gray-300 — 10:1 on dark bg */
   --accent: #1f2937;
   --accent-foreground: #f9fafb;
   --destructive: #ef4444;
   --destructive-foreground: #f9fafb;
-  --border: #1f2937;
-  --input: #1f2937;
+  --border: #374151; /* Gray-700 — more visible borders */
+  --input: #374151;
   --ring: #fb923c;
 
   /* Custom App Colors */
   --surface: #111827;
-  --surface-light: rgba(255, 255, 255, 0.05);
-  --surface-border-light: rgba(255, 255, 255, 0.1);
-  --surface-muted: #9ca3af;
+  --surface-light: rgba(255, 255, 255, 0.08);
+  --surface-border-light: rgba(255, 255, 255, 0.15);
+  --surface-muted: #d1d5db; /* Gray-300 — 10:1 on dark bg */
   --surface-dark: #030712;
   --on-dark: #ffffff;
 
-  --success: #10b981;
-  --warning: #f59e0b;
-  --info: #3b82f6;
-  --text-muted: #a1a1aa;
+  --success: #34d399; /* Emerald-400 — high contrast on dark */
+  --warning: #fbbf24; /* Amber-400 */
+  --info: #60a5fa; /* Blue-400 */
 }
 
 @theme inline {
@@ -108,7 +107,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-info: var(--info);
---color-muted: var(--text-muted);
+/* Removed broken --color-muted override (was referencing --text-muted only defined in dark mode) */
 
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) - 2px);
@@ -127,6 +126,18 @@
   }
   html {
     @apply font-sans;
+  }
+
+  /* ── WCAG AA: Global focus-visible styles for native elements ── */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { products } from "@/Data/Product";
 import { collectionsData } from "@/Data/CollectionData";
-import { CollectionLayout } from "@/components/product/CollectionLayout";
+import { CollectionLayout } from "@/components/product/CategoryLayout";
 import { Button } from "@/components/ui/button";
 
 export const CollectionsPage = () => {
@@ -22,8 +22,7 @@ export const CollectionsPage = () => {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* 🔥 Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CollectionLayout
           title={current.title}
           subtitle={current.subtitle}

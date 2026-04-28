@@ -104,7 +104,9 @@ const RatingBar = ({ label, value, total }) => {
   const pct = total > 0 ? Math.round((value / total) * 100) : 0;
   return (
     <div className="flex items-center gap-2 text-sm">
-      <span className="w-3 text-zinc-500 font-medium text-xs">{label}</span>
+      <span className="w-3 text-muted-foreground font-medium text-xs">
+        {label}
+      </span>
       <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
@@ -113,7 +115,7 @@ const RatingBar = ({ label, value, total }) => {
           className="h-full bg-amber-400 rounded-full"
         />
       </div>
-      <span className="w-4 text-muted text-xs font-medium text-right">
+      <span className="w-4 text-muted-foreground text-xs font-medium text-right">
         {value}
       </span>
     </div>
@@ -141,7 +143,7 @@ const ReviewCard = ({ review }) => {
             <p className="font-semibold text-sm tracking-tight truncate">
               {review.name}
             </p>
-            <p className="text-xs text-muted truncate">
+            <p className="text-xs text-muted-foreground truncate">
               {review.date} · Size: {review.size}
             </p>
           </div>
@@ -150,13 +152,17 @@ const ReviewCard = ({ review }) => {
       </div>
 
       <p className="font-semibold text-sm tracking-tight">{review.title}</p>
-      <p className="text-zinc-500 text-sm leading-relaxed">{review.body}</p>
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        {review.body}
+      </p>
 
       <button
         onClick={() => setLiked((p) => !p)}
         className={cn(
           "flex items-center gap-1.5 text-xs transition-colors bg-transparent border-none cursor-pointer p-0",
-          liked ? "text-blue-600" : "text-muted hover:text-muted-foreground",
+          liked
+            ? "text-blue-600"
+            : "text-muted-foreground hover:text-foreground",
         )}
       >
         <ThumbsUp size={12} />
@@ -200,7 +206,7 @@ const RelatedCard = ({ product, onNavigate }) => (
       <div className="flex items-baseline gap-1.5 flex-wrap">
         <span className="text-xs sm:text-sm font-bold">₹{product.price}</span>
         {product.oldPrice && (
-          <span className="text-[10px] sm:text-xs line-through text-muted">
+          <span className="text-[10px] sm:text-xs line-through text-muted-foreground">
             ₹{product.oldPrice}
           </span>
         )}
@@ -341,7 +347,7 @@ const ProductDetail = () => {
         <h2 className="text-lg font-semibold tracking-tight">
           Product not found
         </h2>
-        <p className="text-muted text-sm">
+        <p className="text-muted-foreground text-sm">
           The item you're looking for doesn't exist.
         </p>
         <Button variant="default" onClick={() => navigate("/")}>
@@ -416,7 +422,7 @@ const ProductDetail = () => {
 
   return (
     // FIX: min px-3 so content never touches edges at 320px
-    <div className="bg-surface max-w-7xl mx-auto text-zinc-900 min-h-screen px-3 sm:px-5 md:px-10 lg:px-16 py-6 sm:py-8 md:py-12 space-y-12 md:space-y-20">
+    <div className="bg-surface max-w-7xl mx-auto text-foreground min-h-screen px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12 space-y-12 md:space-y-20">
       <div className="space-y-6 sm:space-y-8">
         {/* ── BREADCRUMB ──────────────────────────────────────────────────────── */}
         <Breadcrumb>
@@ -459,7 +465,7 @@ const ProductDetail = () => {
             className="space-y-5 sm:space-y-7"
           >
             <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-semibold mb-1.5">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-semibold mb-1.5">
                 {product.category || "Collection"}
               </p>
               {/* FIX: clamp title font so it doesn't overflow at 320px */}
@@ -470,14 +476,14 @@ const ProductDetail = () => {
 
             <div className="flex items-center gap-2 flex-wrap">
               <StarRow rating={Math.round(Number(avgRating))} />
-              <span className="text-muted text-xs sm:text-sm font-medium">
+              <span className="text-muted-foreground text-xs sm:text-sm font-medium">
                 {avgRating} ({totalReviews} reviews)
               </span>
             </div>
 
             <Separator className="bg-zinc-100" />
 
-            <p className="text-zinc-500 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               {product.description ||
                 "Premium quality product designed for comfort and modern style. Crafted with attention to every detail."}
             </p>
@@ -510,7 +516,7 @@ const ProductDetail = () => {
                 </h3>
                 <button
                   onClick={() => setShowSizeGuide((p) => !p)}
-                  className="text-zinc-500 hover:text-zinc-900 underline underline-offset-4 decoration-zinc-300 text-xs font-medium bg-transparent border-none cursor-pointer transition-colors whitespace-nowrap"
+                  className="text-zinc-500 hover:text-foreground underline underline-offset-4 decoration-zinc-300 text-xs font-medium bg-transparent border-none cursor-pointer transition-colors whitespace-nowrap"
                 >
                   {showSizeGuide ? "Hide Guide" : "Size Guide"}
                 </button>
@@ -621,7 +627,7 @@ const ProductDetail = () => {
                     </span>
                     {product.oldPrice && (
                       <>
-                        <span className="line-through text-muted text-xs sm:text-sm">
+                        <span className="line-through text-muted-foreground text-xs sm:text-sm">
                           ₹{product.oldPrice}
                         </span>
                         <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[10px] font-bold">
@@ -641,25 +647,25 @@ const ProductDetail = () => {
                 {/* Delivery Meta */}
                 <div className="text-xs sm:text-sm space-y-3">
                   <div className="flex items-center gap-2.5">
-                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">
                       Deliver to{" "}
-                      <span className="font-semibold text-zinc-900">
+                      <span className="font-semibold text-foreground">
                         Vadodara
                       </span>
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">
                       Free Standard Delivery
                     </span>
                   </div>
                   <div className="flex items-center gap-2.5">
-                    <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted shrink-0" />
+                    <CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground shrink-0" />
                     <span className="text-muted-foreground">
                       Delivery:{" "}
-                      <span className="font-semibold text-zinc-900">
+                      <span className="font-semibold text-foreground">
                         Tomorrow
                       </span>
                     </span>
@@ -696,7 +702,7 @@ const ProductDetail = () => {
 
                 {selectedSize && (
                   <div className="flex items-center gap-2 text-xs sm:text-sm">
-                    <span className="text-muted">Size:</span>
+                    <span className="text-muted-foreground">Size:</span>
                     <span className="bg-zinc-900 text-destructive-foreground text-xs px-2.5 py-0.5 rounded-full font-semibold">
                       {selectedSize}
                     </span>
@@ -732,7 +738,7 @@ const ProductDetail = () => {
       {/* ── TABS ──────────────────────────────────────────────────────────── */}
       <div>
         {/* FIX: tabs scroll horizontally if they overflow */}
-        <div className="flex border-b border-zinc-200 mb-8 overflow-x-auto">
+        <div className="flex border-b border-zinc-200 mb-8 ">
           {["reviews", "details"].map((tab) => (
             <button
               key={tab}
@@ -741,8 +747,8 @@ const ProductDetail = () => {
                 // FIX: smaller px on mobile, nowrap
                 "px-3 sm:px-6 py-3 text-xs sm:text-sm font-semibold capitalize transition-all border-b-2 -mb-px cursor-pointer bg-transparent rounded-none whitespace-nowrap shrink-0",
                 activeTab === tab
-                  ? "border-zinc-900 text-zinc-900"
-                  : "border-transparent text-muted hover:text-muted-foreground",
+                  ? "border-zinc-900 text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground",
               )}
               aria-pressed={activeTab === tab}
             >
@@ -775,7 +781,7 @@ const ProductDetail = () => {
                   <div className="flex justify-center mt-2">
                     <StarRow rating={Math.round(Number(avgRating))} size={18} />
                   </div>
-                  <p className="text-xs sm:text-sm text-muted mt-2 font-medium">
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-2 font-medium">
                     {totalReviews} reviews
                   </p>
                 </div>
@@ -823,7 +829,7 @@ const ProductDetail = () => {
                   // FIX: wrap value on tiny screens
                   className="flex justify-between items-start gap-4 border-b border-border py-3.5"
                 >
-                  <span className="text-muted font-medium text-xs sm:text-sm shrink-0">
+                  <span className="text-muted-foreground font-medium text-xs sm:text-sm shrink-0">
                     {label}
                   </span>
                   <span className="font-semibold text-right text-foreground text-xs sm:text-sm break-words">

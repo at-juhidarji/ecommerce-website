@@ -20,7 +20,7 @@ const OrderSuccess = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-muted to-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-b from-muted to-background flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -66,6 +66,7 @@ const OrderSuccess = () => {
               >
                 <img
                   src={item.image}
+                  alt={item.name}
                   className="w-14 h-14 object-cover rounded-lg"
                 />
 

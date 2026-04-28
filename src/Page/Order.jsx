@@ -36,14 +36,14 @@ const OrdersPage = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex justify-between items-center">
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
             YOUR <span className="text-primary">ORDER</span>
           </h1>
 
-          <span className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             {filteredOrders.length} orders
-          </span>
+          </p>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ const OrderCard = ({ order, onView }) => {
       <CardContent className="p-4 space-y-3">
         {/* Top Row */}
         <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">{order.date}</span>
+          <time className="text-muted-foreground">{order.date}</time>
 
           <span className="font-semibold text-foreground">
             ₹{order.total.toLocaleString()}
@@ -177,8 +177,12 @@ const OrderCard = ({ order, onView }) => {
 const OrderModal = ({ order, onClose }) => {
   return (
     <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Order details for ${order.id}`}
+      onKeyDown={(e) => e.key === "Escape" && onClose()}
     >
       <div
         className="bg-surface p-6 rounded-md w-full max-w-md"

@@ -53,7 +53,7 @@ const cardVariants = {
 
 export const WhyChooseUs = () => {
   return (
-    <section className="bg-surface text-zinc-900 relative overflow-hidden">
+    <section className="bg-surface text-foreground relative overflow-hidden">
       <SectionContainer className="relative">
         {/* Heading */}
         <motion.div
@@ -63,7 +63,7 @@ export const WhyChooseUs = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted font-semibold mb-3">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold mb-3">
             The Vastra Promise
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
@@ -104,7 +104,7 @@ export const WhyChooseUs = () => {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-zinc-500 text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-sm leading-relaxed">
                     {item.desc}
                   </p>
                 </div>

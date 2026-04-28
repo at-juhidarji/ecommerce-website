@@ -12,7 +12,7 @@ export const WishlistPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* HEADER */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-14">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -57,7 +57,7 @@ export const WishlistPage = () => {
         </motion.div>
       ) : (
         /* PRODUCT GRID */
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
             {wishlist.map((product) => (
               <ProductCard key={product.id} product={product} />
