@@ -44,7 +44,7 @@ const HeroSection = () => {
             {/* PRIMARY BUTTON */}
             <Button
               type="button"
-              onClick={() => navigate("/productcollection")}
+              onClick={() => navigate("/collections?category=men")}
               variant="default"
               size="sm"
               aria-label="Shop now for latest products"
@@ -76,21 +76,7 @@ const HeroSection = () => {
               Discover premium fashion curated for your individuality.
             </p>
 
-            {/* EXPLORE BUTTON */}
-            <Button
-              type="button"
-              onClick={() =>
-                document.getElementById("collection")?.scrollIntoView({
-                  behavior: "smooth",
-                })
-              }
-              variant="default"
-              size="sm"
-              aria-label="Explore our product collection"
-            >
-              Explore Collection
-            </Button>
-
+         
             {/* STATS */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 border-t border-surface-light pt-6">
               {[

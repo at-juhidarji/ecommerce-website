@@ -18,6 +18,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import { ProductCard } from "@/components/product/ProductCard";
 import "swiper/css";
 import "swiper/css/free-mode";
 import {
@@ -172,48 +173,7 @@ const ReviewCard = ({ review }) => {
   );
 };
 
-// ── RelatedCard ───────────────────────────────────────────────────────────────
-const RelatedCard = ({ product, onNavigate }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 16 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    className="cursor-pointer group rounded-2xl overflow-hidden border border-border hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500"
-    onClick={() => onNavigate(product.id)}
-  >
-    <div className="relative overflow-hidden aspect-[4/5] bg-muted">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
-      {product.discount && (
-        <Badge
-          variant="destructive"
-          // FIX: smaller padding on tiny screens
-          className="absolute top-2 left-2 text-[9px] font-semibold rounded-full px-1.5 py-0.5"
-        >
-          {product.discount}
-        </Badge>
-      )}
-    </div>
-    {/* FIX: tighter padding on tiny screens */}
-    <div className="p-2.5 sm:p-4 space-y-1">
-      <p className="text-xs sm:text-sm font-semibold line-clamp-1 tracking-tight">
-        {product.name}
-      </p>
-      <div className="flex items-baseline gap-1.5 flex-wrap">
-        <span className="text-xs sm:text-sm font-bold">₹{product.price}</span>
-        {product.oldPrice && (
-          <span className="text-[10px] sm:text-xs line-through text-muted-foreground">
-            ₹{product.oldPrice}
-          </span>
-        )}
-      </div>
-    </div>
-  </motion.div>
-);
+
 
 // ── ImageGallery ──────────────────────────────────────────────────────────────
 const ImageGallery = ({ images, productName }) => {
@@ -865,10 +825,10 @@ const ProductDetail = () => {
           {/* FIX: 2 cols always, 4 from md */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
             {showRelated.map((p) => (
-              <RelatedCard
+              <ProductCard
                 key={p.id}
                 product={p}
-                onNavigate={(id) => navigate(`/product/${id}`)}
+                onClick={() => navigate(`/product/${p.id}`)}
               />
             ))}
           </div>

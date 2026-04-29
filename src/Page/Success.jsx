@@ -20,12 +20,12 @@ const OrderSuccess = () => {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-muted to-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-b from-muted to-background flex items-center justify-center p-8">
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="bg-surface w-full max-w-5xl rounded-2xl shadow-xl border border-border p-6 md:p-10"
+        className="bg-surface w-full max-w-7xl rounded-2xl shadow-xl border border-border p-6 md:p-10"
       >
         {/* HEADER */}
         <div className="text-center">

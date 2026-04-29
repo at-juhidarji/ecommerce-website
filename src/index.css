@@ -66,7 +66,7 @@
   --surface: #111827;
   --surface-light: rgba(255, 255, 255, 0.08);
   --surface-border-light: rgba(255, 255, 255, 0.15);
-  --surface-muted: #d1d5db; /* Gray-300 — 10:1 on dark bg */
+  --surface-muted: #e5e7eb; /* Gray-200 — high contrast on dark bg */
   --surface-dark: #030712;
   --on-dark: #ffffff;
 

@@ -48,7 +48,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-surface-dark text-on-dark" role="contentinfo">
+    <footer className="bg-surface-dark text-on-dark dark" role="contentinfo">
       {/* Newsletter */}
       <div className="border-b border-surface-border-light">
         <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -121,9 +121,9 @@ export const Footer = () => {
 
         {/* Shop */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible">
-          <h3 id="footer-shop-heading" className="text-sm font-semibold mb-4">
+          <h2 id="footer-shop-heading" className="text-sm font-semibold mb-4">
             Shop
-          </h3>
+          </h2>
           <nav aria-labelledby="footer-shop-heading">
             <ul className="flex flex-col gap-2">
               {shopLinks.map((item, i) => (
@@ -195,13 +195,13 @@ export const Footer = () => {
         <Separator className="bg-surface-light" />
 
         <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
-          <p className="text-xs text-surface-muted">
+          <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} VASTRA.CO
           </p>
 
           <div className="flex gap-4">
-            <span className="text-sm text-surface-muted">Privacy</span>
-            <span className="text-sm text-surface-muted">Terms</span>
+            <span className="text-xs text-muted-foreground">Privacy</span>
+            <span className="text-xs text-muted-foreground">Terms</span>
           </div>
         </div>
       </div>
