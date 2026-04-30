@@ -43,21 +43,20 @@ export const ProductCollection = () => {
       <SectionContainer>
        
 
-        {/* 🔥 New Arrivals */}
+       
         <SectionBlock
           title="New Arrivals"
           subtitle="Fresh styles just dropped"
           data={newArrivals}
         />
 
-        {/* 👀 Recently Viewed */}
+      
         <SectionBlock
           title="Recently Viewed"
           subtitle="Pick up where you left off"
           data={recentlyViewed}
         />
 
-        {/* ❤️ Wishlist */}
         <SectionBlock
           title="Wishlist"
           subtitle="Your saved favorites"

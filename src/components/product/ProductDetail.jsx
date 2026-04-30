@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { products } from "@/Data/Product";
 import { useCart } from "@/context/CartContext";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -157,7 +157,7 @@ const ReviewCard = ({ review }) => {
         {review.body}
       </p>
 
-      <button
+      <Button
         onClick={() => setLiked((p) => !p)}
         className={cn(
           "flex items-center gap-1.5 text-xs transition-colors bg-transparent border-none cursor-pointer p-0",
@@ -168,7 +168,7 @@ const ReviewCard = ({ review }) => {
       >
         <ThumbsUp size={12} />
         Helpful ({liked ? review.helpful + 1 : review.helpful})
-      </button>
+      </Button>
     </motion.div>
   );
 };
@@ -259,7 +259,7 @@ const ImageGallery = ({ images, productName }) => {
         >
           {images.map((img, i) => (
             <SwiperSlide key={i} style={{ width: "auto" }}>
-              <button
+              <Button
                 onClick={() => handleThumbnailClick(i)}
                 className={cn(
                   "relative block rounded-lg overflow-hidden transition-all duration-300 ease-out p-0 border-2 border-transparent",
@@ -278,7 +278,7 @@ const ImageGallery = ({ images, productName }) => {
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-              </button>
+              </Button>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -474,18 +474,18 @@ const ProductDetail = () => {
                 <h3 className="text-sm font-semibold tracking-tight">
                   Select Size
                 </h3>
-                <button
+                <Button
                   onClick={() => setShowSizeGuide((p) => !p)}
                   className="text-zinc-500 hover:text-foreground underline underline-offset-4 decoration-zinc-300 text-xs font-medium bg-transparent border-none cursor-pointer transition-colors whitespace-nowrap"
                 >
                   {showSizeGuide ? "Hide Guide" : "Size Guide"}
-                </button>
+                </Button>
               </div>
 
-              {/* FIX: size buttons smaller on mobile, wrap naturally */}
+              {/* FIX: size Buttons smaller on mobile, wrap naturally */}
               <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                 {availableSizes.map((size) => (
-                  <button
+                  <Button
                     key={size}
                     onClick={() => setSelectedSize(size)}
                     className={cn(
@@ -497,7 +497,7 @@ const ProductDetail = () => {
                     aria-pressed={selectedSize === size}
                   >
                     {size}
-                  </button>
+                  </Button>
                 ))}
               </div>
 
@@ -640,23 +640,23 @@ const ProductDetail = () => {
                     Quantity
                   </h3>
                   <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden w-fit">
-                    <button
+                    <Button
                       onClick={() => setQty((p) => Math.max(1, p - 1))}
                       className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors cursor-pointer bg-transparent border-none"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-4 h-4" />
-                    </button>
+                    </Button>
                     <span className="w-9 sm:w-10 text-center font-semibold text-sm tabular-nums">
                       {qty}
                     </span>
-                    <button
+                    <Button
                       onClick={() => setQty((p) => p + 1)}
                       className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors cursor-pointer bg-transparent border-none"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-4 h-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -700,7 +700,7 @@ const ProductDetail = () => {
         {/* FIX: tabs scroll horizontally if they overflow */}
         <div className="flex border-b border-zinc-200 mb-8 ">
           {["reviews", "details"].map((tab) => (
-            <button
+            <Button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
@@ -715,7 +715,7 @@ const ProductDetail = () => {
               {tab === "reviews"
                 ? `Reviews (${totalReviews})`
                 : "Product Details"}
-            </button>
+            </Button>
           ))}
         </div>
 

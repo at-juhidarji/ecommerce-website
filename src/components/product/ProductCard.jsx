@@ -139,7 +139,7 @@ export const ProductCard = ({ product, listMode = false }) => {
       className="group cursor-pointer"
     >
       {/* IMAGE */}
-      <div className="relative rounded-2xl overflow-hidden bg-muted aspect-[3/4]">
+      <div className="relative rounded-2xl overflow-hidden bg-muted aspect-3/4">
         {!imgLoaded && (
           <div className="absolute inset-0 animate-pulse bg-muted rounded-2xl" />
         )}

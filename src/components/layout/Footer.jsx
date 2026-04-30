@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
@@ -20,9 +20,9 @@ const socialLinks = [
 ];
 
 const shopLinks = [
-  { label: "Men", path: "/collections?category=men" },
-  { label: "Women", path: "/collections?category=women" },
-  { label: "Sneakers", path: "/collections?category=sneakers" },
+  { label: "Men",         path: "/collections?category=men" },
+  { label: "Women",       path: "/collections?category=women" },
+  { label: "Sneakers",    path: "/collections?category=sneakers" },
   { label: "Accessories", path: "/collections?category=accessories" },
 ];
 
@@ -36,6 +36,8 @@ const supportLinks = [
 const companyLinks = ["About", "Careers", "Press", "Sustainability"];
 
 export const Footer = () => {
+  const navigate = useNavigate();
+
   const handleSubscribe = (e) => {
     e.preventDefault();
     const email = new FormData(e.target).get("email");
@@ -48,15 +50,19 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-surface text-foreground" role="contentinfo">
+    <footer className="bg-foreground text-background" role="contentinfo">
+
       {/* Newsletter */}
-      <div className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 id="footer-newsletter-heading" className="text-2xl font-bold">
+            <h2
+              id="footer-newsletter-heading"
+              className="text-2xl font-bold text-background"
+            >
               Stay in the loop
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-white/60 text-sm mt-1">
               Subscribe for early access.
             </p>
           </div>
@@ -77,10 +83,14 @@ export const Footer = () => {
               placeholder="email@example.com"
               required
               autoComplete="email"
-              className="w-full sm:flex-1"
+              className="w-full sm:w-64 bg-white/10 border-white/20 text-background placeholder:text-white/40 focus:border-primary focus-visible:ring-primary"
             />
 
-            <Button size="default" variant="default" className="whitespace-nowrap">
+            <Button
+              size="default"
+              variant="default"
+              className="whitespace-nowrap"
+            >
               Subscribe
             </Button>
           </form>
@@ -89,13 +99,17 @@ export const Footer = () => {
 
       {/* Main Grid */}
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
+
         {/* Brand */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible">
-          <h1 className="text-2xl font-bold">
+          <h1
+            onClick={() => navigate("/")}
+            className="text-lg font-black tracking-tight cursor-pointer select-none text-background"
+          >
             VASTRA<span className="text-primary">.CO</span>
           </h1>
 
-          <p className="text-muted-foreground text-sm mt-3">
+          <p className="text-white/60 text-sm mt-3">
             Modern curated fashion essentials.
           </p>
 
@@ -111,7 +125,7 @@ export const Footer = () => {
                 variant="ghost"
                 size="icon"
                 aria-label={label}
-                className="text-foreground hover:text-warning"
+                className="text-white/60 hover:text-primary hover:bg-white/10"
               >
                 <Icon size={16} />
               </Button>
@@ -121,7 +135,10 @@ export const Footer = () => {
 
         {/* Shop */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible">
-          <h2 id="footer-shop-heading" className="text-sm font-semibold mb-4">
+          <h2
+            id="footer-shop-heading"
+            className="text-sm font-semibold mb-4 text-background"
+          >
             Shop
           </h2>
           <nav aria-labelledby="footer-shop-heading">
@@ -130,7 +147,7 @@ export const Footer = () => {
                 <li key={i}>
                   <Link
                     to={item.path}
-                    className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="block text-sm text-white/60 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -142,7 +159,9 @@ export const Footer = () => {
 
         {/* Support */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible">
-          <h3 className="text-sm font-semibold mb-4">Support</h3>
+          <h3 className="text-sm font-semibold mb-4 text-background">
+            Support
+          </h3>
           <nav>
             <ul className="flex flex-col gap-2">
               {supportLinks.map((item, i) => (
@@ -150,12 +169,12 @@ export const Footer = () => {
                   {item.path ? (
                     <Link
                       to={item.path}
-                      className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="block text-sm text-white/60 hover:text-primary transition-colors"
                     >
                       {item.label}
                     </Link>
                   ) : (
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-white/60">
                       {item.label}
                     </span>
                   )}
@@ -167,11 +186,13 @@ export const Footer = () => {
 
         {/* Company */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="visible">
-          <h3 className="text-sm font-semibold mb-4">Company</h3>
+          <h3 className="text-sm font-semibold mb-4 text-background">
+            Company
+          </h3>
           <ul className="flex flex-col gap-2">
             {companyLinks.map((item, i) => (
               <li key={i}>
-                <span className="text-sm text-muted-foreground">{item}</span>
+                <span className="text-sm text-white/60">{item}</span>
               </li>
             ))}
           </ul>
@@ -180,19 +201,24 @@ export const Footer = () => {
 
       {/* Bottom */}
       <div className="max-w-7xl mx-auto px-6 pb-10">
-        <Separator />
+        <Separator className="bg-white/10" />
 
         <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-white/40">
             © {new Date().getFullYear()} VASTRA.CO
           </p>
 
           <div className="flex gap-4">
-            <span className="text-xs text-muted-foreground">Privacy</span>
-            <span className="text-xs text-muted-foreground">Terms</span>
+            <span className="text-xs text-white/40 hover:text-primary cursor-pointer transition-colors">
+              Privacy
+            </span>
+            <span className="text-xs text-white/40 hover:text-primary cursor-pointer transition-colors">
+              Terms
+            </span>
           </div>
         </div>
       </div>
+
     </footer>
   );
 };
