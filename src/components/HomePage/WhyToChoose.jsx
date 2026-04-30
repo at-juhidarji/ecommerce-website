@@ -56,20 +56,18 @@ export const WhyChooseUs = () => {
     <section className="bg-surface text-foreground relative overflow-hidden">
       <SectionContainer className="relative">
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10"
-        >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold mb-3">
-            The Vastra Promise
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Why Choose Us
-          </h2>
-        </motion.div>
+         <motion.div
+                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+                className="text-center mb-14"
+              >
+                <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+                   The Vastra Promise
+                </h1>
+                <p className="text-muted-foreground mt-3 uppercase tracking-[0.2em] text-xs font-medium">Why Choose Us</p>
+                <div className="w-16 h-1 bg-foreground mx-auto mt-5 rounded-full" />
+              </motion.div>
+        
+       
 
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

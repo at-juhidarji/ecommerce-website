@@ -59,24 +59,18 @@ const PremiumReviewSlider = () => {
 
       {/* Heading */}
       <SectionContainer className="relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-10"
-        >
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-semibold mb-3">
-            Testimonials
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Loved by Thousands
-          </h2>
-          <p className="text-muted-foreground mt-2 text-sm">
-            Real reviews from real customers
-          </p>
-        </motion.div>
-
+          {/* Heading */}
+                 <motion.div
+                        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+                        className="text-center mb-14"
+                      >
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+                            Loved by Thousands
+                        </h1>
+                        <p className="text-muted-foreground mt-3 uppercase tracking-[0.2em] text-xs font-medium"> Real reviews from real customers</p>
+                        <div className="w-16 h-1 bg-foreground mx-auto mt-5 rounded-full" />
+                      </motion.div>
+                
         {/* Fade edges */}
         <div className="absolute left-0 top-0 w-24 md:w-40 h-full bg-gradient-to-r from-zinc-50/50 to-transparent z-10"></div>
         <div className="absolute right-0 top-0 w-24 md:w-40 h-full bg-gradient-to-l from-zinc-50/50 to-transparent z-10"></div>
