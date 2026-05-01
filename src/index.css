@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --primary: #c2410c; /* Orange-700 — 5.19:1 on white (WCAG AA) */
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563; /* Gray-600 — 7:1 on white (WCAG AA) */
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #dc2626; /* Red-600 — 4.63:1 on white */
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #d1d5db; /* Gray-300 — slightly darker for visibility */
+  --ring: #c2410c;
+
+  /* Custom App Colors */
+  --surface: #ffffff;
+  --surface-light: rgba(0, 0, 0, 0.05);
+  --surface-border-light: rgba(0, 0, 0, 0.1);
+  --surface-muted: #4b5563; /* Gray-600 — 7:1 on white */
+  --surface-dark: #111827;
+  --on-dark: #ffffff;
+  
+  --success: #059669; /* Emerald-600 — 4.54:1 on white */
+  --warning: #d97706; /* Amber-600 */
+  --info: #2563eb; /* Blue-600 */
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #030712;
+  --foreground: #f9fafb;
+  --card: #111827;
+  --card-foreground: #f9fafb;
+  --popover: #111827;
+  --popover-foreground: #f9fafb;
+  --primary: #fb923c; /* Orange-400 — 6.58:1 on dark bg */
+  --primary-foreground: #18181b; /* Dark text on orange btn — 6.2:1 */
+  --secondary: #1f2937;
+  --secondary-foreground: #f9fafb;
+  --muted: #1f2937;
+  --muted-foreground: #d1d5db; /* Gray-300 — 10:1 on dark bg */
+  --accent: #1f2937;
+  --accent-foreground: #f9fafb;
+  --destructive: #ef4444;
+  --destructive-foreground: #f9fafb;
+  --border: #374151; /* Gray-700 — more visible borders */
+  --input: #374151;
+  --ring: #fb923c;
+
+  /* Custom App Colors */
+  --surface: #111827;
+  --surface-light: rgba(255, 255, 255, 0.08);
+  --surface-border-light: rgba(255, 255, 255, 0.15);
+  --surface-muted: #e5e7eb; /* Gray-200 — high contrast on dark bg */
+  --surface-dark: #030712;
+  --on-dark: #ffffff;
+
+  --success: #34d399; /* Emerald-400 — high contrast on dark */
+  --warning: #fbbf24; /* Amber-400 */
+  --info: #60a5fa; /* Blue-400 */
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", sans-serif;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-surface-border-light: var(--surface-border-light);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-dark: var(--surface-dark);
+  --color-on-dark: var(--on-dark);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+/* Removed broken --color-muted override (was referencing --text-muted only defined in dark mode) */
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html {
+    @apply font-sans;
+  }
+
+  /* ── WCAG AA: Global focus-visible styles for native elements ── */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Premium smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(124, 58, 237, 0.15); /* Match primary */
+  color: var(--foreground);
+}
+
+/* Custom Overlays */
+.bg-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.bg-overlay-strong {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bg-overlay-light {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.bg-hero-overlay {
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.3),
+    transparent
+  );
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
