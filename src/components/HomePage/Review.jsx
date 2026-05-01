@@ -72,8 +72,8 @@ const PremiumReviewSlider = () => {
                       </motion.div>
                 
         {/* Fade edges */}
-        <div className="absolute left-0 top-0 w-24 md:w-40 h-full bg-gradient-to-r from-zinc-50/50 to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 w-24 md:w-40 h-full bg-gradient-to-l from-zinc-50/50 to-transparent z-10"></div>
+        <div className="absolute left-0 top-0 w-24 md:w-40 h-full bg-linear-to-r from-zinc-50/50 to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 w-24 md:w-40 h-full bg-linear-to-l from-zinc-50/50 to-transparent z-10"></div>
 
         {/* Scroll */}
         <div className="overflow-hidden relative z-10">
@@ -81,7 +81,7 @@ const PremiumReviewSlider = () => {
             {[...reviews, ...reviews].map((r, i) => (
               <div
                 key={i}
-                className="min-w-[340px] max-w-[340px] bg-surface rounded-2xl p-7 flex flex-col gap-5 border border-border shadow-sm hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500 select-none"
+                className="min-w-85 max-w-85 bg-surface rounded-2xl p-7 flex flex-col gap-5 border border-border shadow-sm hover:shadow-lg hover:shadow-zinc-100/50 transition-all duration-500 select-none"
               >
                 {/* Quote icon */}
                 <Quote className="w-8 h-8 text-orange-200" />

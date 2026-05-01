@@ -137,7 +137,7 @@ const VastraCheckout = () => {
                     </div>
 
                     {(method.id === "upi" || method.id === "card") && (
-                      <div className="flex gap-3 pl-7 items-center opacity-80">
+                      <div className="flex gap-3 pl-5 items-center opacity-80">
                         {paymentIcons[method.id].map((app) => (
                           <img
                             key={app.name}
@@ -160,9 +160,11 @@ const VastraCheckout = () => {
                       className="absolute inset-0 opacity-0 cursor-pointer peer"
                     />
                     {/* outer circle */}
-                    <span className="absolute inset-0 rounded-full border border-border bg-surface peer-checked:border-primary transition" />
-                    {/* inner dot */}
-                    <span className="absolute inset-0.75 rounded-full bg-primary scale-0 peer-checked:scale-100 transition-transform" />
+                    {/* outer circle */}
+<span className="absolute inset-0 rounded-full border border-border bg-surface peer-checked:border-primary transition" />
+
+{/* inner dot */}
+<span className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary scale-0 peer-checked:scale-100 transition-transform duration-200" />
                   </span>
                 </label>
               ))}

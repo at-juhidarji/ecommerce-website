@@ -89,9 +89,9 @@ export const ProductCard = ({ product, listMode = false }) => {
 
         <div className="flex-1 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-semibold line-clamp-1 tracking-tight">
+            <h2 className="text-sm font-semibold line-clamp-1 tracking-tight">
               {product.name}
-            </h3>
+            </h2>
             <StarRating rating={product.rating} />
           </div>
 
@@ -215,9 +215,9 @@ export const ProductCard = ({ product, listMode = false }) => {
 
       {/* INFO */}
       <div className="mt-3.5 space-y-1.5">
-        <h3 className="text-sm font-semibold line-clamp-1 tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold line-clamp-1 tracking-tight text-foreground">
           {product.name}
-        </h3>
+        </h2>
 
         <StarRating rating={product.rating} />
 

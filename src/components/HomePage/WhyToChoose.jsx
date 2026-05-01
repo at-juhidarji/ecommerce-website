@@ -85,7 +85,7 @@ export const WhyChooseUs = () => {
                 className="group"
               >
                 <div
-                  className={`bg-gradient-to-br ${item.gradient} rounded-2xl p-8 text-center h-full border border-border/50 hover:shadow-xl hover:shadow-zinc-100/50 hover:-translate-y-1 transition-all duration-500`}
+                  className={`bg-linear-to-br ${item.gradient} rounded-2xl p-8 text-center h-full border border-border/50 hover:shadow-xl hover:shadow-zinc-100/50 hover:-translate-y-1 transition-all duration-500`}
                 >
                   {/* Icon */}
                   <div className="flex justify-center mb-6">
@@ -97,9 +97,9 @@ export const WhyChooseUs = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg font-bold mb-2 tracking-tight">
+                  <h2 className="text-lg font-bold mb-2 tracking-tight">
                     {item.title}
-                  </h3>
+                  </h2>
 
                   {/* Description */}
                   <p className="text-muted-foreground text-sm leading-relaxed">

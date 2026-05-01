@@ -83,7 +83,7 @@ export const Footer = () => {
               placeholder="email@example.com"
               required
               autoComplete="email"
-              className="w-full sm:w-64 bg-white/10 border-white/20 text-background placeholder:text-white/40 focus:border-primary focus-visible:ring-primary"
+              className="w-full sm:w-64 bg-white/10 border-white/20 text-background placeholder:text-white/60 focus:border-primary focus-visible:ring-primary"
             />
 
             <Button
@@ -204,15 +204,15 @@ export const Footer = () => {
         <Separator className="bg-white/10" />
 
         <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/60">
             © {new Date().getFullYear()} VASTRA.CO
           </p>
 
           <div className="flex gap-4">
-            <span className="text-xs text-white/40 hover:text-primary cursor-pointer transition-colors">
+            <span className="text-xs text-white/60 hover:text-primary cursor-pointer transition-colors">
               Privacy
             </span>
-            <span className="text-xs text-white/40 hover:text-primary cursor-pointer transition-colors">
+            <span className="text-xs text-white/60 hover:text-primary cursor-pointer transition-colors">
               Terms
             </span>
           </div>

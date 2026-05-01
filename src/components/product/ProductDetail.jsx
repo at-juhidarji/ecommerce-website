@@ -211,7 +211,7 @@ const ImageGallery = ({ images, productName }) => {
       {/* Main Image — FIX: aspect ratio adjusted for tiny screens */}
       <div
         ref={imgRef}
-        className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-muted cursor-zoom-in select-none aspect-square sm:aspect-[4/5]"
+        className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-muted cursor-zoom-in select-none aspect-square sm:aspect-4/5"
         onMouseEnter={() => setIsZoomed(true)}
         onMouseLeave={() => setIsZoomed(false)}
         onMouseMove={handleMouseMove}
@@ -255,7 +255,7 @@ const ImageGallery = ({ images, productName }) => {
           slidesPerView="auto"
           freeMode
           grabCursor
-          className="!pb-1"
+          className="pb-1!"
         >
           {images.map((img, i) => (
             <SwiperSlide key={i} style={{ width: "auto" }}>
@@ -400,7 +400,7 @@ const ProductDetail = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage className="line-clamp-1 max-w-[150px] sm:max-w-xs md:max-w-sm">
+              <BreadcrumbPage className="line-clamp-1 max-w-37.5 sm:max-w-xs md:max-w-sm">
                 {product.name}
               </BreadcrumbPage>
             </BreadcrumbItem>
@@ -792,7 +792,7 @@ const ProductDetail = () => {
                   <span className="text-muted-foreground font-medium text-xs sm:text-sm shrink-0">
                     {label}
                   </span>
-                  <span className="font-semibold text-right text-foreground text-xs sm:text-sm break-words">
+                  <span className="font-semibold text-right text-foreground text-xs sm:text-sm wrap-break-word">
                     {value}
                   </span>
                 </div>

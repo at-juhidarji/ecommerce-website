@@ -244,7 +244,7 @@ export const Navbar = () => {
                         exit={{ opacity: 0, y: -6 }}
                         transition={{ duration: 0.2 }}
                         className="absolute top-full right-0 mt-2 w-80 bg-surface border border-border
-                          shadow-2xl rounded-2xl z-[200] overflow-hidden"
+                          shadow-2xl rounded-2xl z-200 overflow-hidden"
                       >
                         <div className="max-h-72 overflow-y-auto p-2 scrollbar-hide">
                           {filteredProducts.length > 0 ? (
@@ -268,7 +268,7 @@ export const Navbar = () => {
                               >
                                 <img
                                   src={p.image}
-                                  className="w-9 h-9 rounded-lg object-cover flex-shrink-0"
+                                  className="w-9 h-9 rounded-lg object-cover shrink-0"
                                   alt={p.name}
                                 />
                                 <span className="text-sm font-medium text-foreground line-clamp-1">
@@ -320,7 +320,7 @@ export const Navbar = () => {
               aria-label="Wishlist"
             >
               <Heart
-                className={`w-[18px] h-[18px] transition-all duration-300 ${
+                className={`w-4.5 h-4.5 transition-all duration-300 ${
                   wishlist.length > 0
                     ? "text-destructive fill-destructive scale-110"
                     : "text-foreground"
@@ -336,7 +336,7 @@ export const Navbar = () => {
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   className="absolute -top-0.5 -right-0.5 bg-destructive text-destructive-foreground
-                    text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center
+                    text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center
                     rounded-full shadow-sm pointer-events-none"
                 >
                   {wishlist.length}
@@ -353,7 +353,7 @@ export const Navbar = () => {
               onClick={() => navigate("/CartDrawer")}
               aria-label="Cart"
             >
-              <ShoppingCart className="w-[18px] h-[18px] text-foreground" />
+              <ShoppingCart className="w-4.5 h-4.5 text-foreground" />
             </Button>
 
             <AnimatePresence>
@@ -364,7 +364,7 @@ export const Navbar = () => {
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
                   className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground
-                    text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center
+                    text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center
                     rounded-full shadow-sm pointer-events-none"
                 >
                   {cartQty}
